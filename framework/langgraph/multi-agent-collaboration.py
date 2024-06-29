@@ -133,7 +133,7 @@ research_node = functools.partial(agent_node, agent=research_agent, name="Resear
 chart_agent = create_agent(
     llm,
     [python_repl],
-    system_message="Create charts and save to the chart locally.",
+    system_message="Create chart and save the chart locally.",
 )
 chart_node = functools.partial(agent_node, agent=chart_agent, name="chart_generator")
 
