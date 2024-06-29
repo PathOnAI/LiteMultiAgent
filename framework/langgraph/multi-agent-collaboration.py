@@ -229,4 +229,6 @@ result = research_agent.invoke({"messages": messages})
 print(result)
 
 
-# 2. can I have self defined agent with langgraph?
+# 2. extract tools and messages
+
+# 3. can I have self defined agent with langgraph?
