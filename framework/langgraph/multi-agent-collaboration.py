@@ -220,7 +220,7 @@ except Exception:
 #     print("----")
 
 
-# just use one agent, to get the response, how?
+# 1. just use one agent, to get the response, how?
 print(research_agent.input_schema())
 print(research_agent.output_schema())
 print(research_agent.get_graph())
@@ -229,4 +229,4 @@ result = research_agent.invoke({"messages": messages})
 print(result)
 
 
-# can I have self defined agent with langgraph?
+# 2. can I have self defined agent with langgraph?
