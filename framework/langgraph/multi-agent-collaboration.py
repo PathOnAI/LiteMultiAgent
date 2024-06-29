@@ -82,9 +82,6 @@ def python_repl(code: Annotated[str, "The python code to execute to generate you
         )
         output = result.stdout
 
-        # Check if a plot was generated
-        # if os.path.exists('plot.png'):
-        #     output += "\nPlot saved as 'plot.png'"
     except subprocess.CalledProcessError as e:
         output = f"Error: {e.stderr}"
     finally:
