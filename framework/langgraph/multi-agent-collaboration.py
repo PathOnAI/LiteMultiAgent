@@ -1,24 +1,25 @@
-import requests
-import json
 from dotenv import load_dotenv
-load_dotenv()
 import os
-
-
-# https://ai.google.dev/gemini-api/docs/function-calling#expandable-7
-# https://ai.google.dev/gemini-api/docs/function-calling#expandable-8
-
-
-api_key = os.getenv("OPENAI_API_KEY")
-
 from langchain_core.messages import (
     BaseMessage,
     HumanMessage,
     ToolMessage,
 )
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-
 from langgraph.graph import END, StateGraph
+from langchain_community.tools.tavily_search import TavilySearchResults
+from langchain_core.tools import tool
+from langchain_experimental.utilities import PythonREPL
+import operator
+from typing import Annotated, Sequence, TypedDict
+from langchain_openai import ChatOpenAI
+from langgraph.prebuilt import ToolNode
+from typing import Literal
+import sys
+import io
+
+load_dotenv()
+api_key = os.getenv("OPENAI_API_KEY")
 
 
 def create_agent(llm, tools, system_message: str):
@@ -43,11 +44,7 @@ def create_agent(llm, tools, system_message: str):
     return prompt | llm.bind_tools(tools)
 
 
-from typing import Annotated
 
-from langchain_community.tools.tavily_search import TavilySearchResults
-from langchain_core.tools import tool
-from langchain_experimental.utilities import PythonREPL
 
 tavily_tool = TavilySearchResults(max_results=5)
 
@@ -56,25 +53,46 @@ tavily_tool = TavilySearchResults(max_results=5)
 repl = PythonREPL()
 
 
-@tool
-def python_repl(
-    code: Annotated[str, "The python code to execute to generate your chart."],
-):
-    """Use this to execute python code. If you want to see the output of a value,
-    you should print it out with `print(...)`. This is visible to the user."""
+import sys
+import subprocess
+import tempfile
+import os
+@tool()
+def python_repl(code: Annotated[str, "The python code to execute to generate your chart."],):
+    """Execute Python code in a subprocess, save any generated plots, and return the output."""
+    # Create a temporary file to store the code
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as temp_file:
+        # Modify the code to save the plot instead of showing it
+        # modified_code = code.replace("plt.show()", "plt.savefig('plot.png')")
+
+        # Add import statements at the beginning of the code
+        full_code = "import matplotlib\nmatplotlib.use('Agg')\n" + code
+
+        # Write the modified code to the temporary file
+        temp_file.write(full_code)
+        temp_file_path = temp_file.name
+
     try:
-        result = repl.run(code)
-    except BaseException as e:
-        return f"Failed to execute. Error: {repr(e)}"
-    result_str = f"Successfully executed:\n```python\n{code}\n```\nStdout: {result}"
-    return (
-        result_str + "\n\nIf you have completed all tasks, respond with FINAL ANSWER."
-    )
+        # Run the Python script as a subprocess
+        result = subprocess.run(
+            [sys.executable, temp_file_path],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        output = result.stdout
 
-import operator
-from typing import Annotated, Sequence, TypedDict
+        # Check if a plot was generated
+        # if os.path.exists('plot.png'):
+        #     output += "\nPlot saved as 'plot.png'"
+    except subprocess.CalledProcessError as e:
+        output = f"Error: {e.stderr}"
+    finally:
+        # Clean up the temporary file
+        os.unlink(temp_file_path)
 
-from langchain_openai import ChatOpenAI
+    result_str = f"Executed:\n```python\n{code}\n```\nOutput:\n{output}"
+    return result_str + "\n\nIf you have completed all tasks, respond with FINAL ANSWER."
 
 
 # This defines the object that is passed between each node
@@ -118,17 +136,15 @@ research_node = functools.partial(agent_node, agent=research_agent, name="Resear
 chart_agent = create_agent(
     llm,
     [python_repl],
-    system_message="Any charts you display will be visible by the user.",
+    system_message="Create charts and save to the chart locally.",
 )
 chart_node = functools.partial(agent_node, agent=chart_agent, name="chart_generator")
 
-from langgraph.prebuilt import ToolNode
 
 tools = [tavily_tool, python_repl]
 tool_node = ToolNode(tools)
 
-# Either agent can decide to end
-from typing import Literal
+
 
 
 def router(state) -> Literal["call_tool", "__end__", "continue"]:
@@ -176,12 +192,6 @@ workflow.set_entry_point("Researcher")
 graph = workflow.compile()
 
 
-#python_repl
-#StructuredTool(name='python_repl', description='Use this to execute python code. If you want to see the output of a value,\n    you should print it out with `print(...)`. This is visible to the user.', args_schema=<class 'pydantic.v1.main.python_replSchema'>, func=<function python_repl at 0x1072ff100>)
-
-
-import os
-
 try:
     img_data = graph.get_graph(xray=True).draw_mermaid_png()
     with open("output_image.png", "wb") as file:
@@ -191,10 +201,9 @@ except Exception:
     pass
 
 
-# type(research_agent)
-# <class 'langchain_core.runnables.base.RunnableSequence'>
 
-import pdb; pdb.set_trace()
+
+
 
 events = graph.stream(
     {
@@ -212,3 +221,7 @@ events = graph.stream(
 for s in events:
     print(s)
     print("----")
+
+
+# just use one agent, to get the response, how?
+# can I have self defined agent with langgraph?
