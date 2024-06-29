@@ -175,6 +175,11 @@ workflow.add_conditional_edges(
 workflow.set_entry_point("Researcher")
 graph = workflow.compile()
 
+
+#python_repl
+#StructuredTool(name='python_repl', description='Use this to execute python code. If you want to see the output of a value,\n    you should print it out with `print(...)`. This is visible to the user.', args_schema=<class 'pydantic.v1.main.python_replSchema'>, func=<function python_repl at 0x1072ff100>)
+
+
 import os
 
 try:
@@ -184,6 +189,12 @@ try:
 except Exception:
     # This requires some extra dependencies and is optional
     pass
+
+
+# type(research_agent)
+# <class 'langchain_core.runnables.base.RunnableSequence'>
+
+import pdb; pdb.set_trace()
 
 events = graph.stream(
     {
