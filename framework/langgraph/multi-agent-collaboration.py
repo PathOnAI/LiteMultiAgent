@@ -202,23 +202,31 @@ except Exception:
 
 
 
-events = graph.stream(
-    {
-        "messages": [
-            HumanMessage(
-                content="Fetch the UK's GDP over the past 5 years,"
-                " then draw a line graph of it."
-                " Once you code it up, finish."
-            )
-        ],
-    },
-    # Maximum number of steps to take in the graph
-    {"recursion_limit": 150},
-)
-for s in events:
-    print(s)
-    print("----")
+# events = graph.stream(
+#     {
+#         "messages": [
+#             HumanMessage(
+#                 content="Fetch the UK's GDP over the past 5 years,"
+#                 " then draw a line graph of it."
+#                 " Once you code it up, finish."
+#             )
+#         ],
+#     },
+#     # Maximum number of steps to take in the graph
+#     {"recursion_limit": 150},
+# )
+# for s in events:
+#     print(s)
+#     print("----")
 
 
 # just use one agent, to get the response, how?
+print(research_agent.input_schema())
+print(research_agent.output_schema())
+print(research_agent.get_graph())
+messages = [HumanMessage(content="What is the weather in sf?")]
+result = research_agent.invoke({"messages": messages})
+print(result)
+
+
 # can I have self defined agent with langgraph?
