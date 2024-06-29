@@ -1,0 +1,9 @@
+langchain
+langchain_openai
+langsmith
+pandas
+langchain_experimental
+matplotlib
+langgraph
+langchain_core
+python-dotenv==1.0.0
