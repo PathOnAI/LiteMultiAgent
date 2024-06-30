@@ -8,7 +8,7 @@
 * multi agents
   * evaluation metrics: effectiveness, efficiency
     * for example, if we pass more tools to one agent, that agents could finish a lot of tasks, but it is very costly since there are too many prompt tokens
-  * one super agent
+  * one super agent, check opendevin [todo]
     * delegation
       * https://github.com/OpenDevin/OpenDevin/blob/874b4c90753f5297512c7cf28b82da7b7aa14edd/agenthub/delegator_agent/agent.py#L14
       * study
