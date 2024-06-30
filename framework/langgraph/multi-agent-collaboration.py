@@ -1,3 +1,4 @@
+# https://github.com/langchain-ai/langgraph/blob/main/examples/multi_agent/multi-agent-collaboration.ipynb
 from dotenv import load_dotenv
 import os
 from langchain_core.messages import (
@@ -19,8 +20,9 @@ import sys
 import io
 
 load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
 
+## prompt | llm.bind_tools(tools)
+## decouple system prompt, llm and tools
 
 def create_agent(llm, tools, system_message: str):
     """Create an agent."""
@@ -119,11 +121,15 @@ def agent_node(state, agent, name):
     }
 
 
-llm = ChatOpenAI(model="gpt-4-1106-preview")
+from langchain_anthropic import ChatAnthropic
+
+
+llm_openai = ChatOpenAI(model="gpt-4-1106-preview")
+llm_claude = ChatAnthropic(model='claude-3-opus-20240229')
 
 # Research agent and node
 research_agent = create_agent(
-    llm,
+    llm_claude,
     [tavily_tool],
     system_message="You should provide accurate data for the chart_generator to use.",
 )
@@ -131,7 +137,7 @@ research_node = functools.partial(agent_node, agent=research_agent, name="Resear
 
 # chart_generator
 chart_agent = create_agent(
-    llm,
+    llm_claude,
     [python_repl],
     system_message="Create chart and save the chart locally.",
 )
@@ -202,8 +208,28 @@ except Exception:
 
 
 
-# events = graph.stream(
-#     {
+events = graph.stream(
+    {
+        "messages": [
+            HumanMessage(
+                content="Fetch the UK's GDP over the past 5 years,"
+                " then draw a line graph of it."
+                " Once you code it up, finish."
+            )
+        ],
+    },
+    # Maximum number of steps to take in the graph
+    {"recursion_limit": 150},
+)
+for s in events:
+    print(s)
+    print("----")
+
+
+# from pprint import pprint
+#
+# # Run
+# inputs = {
 #         "messages": [
 #             HumanMessage(
 #                 content="Fetch the UK's GDP over the past 5 years,"
@@ -211,27 +237,33 @@ except Exception:
 #                 " Once you code it up, finish."
 #             )
 #         ],
-#     },
-#     # Maximum number of steps to take in the graph
-#     {"recursion_limit": 150},
-# )
-# for s in events:
-#     print(s)
-#     print("----")
+#     }
+# for output in graph.stream(inputs):
+#     for key, value in output.items():
+#         # Node
+#         pprint(f"Node '{key}':")
+#         # Optional: print full state at each node
+#         pprint(value, indent=2, width=80, depth=None)
+#     pprint("\n---\n")
+
+# # Final generation
+# pprint(value)
 
 
-# 1. just use one agent, to get the response, how?
-print(research_agent.input_schema())
-print(research_agent.output_schema())
-print(research_agent.get_graph())
-messages = [HumanMessage(content="What is the weather in sf?")]
-result = research_agent.invoke({"messages": messages})
-print(result)
+# # 1. just use one agent, to get the response, how?
+# print(research_agent.input_schema())
+# print(research_agent.output_schema())
+# print(research_agent.get_graph())
+# messages = [HumanMessage(content="What is the weather in sf?")]
+# result = research_agent.invoke({"messages": messages})
+# print(result)
 
 
 # 2. extract tools and messages of agents
+# cannot have multiple LLMs, looks like all messages are passed to the same LLM since agent doesn't have its own memory
 
 
 # 3. what information is passed to the llm?
+
 
 # 4. can I have self defined agent with langgraph?
