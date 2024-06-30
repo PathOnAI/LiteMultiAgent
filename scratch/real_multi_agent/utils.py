@@ -114,138 +114,6 @@ def run_python_script(script_name):
     except subprocess.CalledProcessError as e:
         logger.error(f"Run script error: {e}")
 
-tools = [
-    {
-        "type": "function",
-        "function": {
-            "name": "write_to_file",
-            "description": "Write string content to a file.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "file_path": {
-                        "type": "string",
-                        "description": "Full file name with path where the content will be written."
-                    },
-                    "text": {
-                        "type": "string",
-                        "description": "Text content to be written into the file."
-                    },
-                    "encoding": {
-                        "type": "string",
-                        "default": "utf-8",
-                        "description": "Encoding to use for writing the file. Defaults to 'utf-8'."
-                    }
-                },
-                "required": [
-                    "file_path",
-                    "text"
-                ]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "read_file",
-            "description": "Read a file and return its contents as a string.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "file_path": {
-                        "type": "string",
-                        "description": "The full file name with path to read."
-                    },
-                    "encoding": {
-                        "type": "string",
-                        "default": "utf-8",
-                        "description": "The encoding used to decode the file. Defaults to 'utf-8'."
-                    }
-                },
-                "required": [
-                    "file_path"
-                ]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "tavily_search",
-            "description": "Perform a search using the TavilySearch API and return the results.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "query": {
-                        "type": "string",
-                        "description": "The search query to be sent to the TavilySearch API."
-                    }
-                },
-                "required": [
-                    "query"
-                ]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "scan_folder",
-            "description": "Scan a directory recursively for files with path with depth 2. You can also use this function to understand the folder structure in a given folder path.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "folder_path": {
-                        "type": "string",
-                        "description": "The folder path to scan."
-                    }
-                },
-                "required": [
-                    "folder_path"
-                ]
-            },
-            "return_type": "list: A list of file paths str with the given extension, or all files if no extension is specified."
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "run_python_script",
-            "description": "Execute a Python script in a subprocess.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "script_name": {
-                        "type": "string",
-                        "description": "The name with path of the script to be executed."
-                    }
-                },
-                "required": [
-                    "script_name"
-                ]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "execute_shell_command",
-            "description": "Execute a shell command in a subprocess.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "command": {
-                        "type": "string",
-                        "description": "The shell command to be executed."
-                    }
-                },
-                "required": [
-                    "command"
-                ]
-            }
-        }
-    }
-]
 
 client = OpenAI()
 
@@ -385,15 +253,16 @@ def send_completion_request(messages: list = None, tools: list = None, depth = 0
     return send_completion_request(messages, tools, depth + 1)
 
 
-def send_prompt(messages, content: str):
+def send_prompt(messages, content: str, tools):
     messages.append(Message(role="user", content=content))
     return send_completion_request(messages, tools, 0)
 
 
 class Agent:
-    def __init__(self, name, system_prompt):
+    def __init__(self, name, system_prompt, tools):
         self.name = name
         self.messages = [Message(role="system", content='You are: ' + name + system_prompt)]
+        self.tools = tools
 
 
     def get_response(self, prompt):
@@ -401,7 +270,7 @@ class Agent:
         Send a prompt and return a response.
         In a real implementation, this method would interact with an AI model or API.
         """
-        return send_prompt(self.messages, prompt)
+        return send_prompt(self.messages, prompt, self.tools)
 
     def append_message(self, message):
         """

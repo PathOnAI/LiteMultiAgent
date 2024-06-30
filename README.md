@@ -3,7 +3,7 @@
 
 ## 06/30, Sunday
 * multi-agent use case
-  * in group chat settings, let facilitator agent
+  * in group chat settings, let facilitator agent, to choose agent to answer questions
 
 ## 06/29, Saturday
 * one agent
