@@ -229,6 +229,9 @@ result = research_agent.invoke({"messages": messages})
 print(result)
 
 
-# 2. extract tools and messages
+# 2. extract tools and messages of agents
 
-# 3. can I have self defined agent with langgraph?
+
+# 3. what information is passed to the llm?
+
+# 4. can I have self defined agent with langgraph?
