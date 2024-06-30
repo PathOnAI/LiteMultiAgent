@@ -6,8 +6,12 @@ import os
 import json
 
 
+import os
+import json
+import requests
+
 def tavily_search(query):
-    max_results = 1
+    max_results = 1  # Increased to get more results
     search_depth = "basic"
     api_key = os.getenv('TAVILY_API_KEY')
     if api_key is None:
@@ -19,10 +23,12 @@ def tavily_search(query):
         "content-type": "application/json"
     }
     payload = {
-        "api_key": api_key,  # Add API key to the payload
+        "api_key": api_key,
         "query": query,
         "max_results": max_results,
-        "search_depth": search_depth
+        "search_depth": search_depth,
+        "include_answer": True,  # To get the AI-generated answer
+        "include_raw_content": True  # To get the raw content of the pages
     }
 
     print(
@@ -36,12 +42,12 @@ def tavily_search(query):
             print(f"Error response content: {response.text}")
 
         response.raise_for_status()
-        return response.json()
+        return response.json()  # Return the complete JSON response
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
         if hasattr(e, 'response') and e.response is not None:
             print(f"Error response content: {e.response.text}")
-        return None
+        return f"Error response content: {e.response.text}"
 
 
 # Example usage:

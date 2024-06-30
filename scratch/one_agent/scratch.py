@@ -64,7 +64,9 @@ def tavily_search(query):
         "api_key": api_key,  # Add API key to the payload
         "query": query,
         "max_results": max_results,
-        "search_depth": search_depth
+        "search_depth": search_depth,
+        "include_answer": True,  # To get the AI-generated answer
+        "include_raw_content": True  # To get the raw content of the pages
     }
 
     print(
@@ -284,6 +286,7 @@ class ToolResponseMessage(BaseModel):
     role: str
     name: str
     content: str
+
 from typing import Optional
 from pydantic import BaseModel, field_validator
 class AssistantMessage(BaseModel):
@@ -387,8 +390,8 @@ def send_prompt(messages, content: str):
 
 
 inputs = [
-    #"Hi",
-    #"Can you check format.sh and run_coding_agent.sh of folder /Users/danqingzhang/Desktop/mini-agent?",
+    "Hi",
+    "Can you check format.sh and run_coding_agent.sh of folder /Users/danqingzhang/Desktop/mini-agent?",
     "What is the weather in sf and nyc?"
 ]
 
