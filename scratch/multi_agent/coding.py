@@ -413,5 +413,30 @@ messages = [Message(role="system", content="You are a coding agent, you first wr
 
 send_prompt(messages, "the problem is Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you may not use the same element twice.You can return the answer in any order.")
 
-for index, message in enumerate(messages):
-    print(index, message, type(message))
+# for index, message in enumerate(messages):
+#     print(index, message, type(message))
+
+
+def save_messages_to_json(messages, filename="coding_messages.json"):
+    # Create a list to store the formatted messages
+    formatted_messages = []
+
+    for index, message in enumerate(messages):
+        # Print the message info
+        print(index, message, type(message))
+
+        # Format the message for JSON
+        formatted_message = {
+            "index": index,
+            "message": str(message),  # Convert message to string in case it's not serializable
+            "type": str(type(message))  # Convert type to string for JSON serialization
+        }
+        formatted_messages.append(formatted_message)
+
+    # Save the formatted messages to a JSON file
+    with open(filename, 'w') as f:
+        json.dump(formatted_messages, f, indent=2)
+
+    print(f"Messages saved to {filename}")
+
+save_messages_to_json(messages, filename="coding_messages.json")
