@@ -8,6 +8,9 @@
   * continue without asking
   * limit of one agent dealing with one task.
 
+## 06/30, Sunday
+* autogen code
+
 ## 06/29, Saturday
 * one agent
   * understand langchain agent design
