@@ -14,6 +14,22 @@
       * study
       * coder
       * verifier
+* fake multi-agent use case
+  * coding: programming, testing, execution, debugging
+* real multi-agent use case
+  * group chat: https://github.com/microsoft/autogen/blob/main/notebook/agentchat_groupchat.ipynb, https://github.com/microsoft/FLAML/blob/4ea686af5c3e8ff24d9076a7a626c8b28ab5b1d7/notebook/autogen_multiagent_roleplay_chat.ipynb
+    * different agent framework?
+    * different llm
+    * different tools
+      * one could use search tools
+    * sequence? for loop?
+      * A, B, C
+* topics
+  * what are the real multi-agent use case?
+  * if one agent can handle one task already, why multi agent?
+    * use fewer tools, fewer prompt tokens, cheaper
+    * shorter message list
+    * better success rate?
 * different settings
   * use case specific agent:
     * define workflow for specific scenario, different agents work for different part of the work
