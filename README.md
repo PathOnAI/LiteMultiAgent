@@ -1,6 +1,10 @@
 # MultiAgent
 
 
+## 06/30, Sunday
+* multi-agent use case
+  * in group chat settings, let facilitator agent
+
 ## 06/29, Saturday
 * one agent
   * understand langchain agent design
