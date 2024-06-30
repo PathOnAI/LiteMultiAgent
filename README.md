@@ -2,4 +2,7 @@
 
 
 ## 06/29, Saturday
-* change tavily_search to return the complete result for the first page
+* one agent
+  * understand langchain agent design
+  * 
+  * change tavily_search to return the complete result for the first page

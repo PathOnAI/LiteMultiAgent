@@ -64,3 +64,9 @@ if __name__ == "__main__":
             # print(f"   Snippet: {result['snippet']}")
     else:
         print("No results found or an error occurred.")
+    from langchain_community.tools.tavily_search import TavilySearchResults
+
+    tool = TavilySearchResults(max_results=4)
+    results = tool.invoke({"query": "weather in New York City"})
+    for index, result in enumerate(results):
+        print(index, result)
