@@ -1,9 +1,12 @@
 # MultiAgent
 
 
-## 06/30, Sunday
+## 07/01, Monday
 * multi-agent use case
   * in group chat settings, let facilitator agent, to choose agent to answer questions
+* single agent use case
+  * continue without asking
+  * limit of one agent dealing with one task.
 
 ## 06/29, Saturday
 * one agent
