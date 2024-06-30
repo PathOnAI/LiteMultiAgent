@@ -20,6 +20,8 @@
       * example: one research agent, one production agent
       * use case: very specific use case
   * general agent:
+    * a general agent but really work hard on the prompting
+      * so it can make plan really well
     * a general agent chooses workflow, in each workflow there are different agents working together
       * the general agent is essentially doing the planning
         * but instead of planning by itself, it chooses from existing workflows
