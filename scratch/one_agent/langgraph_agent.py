@@ -32,7 +32,15 @@ class Agent:
         self.graph = graph.compile()
         self.tools = {t.name: t for t in tools}
         self.model = model.bind_tools(tools)
+        self.messages = []
 
+    def invoke(self, message):
+        self.messages.append(message)
+        result = abot.graph.invoke({"messages": self.messages})
+        # self.messages.append(result)
+        for index, item in enumerate(result['messages'][len(self.messages):]):
+            self.messages.append(item)
+        return result
     def exists_action(self, state: AgentState):
         result = state['messages'][-1]
         return len(result.tool_calls) > 0
@@ -67,6 +75,12 @@ If you need to look up some information before asking a follow up question, you 
 model = ChatOpenAI(model="gpt-3.5-turbo")  #reduce inference cost
 abot = Agent(model, [tool], system=prompt)
 
-messages = [HumanMessage(content="What is the weather in sf?")]
-result = abot.graph.invoke({"messages": messages})
-print(result)
+message = HumanMessage(content="What is the weather in sf and nyc?")
+result = abot.invoke(message)
+for index, message in enumerate(abot.messages):
+    print(index, message, type(message))
+
+message = HumanMessage(content="How are you?")
+result = abot.invoke(message)
+for index, message in enumerate(abot.messages):
+    print(index, message, type(message))
