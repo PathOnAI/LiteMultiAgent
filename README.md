@@ -20,11 +20,12 @@
       * example: one research agent, one production agent
       * use case: very specific use case
   * general agent:
-    * a general agent choose workflow, in each workflow there are different agents
-      * the general agent is doing the planning
-      * but instead of planning by itself, it choose from existing workflows
-        * how to do this???
-        * in each flow, the tool interaction is perfectly defined already!
+    * a general agent chooses workflow, in each workflow there are different agents working together
+      * the general agent is essentially doing the planning
+        * but instead of planning by itself, it chooses from existing workflows
+          * in each flow, the tool interaction is perfectly defined already!
+        * currently if you ask LLM to make a plan, it couldn't utilize existing tools efficently in the planning stage
+          * so sometimes, it's plan is not that good, takes more time and money
         * if it's really common-sense, maybe LLM can already do that
       * memory and tool
         * for each task, the general agent
