@@ -20,3 +20,4 @@
 * https://community.openai.com/t/evaluating-ai-agents-thoughts-on-this-flow/314663
 * https://github.com/reworkd/bananalyzer
   * Open source AI Agent evaluation framework for web tasks 
+* https://www.swebench.com/
