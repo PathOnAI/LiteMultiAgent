@@ -17,6 +17,7 @@
   * A, response
   * [A], ["instruction"] response
   * [A+instruction] response
+  * DZ update the instruction[TODO]
 * multi-agent use case
   * in group chat settings, let facilitator agent, to choose agent to answer questions
 * single agent use case
