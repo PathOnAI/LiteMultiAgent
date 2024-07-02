@@ -14,3 +14,9 @@
 
 ### simulation evaluation
 * Q1: is it similar to real scenario?
+
+## Links
+* https://sierra.ai/blog/benchmarking-ai-agents
+* https://community.openai.com/t/evaluating-ai-agents-thoughts-on-this-flow/314663
+* https://github.com/reworkd/bananalyzer
+  * Open source AI Agent evaluation framework for web tasks 
