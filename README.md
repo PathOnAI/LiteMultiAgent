@@ -2,6 +2,21 @@
 
 
 ## 07/01, Monday
+* findings
+  * use case?
+* multi-agent
+  * social/ discussion。博弈: multi-agent
+    * use case?
+    * poker?
+  * tool, workflow
+    * XXX
+    * llm，planning，workflow，tool
+      * gpt-3.5
+      * gpt-4o
+* A, B
+  * A, response
+  * [A], ["instruction"] response
+  * [A+instruction] response
 * multi-agent use case
   * in group chat settings, let facilitator agent, to choose agent to answer questions
 * single agent use case
