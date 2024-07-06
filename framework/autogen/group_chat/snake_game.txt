@@ -1,0 +1,1 @@
+Design a Snake game that is played on a device with screen size 9*9.
