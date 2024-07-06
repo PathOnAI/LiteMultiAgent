@@ -1,9 +1,37 @@
 # MultiAgent
 
 
-## 06/30, Sunday
+## 07/01, Monday
+* findings
+  * use case?
+* multi-agent
+  * social/ discussion。博弈: multi-agent
+    * use case?
+    * poker?
+  * tool, workflow
+    * XXX
+    * llm，planning，workflow，tool
+      * gpt-3.5
+      * gpt-4o
+* A, B
+  * A, response
+  * [A], ["instruction"] response
+  * [A+instruction] response
+  * DZ update the instruction[TODO]
 * multi-agent use case
   * in group chat settings, let facilitator agent, to choose agent to answer questions
+* single agent use case
+  * continue without asking
+    * option 1: system prompt "be as autonomous as possible"
+    * option 2: a single agent can handle it, such as with self-reflection. Simply put, if there is no tool use, then maybe it should self-reflect/review and decide whether to continue or ask the user.
+  * limit of one agent dealing with one task.
+* system prompt
+  * openai allows multiple system prompt
+  * we can insert system message into the chat
+  * use summarization of the recent 10 messages as system prompt
+
+## 06/30, Sunday
+* autogen code
 
 ## 06/29, Saturday
 * one agent
