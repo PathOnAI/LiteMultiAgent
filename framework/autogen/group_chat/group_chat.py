@@ -5,8 +5,9 @@ import argparse
 import os
 
 import sys
-from contextlib import redirect_stdout
-from contextlib import contextmanager
+sys.path.append("../")
+
+from autogen_utils import Tee
 
 config_list = config_list_from_json(env_or_file="OAI_CONFIG_LIST")
 llm_config = {"config_list": config_list, "seed": 42}
@@ -41,27 +42,6 @@ class GroupChat:
         # Start the conversation
         self.user_proxy.initiate_chat(self.manager, message=message)
 
-class Tee:
-    def __init__(self, *files):
-        self.files = files
-
-    def write(self, obj):
-        for f in self.files:
-            f.write(obj)
-            f.flush()  # Ensure real-time writing
-
-    def flush(self):
-        for f in self.files:
-            f.flush()
-
-@contextmanager
-def redirect_stdout_to_file_and_terminal(file):
-    original_stdout = sys.stdout
-    sys.stdout = file
-    try:
-        yield
-    finally:
-        sys.stdout = original_stdout
 
 def main():
     default_message = "Build a classic & basic Blackjack game with one standard 52-card decks and 2 players in python"

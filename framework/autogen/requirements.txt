@@ -4,3 +4,6 @@
 
 openai==1.35.7
 pyautogen==0.2.31
+bs4==0.0.2
+langchain==0.2.7
+langchain-community==0.2.7
