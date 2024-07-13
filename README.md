@@ -1,5 +1,10 @@
 # MultiAgent
 
+## 07/13, Saturday
+* start doc on SPC presentation [todo]
+* demo (MVP):
+  * one main agent, where we use information collection agent as a tool
+  * information collection agent, only has websearch tool
 
 ## 07/01, Monday
 * findings
