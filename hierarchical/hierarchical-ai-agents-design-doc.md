@@ -26,7 +26,7 @@ The purpose of this project is to develop an open-source framework for creating 
 8. API Layer
 
 ### 2.2 Component Interactions
-[Diagram placeholder: Insert a flowchart showing the interactions between components and agent levels]
+![Component and Agent Interactions](plot/structure.png)
 
 ## 3. Detailed Component Specifications
 
