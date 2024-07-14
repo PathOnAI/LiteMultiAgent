@@ -46,49 +46,8 @@ def write_to_file(file_path: str, text: str, encoding: str = "utf-8") -> str:
         return "File written successfully."
     except Exception as error:
         return f"Error: {error}"
-from langchain_community.tools.tavily_search import TavilySearchResults
 
-def tavily_search(query):
-    tool = TavilySearchResults(max_results=4)
-    results = tool.invoke({"query": query})
-    return results
-    # max_results = 1
-    # search_depth = "basic"
-    # api_key = os.getenv('TAVILY_API_KEY')
-    # if api_key is None:
-    #     raise ValueError(
-    #         "No API key provided. Set the TAVILY_API_KEY environment variable or pass the key as an argument.")
-    #
-    # url = "https://api.tavily.com/search"
-    # headers = {
-    #     "content-type": "application/json"
-    # }
-    # payload = {
-    #     "api_key": api_key,  # Add API key to the payload
-    #     "query": query,
-    #     "max_results": max_results,
-    #     "search_depth": search_depth,
-    #     "include_answer": True,  # To get the AI-generated answer
-    #     "include_raw_content": True  # To get the raw content of the pages
-    # }
-    #
-    # print(
-    #     f"Sending payload: {json.dumps({k: v if k != 'api_key' else '[REDACTED]' for k, v in payload.items()}, indent=2)}")
-    #
-    # try:
-    #     response = requests.post(url, json=payload, headers=headers)
-    #     print(f"Response status code: {response.status_code}")
-    #
-    #     if response.status_code != 200:
-    #         print(f"Error response content: {response.text}")
-    #
-    #     response.raise_for_status()
-    #     return response.json()
-    # except requests.exceptions.RequestException as e:
-    #     print(f"An error occurred: {e}")
-    #     if hasattr(e, 'response') and e.response is not None:
-    #         print(f"Error response content: {e.response.text}")
-    #     return f"Error response content: {e.response.text}"
+from web_search import use_search_agent
 
 def scan_folder(folder_path, depth=2):
     ignore_patterns = [".*", "__pycache__"]
@@ -173,7 +132,7 @@ tools = [
     {
         "type": "function",
         "function": {
-            "name": "tavily_search",
+            "name": "use_search_agent",
             "description": "Perform a search using the TavilySearch API and return the results.",
             "parameters": {
                 "type": "object",
@@ -316,7 +275,7 @@ available_tools = {
             "scan_folder": scan_folder,
             "run_python_script": run_python_script,
             "execute_shell_command": execute_shell_command,
-            "tavily_search": tavily_search,
+            "use_search_agent": use_search_agent,
         }
 def process_tool_calls(tool_calls):
     tool_call_responses: list[str] = []
@@ -361,9 +320,6 @@ def send_completion_request(messages: list = None, tools: list = None, depth = 0
     response = client.chat.completions.create(
         model="gpt-4o", messages=messages, tools=tools, tool_choice="auto"
     )
-    ##
-    # import pdb; pdb.set_trace()
-
 
     tool_calls = response.choices[0].message.tool_calls
     if tool_calls is None:
@@ -392,22 +348,6 @@ def send_prompt(messages, content: str):
     return send_completion_request(messages, tools, 0)
 
 
-# inputs = [
-#     "Hi",
-#     "Can you check format.sh and run_coding_agent.sh of folder /Users/danqingzhang/Desktop/mini-agent?",
-#     "What is the weather in sf and nyc?"
-# ]
-#
-# messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
-# You are allowed to make multiple calls (either together or in sequence). \
-# Only look up information when you are sure of what you want. \
-# If you need to look up some information before asking a follow up question, you are allowed to do that!")]
-# for input in inputs:
-#     send_prompt(messages, input)
-#
-# for index, message in enumerate(messages):
-#     print(index, message, type(message))
-
 
 messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
 You are allowed to make multiple calls (either together or in sequence). \
@@ -419,26 +359,32 @@ send_prompt(messages, "Fetch the UK's GDP over the past 5 years, then write pyth
 # for index, message in enumerate(messages):
 #     print(index, message, type(message))
 
-def save_messages_to_json(messages, filename="research_plot_messages.json"):
-    # Create a list to store the formatted messages
-    formatted_messages = []
+# def save_messages_to_json(messages, filename="research_plot_messages.json"):
+#     # Create a list to store the formatted messages
+#     formatted_messages = []
+#
+#     for index, message in enumerate(messages):
+#         # Print the message info
+#         print(index, message, type(message))
+#
+#         # Format the message for JSON
+#         formatted_message = {
+#             "index": index,
+#             "message": str(message),  # Convert message to string in case it's not serializable
+#             "type": str(type(message))  # Convert type to string for JSON serialization
+#         }
+#         formatted_messages.append(formatted_message)
+#
+#     # Save the formatted messages to a JSON file
+#     with open(filename, 'w') as f:
+#         json.dump(formatted_messages, f, indent=2)
+#
+#     print(f"Messages saved to {filename}")
+#
+# save_messages_to_json(messages, filename="research_plot_messages.json")
 
-    for index, message in enumerate(messages):
-        # Print the message info
-        print(index, message, type(message))
+from research_agent import search_information
+result = search_information("What player at the Bears expected to draft first in the 2024 NFL draft?")
+print(result)
+print(type(result))
 
-        # Format the message for JSON
-        formatted_message = {
-            "index": index,
-            "message": str(message),  # Convert message to string in case it's not serializable
-            "type": str(type(message))  # Convert type to string for JSON serialization
-        }
-        formatted_messages.append(formatted_message)
-
-    # Save the formatted messages to a JSON file
-    with open(filename, 'w') as f:
-        json.dump(formatted_messages, f, indent=2)
-
-    print(f"Messages saved to {filename}")
-
-save_messages_to_json(messages, filename="research_plot_messages.json")
