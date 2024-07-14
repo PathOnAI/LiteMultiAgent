@@ -10,7 +10,7 @@ import os
 
 ## Part 1. load data
 load_dotenv()
-vectorstore_dir = f"./langgraph_rag_db"
+vectorstore_dir = f"langgraph_rag_db"
 if os.path.exists(vectorstore_dir):
     vectorstore = Chroma(persist_directory=vectorstore_dir, embedding_function=OpenAIEmbeddings())
     print("Loaded existing Chroma vector database.")
