@@ -19,3 +19,8 @@ ImportError: Could not import langchainhub, please install with `pip install lan
 ```
 * TODO
   * refactor the agent creation code
+* what's needed as sub-agent to the main agent?
+  * retrieval
+* other agent on the same level as main agent
+  * planner agent
+  * evaluation agent
