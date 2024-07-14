@@ -21,7 +21,7 @@ ImportError: Could not import langchainhub, please install with `pip install lan
   * refactor the agent creation code
   * build a better demo
 * what's needed as sub-agent to the main agent?
-  * retrieval [done]
+  * retrieval: retrieve information [done]
     * retrieve name? email?
     * just retrieve relevant information?
   * output file [todo]
@@ -31,3 +31,5 @@ ImportError: Could not import langchainhub, please install with `pip install lan
 * other agent on the same level as main agent
   * planner agent
   * evaluation agent
+* write a design doc
+  * https://github.com/jmomort/software_design_doc
