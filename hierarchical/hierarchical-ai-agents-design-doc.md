@@ -26,8 +26,10 @@ The purpose of this project is to develop an open-source framework for creating 
 8. API Layer
 
 ### 2.2 Component Interactions
+The agent hierarchy of main agent
 ![Component and Agent Interactions](plot/structure.png)
 
+The collaborative structure of planning agent, main agent and evaluation agent
 ![high level agent](plot/high_level.png)
 
 ## 3. Detailed Component Specifications
