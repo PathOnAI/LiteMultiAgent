@@ -28,6 +28,8 @@ The purpose of this project is to develop an open-source framework for creating 
 ### 2.2 Component Interactions
 ![Component and Agent Interactions](plot/structure.png)
 
+![high level agent](plot/high_level.png)
+
 ## 3. Detailed Component Specifications
 
 ### 3.1 Agent Core
