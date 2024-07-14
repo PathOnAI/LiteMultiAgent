@@ -22,6 +22,8 @@ ImportError: Could not import langchainhub, please install with `pip install lan
   * build a better demo
 * what's needed as sub-agent to the main agent?
   * retrieval [done]
+    * retrieve name? email?
+    * just retrieve relevant information?
   * output file [todo]
     * write file
     * write to image
