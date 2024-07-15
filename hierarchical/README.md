@@ -1,4 +1,9 @@
 # README
+
+## 07/14
+* tools, same level, means not overlapping
+* RAG, and web search are not like this, since there is sequence? not found, then websearch
+
 ## 07/13
 * create a separate web search agent and wrap it in a function
   * just create a tool and pass to the llm [done]

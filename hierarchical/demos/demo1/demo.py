@@ -383,8 +383,3 @@ send_prompt(messages, "Fetch the UK's GDP over the past 5 years, then write pyth
 #
 # save_messages_to_json(messages, filename="research_plot_messages.json")
 
-from research_agent import search_information
-result = search_information("What player at the Bears expected to draft first in the 2024 NFL draft?")
-print(result)
-print(type(result))
-
