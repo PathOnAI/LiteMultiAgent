@@ -1,0 +1,37 @@
+[
+  {
+    "index": 0,
+    "message": "role='system' content='You are a smart research assistant. Use the search engine to look up information. You are allowed to make multiple calls (either together or in sequence). Only look up information when you are sure of what you want. If you need to look up some information before asking a follow up question, you are allowed to do that!' tool_calls=None",
+    "type": "<class '__main__.Message'>"
+  },
+  {
+    "index": 1,
+    "message": "role='user' content='browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file' tool_calls=None",
+    "type": "<class '__main__.Message'>"
+  },
+  {
+    "index": 2,
+    "message": "content=None role='assistant' tool_calls=[ToolCall(id='call_JsmwuJaYw3cg9oEtTvY7hQDA', function=Function(arguments='{\"query\":\"brands of dining tables\"}', name='use_search_agent'), type='function')]",
+    "type": "<class '__main__.ToolCallMessage'>"
+  },
+  {
+    "index": 3,
+    "message": "tool_call_id='call_JsmwuJaYw3cg9oEtTvY7hQDA' role='tool' name='use_search_agent' content='Here are some notable brands and their top dining tables:\\n\\n1. **Arhaus**:\\n   - **Panta Dining Table** (Best Overall)\\n\\n2. **Threshold**:\\n   - **Astrid Mid-Century Round Extendable Dining Table** (Best Budget)\\n\\n3. **Room & Board**:\\n   - Known for various high-quality dining tables\\n\\n4. **Raymour & Flanigan**:\\n   - **Lucy Round Dining Table** (Best Round Dining Table)\\n\\n5. **Zinus**:\\n   - **Louis Modern Studio Collection Soho Dining Table with Two Benches** (Best Budget Dining Table)\\n\\n6. **Lulu and Georgia**:\\n   - Known for modern profiles in dining tables\\n\\n7. **Bassett Furniture**:\\n   - **Dresden Round Dining Table** (Best for Small Spaces)\\n\\n8. **Pottery Barn**:\\n   - **Modern Farmhouse Extending Dining Table** (Best Farmhouse)\\n\\n9. **Ivy Bronx**:\\n   - **Kausar Dining Table** (Best Modern)\\n\\nThese brands and tables have been highlighted by various reputable sources such as US News, Forbes, Good Housekeeping, and The Spruce.'",
+    "type": "<class '__main__.ToolResponseMessage'>"
+  },
+  {
+    "index": 4,
+    "message": "content=None role='assistant' tool_calls=[ToolCall(id='call_En4UTt4vLgZd8NDinehevyZq', function=Function(arguments='{\"file_path\":\"./README.md\",\"text\":\"# Notable Dining Table Brands and Top Picks\\\\n\\\\n| Brand              | Notable Table                                            | Category                     |\\\\n|--------------------|----------------------------------------------------------|------------------------------|\\\\n| Arhaus             | Panta Dining Table                                       | Best Overall                 |\\\\n| Threshold          | Astrid Mid-Century Round Extendable Dining Table         | Best Budget                  |\\\\n| Room & Board       | Various High-Quality Tables                              | High Quality Options         |\\\\n| Raymour & Flanigan | Lucy Round Dining Table                                  | Best Round Dining Table      |\\\\n| Zinus              | Louis Modern Studio Collection Soho Dining Table + Benches| Best Budget Dining Table     |\\\\n| Lulu and Georgia   | Various Modern Profiles                                  | Modern Profiles              |\\\\n| Bassett Furniture  | Dresden Round Dining Table                               | Best for Small Spaces        |\\\\n| Pottery Barn       | Modern Farmhouse Extending Dining Table                  | Best Farmhouse               |\\\\n| Ivy Bronx          | Kausar Dining Table                                      | Best Modern                  |\\\\n\\\\nThese brands and tables are highlighted by sources like US News, Forbes, Good Housekeeping, and The Spruce.\\\\n\",\"encoding\":\"utf-8\"}', name='write_to_file'), type='function')]",
+    "type": "<class '__main__.ToolCallMessage'>"
+  },
+  {
+    "index": 5,
+    "message": "tool_call_id='call_En4UTt4vLgZd8NDinehevyZq' role='tool' name='write_to_file' content='File written successfully.'",
+    "type": "<class '__main__.ToolResponseMessage'>"
+  },
+  {
+    "index": 6,
+    "message": "role='assistant' content='I have created a summary table of notable dining table brands and their top picks, and saved it as a README.md file. Here is the content:\\n\\n# Notable Dining Table Brands and Top Picks\\n\\n| Brand              | Notable Table                                            | Category                     |\\n|--------------------|----------------------------------------------------------|------------------------------|\\n| Arhaus             | Panta Dining Table                                       | Best Overall                 |\\n| Threshold          | Astrid Mid-Century Round Extendable Dining Table         | Best Budget                  |\\n| Room & Board       | Various High-Quality Tables                              | High Quality Options         |\\n| Raymour & Flanigan | Lucy Round Dining Table                                  | Best Round Dining Table      |\\n| Zinus              | Louis Modern Studio Collection Soho Dining Table + Benches| Best Budget Dining Table     |\\n| Lulu and Georgia   | Various Modern Profiles                                  | Modern Profiles              |\\n| Bassett Furniture  | Dresden Round Dining Table                               | Best for Small Spaces        |\\n| Pottery Barn       | Modern Farmhouse Extending Dining Table                  | Best Farmhouse               |\\n| Ivy Bronx          | Kausar Dining Table                                      | Best Modern                  |\\n\\nThese brands and tables are highlighted by sources like US News, Forbes, Good Housekeeping, and The Spruce.' name=None tool_calls=None",
+    "type": "<class '__main__.AssistantMessage'>"
+  }
+]
