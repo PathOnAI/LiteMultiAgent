@@ -1,5 +1,14 @@
 # MultiAgent
 
+
+
+## 07/17, Wednesday
+* MultiAgent work!
+  * bring this to another level
+  * +planning agent
+  * +evaluation agent
+* review all the frameworks
+
 ## 07/13, Saturday
 * start doc on SPC presentation [todo]
 * demo (MVP):
