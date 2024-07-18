@@ -1,3 +1,0 @@
-Let's open the `bad.txt` file to review its content and identify any typos.
-<execute_ipython>
-open_file('/workspace/bad.txt')

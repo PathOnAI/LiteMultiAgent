@@ -1,3 +1,6 @@
+.DS_Store
+.cache
+OAI_CONFIG_LIST
 __pycache__
 pyc
 venv

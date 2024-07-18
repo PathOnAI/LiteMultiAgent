@@ -1,6 +1,0 @@
-langsmith
-pandas
-matplotlib
-langgraph
-python-dotenv==1.0.0
-rich
