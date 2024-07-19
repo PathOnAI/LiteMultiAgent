@@ -10,6 +10,15 @@ import requests
 import os
 import json
 _ = load_dotenv()
+from supabase import create_client, Client
+
+
+
+url = os.getenv("SUPABASE_URL")
+key = os.getenv("SUPABASE_ANON_KEY")
+
+supabase: Client = create_client(url, key)
+
 
 # Configure logging
 logging.basicConfig(
@@ -168,6 +177,14 @@ Only look up information when you are sure of what you want. \
 If you need to look up some information before asking a follow up question, you are allowed to do that!")]
 
 query = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
+data = {
+    "agent": None,
+    "depth": None,
+    "role": "user",
+    "response": query,
+}
+supabase.table("multiagent").insert(data).execute()
+
 send_prompt("main_agent", client, messages, query, tools, available_tools)
 
 messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
@@ -175,7 +192,15 @@ You are allowed to make multiple calls (either together or in sequence). \
 Only look up information when you are sure of what you want. \
 If you need to look up some information before asking a follow up question, you are allowed to do that!")]
 query = "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file"
+data = {
+    "agent": None,
+    "depth": None,
+    "role": "user",
+    "response": query,
+}
+supabase.table("multiagent").insert(data).execute()
 send_prompt("main_agent", client, messages, query, tools, available_tools)
+
 
 # messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
 # You are allowed to make multiple calls (either together or in sequence). \

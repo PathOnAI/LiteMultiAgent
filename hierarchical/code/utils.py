@@ -119,6 +119,7 @@ def send_completion_request(agent_name, client, messages: list, tools: list = No
         data = {
             "agent": agent_name,
             "depth": depth,
+            "role": "assistant",
             "response": json.dumps(response.choices[0].message.model_dump()),
         }
         supabase.table("multiagent").insert(data).execute()
@@ -136,6 +137,7 @@ def send_completion_request(agent_name, client, messages: list, tools: list = No
         data = {
             "agent": agent_name,
             "depth": depth,
+            "role": "assistant",
             "response": json.dumps(response.choices[0].message.model_dump()),
         }
         supabase.table("multiagent").insert(data).execute()
@@ -147,6 +149,7 @@ def send_completion_request(agent_name, client, messages: list, tools: list = No
     data = {
         "agent": agent_name,
         "depth": depth,
+        "role": "assistant",
         "response": json.dumps(response.choices[0].message.model_dump()),
     }
     supabase.table("multiagent").insert(data).execute()
