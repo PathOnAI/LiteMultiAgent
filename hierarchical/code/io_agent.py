@@ -9,9 +9,9 @@ import os
 from multion.client import MultiOn
 import json
 _ = load_dotenv()
-# Initialize logging
-logging.basicConfig(level=logging.INFO)
+
 logger = logging.getLogger(__name__)
+
 from langchain_community.tools.tavily_search import TavilySearchResults
 from utils import *
 

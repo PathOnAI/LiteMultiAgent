@@ -9,9 +9,8 @@ import os
 from multion.client import MultiOn
 import json
 _ = load_dotenv()
-# Initialize logging
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 from langchain_community.tools.tavily_search import TavilySearchResults
 from utils import *
 import subprocess
@@ -99,7 +98,6 @@ def use_exec_agent(description):
 def main():
     response = use_exec_agent("run /Users/danqingzhang/Desktop/MultiAgent/hierarchical/code/draw_gdp_line_graph.py file")
     print(response)
-
     response = use_exec_agent(
         "read file 3 lines of file /Users/danqingzhang/Desktop/MultiAgent/hierarchical/code/1.txt")
     print(response)

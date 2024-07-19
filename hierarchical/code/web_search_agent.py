@@ -9,9 +9,8 @@ import os
 from multion.client import MultiOn
 import json
 _ = load_dotenv()
-# Initialize logging
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 from langchain_community.tools.tavily_search import TavilySearchResults
 from utils import *
 
@@ -96,7 +95,6 @@ def use_search_agent(query):
 def main():
     messages = use_search_agent("Fetch the UK's GDP over the past 5 years")
     print(messages)
-
     messages = use_search_agent(
         "browse google.com to check the brands of dining table and summarize the results in a table")
     print(messages)

@@ -4,17 +4,27 @@ from openai import OpenAI
 import subprocess
 from typing import Any
 from pydantic import BaseModel, validator
+import sys
+from logging.handlers import RotatingFileHandler
 import requests
 import os
 import json
 _ = load_dotenv()
-# Initialize logging
-logging.basicConfig(level=logging.INFO)
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("log.txt"),
+        logging.StreamHandler()
+    ]
+)
+
+# Create a logger
 logger = logging.getLogger(__name__)
+
 from utils import *
-
-
-
 
 
 from web_search_agent import use_search_agent
@@ -129,27 +139,27 @@ available_tools = {
             "use_exec_agent": use_exec_agent,
         }
 
-def save_messages_to_json(messages, filename="research_plot_messages.json"):
-    # Create a list to store the formatted messages
-    formatted_messages = []
-
-    for index, message in enumerate(messages):
-        # Print the message info
-        print(index, message, type(message))
-
-        # Format the message for JSON
-        formatted_message = {
-            "index": index,
-            "message": str(message),  # Convert message to string in case it's not serializable
-            "type": str(type(message))  # Convert type to string for JSON serialization
-        }
-        formatted_messages.append(formatted_message)
-
-    # Save the formatted messages to a JSON file
-    with open(filename, 'w') as f:
-        json.dump(formatted_messages, f, indent=2)
-
-    print(f"Messages saved to {filename}")
+# def save_messages_to_json(messages, filename="research_plot_messages.json"):
+#     # Create a list to store the formatted messages
+#     formatted_messages = []
+#
+#     for index, message in enumerate(messages):
+#         # Print the message info
+#         print(index, message, type(message))
+#
+#         # Format the message for JSON
+#         formatted_message = {
+#             "index": index,
+#             "message": str(message),  # Convert message to string in case it's not serializable
+#             "type": str(type(message))  # Convert type to string for JSON serialization
+#         }
+#         formatted_messages.append(formatted_message)
+#
+#     # Save the formatted messages to a JSON file
+#     with open(filename, 'w') as f:
+#         json.dump(formatted_messages, f, indent=2)
+#
+#     print(f"Messages saved to {filename}")
 
 
 messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
@@ -168,4 +178,4 @@ If you need to look up some information before asking a follow up question, you 
 #
 query = "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file"
 send_prompt(client, messages, query, tools, available_tools)
-save_messages_to_json(messages, filename="google_search_messages.json")
+# save_messages_to_json(messages, filename="google_search_messages.json")
