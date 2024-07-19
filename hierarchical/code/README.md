@@ -1,11 +1,13 @@
-## Summary Table
+# Notable Dining Table Brands and Models
 
-| Brand | Model Name |
-| --- | --- |
-| Raymour & Flanigan | Lucy Round Dining Table |
-| Zinus | Louis Modern Studio Collection Soho Dining Table with Two Benches |
-| Pottery Barn | Modern Farmhouse Extending Dining Table |
-| CB2 | Harper Dining Table with Black Marble Top |
-| George Oliver (Wayfair) | Catuy Trestle Dining Table |
-| Article | Vena Walnut Cafe Table |
-| Pottery Barn | Toscana Extending Dining Table |
+| Brand            | Model                                    | Description                                    |
+|------------------|------------------------------------------|------------------------------------------------|
+| Arhaus           | Panta Dining Table                       | Elegant and contemporary design.               |
+| Threshold        | Astrid Mid-Century Round Extendable Table| Mid-century style, extendable functionality.   |
+| Serif            | -                                        | Known for extendable dining tables.            |
+| Lulu and Georgia | -                                        | Modern profiles with design-forward tables.    |
+| Pottery Barn     | Modern Farmhouse Extending Dining Table  | Modern farmhouse style, extendable.            |
+| Pottery Barn     | Toscana Extending Dining Table           | Classic farmhouse style, extendable.           |
+| CB2              | Harper Dining Table (Black Marble Top)   | Sleek black marble top, contemporary design.   |
+| George Oliver    | Catuy Trestle Dining Table               | Modern and versatile design, available on Wayfair. |
+| Article          | Vena Walnut Cafe Table                   | Simple and elegant walnut finish.              |

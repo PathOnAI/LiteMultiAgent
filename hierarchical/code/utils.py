@@ -19,7 +19,17 @@ class Message(BaseModel):
     role: str
     content: str
     tool_calls: list[Any] | None = None
+import os
+from dotenv import load_dotenv,find_dotenv
+load_dotenv(find_dotenv())
+from supabase import create_client, Client
 
+
+
+url = os.getenv("SUPABASE_URL")
+key = os.getenv("SUPABASE_ANON_KEY")
+
+supabase: Client = create_client(url, key)
 
 
 
@@ -106,6 +116,12 @@ def send_completion_request(agent_name, client, messages: list, tools: list = No
             model="gpt-4o", messages=messages
         )
         logger.info('agent: %s, depth: %s, response: %s', agent_name, depth, response)
+        data = {
+            "agent": agent_name,
+            "depth": depth,
+            "response": json.dumps(response.choices[0].message.model_dump()),
+        }
+        supabase.table("multiagent").insert(data).execute()
         message = AssistantMessage(**response.choices[0].message.model_dump())
         messages.append(message)
         return response
@@ -117,11 +133,23 @@ def send_completion_request(agent_name, client, messages: list, tools: list = No
     tool_calls = response.choices[0].message.tool_calls
     if tool_calls is None:
         logger.info('agent: %s, depth: %s, response: %s', agent_name, depth, response)
+        data = {
+            "agent": agent_name,
+            "depth": depth,
+            "response": json.dumps(response.choices[0].message.model_dump()),
+        }
+        supabase.table("multiagent").insert(data).execute()
         message = AssistantMessage(**response.choices[0].message.model_dump())
         messages.append(message)
         return response
 
     logger.info('agent: %s, depth: %s, response: %s', agent_name, depth, response)
+    data = {
+        "agent": agent_name,
+        "depth": depth,
+        "response": json.dumps(response.choices[0].message.model_dump()),
+    }
+    supabase.table("multiagent").insert(data).execute()
     tool_calls = [
         ToolCall(id=call.id, function=call.function, type=call.type)
         for call in response.choices[0].message.tool_calls

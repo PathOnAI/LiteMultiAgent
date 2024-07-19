@@ -162,13 +162,13 @@ available_tools = {
 #     print(f"Messages saved to {filename}")
 
 
-# messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
-# You are allowed to make multiple calls (either together or in sequence). \
-# Only look up information when you are sure of what you want. \
-# If you need to look up some information before asking a follow up question, you are allowed to do that!")]
-#
-# query = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
-# send_prompt("main_agent", client, messages, query, tools, available_tools)
+messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
+You are allowed to make multiple calls (either together or in sequence). \
+Only look up information when you are sure of what you want. \
+If you need to look up some information before asking a follow up question, you are allowed to do that!")]
+
+query = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
+send_prompt("main_agent", client, messages, query, tools, available_tools)
 
 messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
 You are allowed to make multiple calls (either together or in sequence). \

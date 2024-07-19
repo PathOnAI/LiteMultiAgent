@@ -101,6 +101,12 @@ def main():
     response = use_exec_agent(
         "read file 3 lines of file /Users/danqingzhang/Desktop/MultiAgent/hierarchical/code/1.txt")
     print(response)
+    response = use_exec_agent(
+        "pip list to show installed python environment")
+    print(response)
+    response = use_exec_agent(
+        "show me the python path of this virtual environment")
+    print(response)
 
 if __name__ == "__main__":
     main()

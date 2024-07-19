@@ -4,3 +4,4 @@ pydantic
 requests
 langchain-community==0.2.7
 multion
+supabase
