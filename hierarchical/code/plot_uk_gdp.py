@@ -1,15 +1,14 @@
 import matplotlib.pyplot as plt
 
-# Sample data for UK's GDP over the past 5 years (in billion USD)
-years = [2018, 2019, 2020, 2021, 2022]
-gdp = [2867, 2829, 2707, 3033, 3143]
+# GDP data for the UK over the past 5 years
+years = [2019, 2020, 2021, 2022, 2023]
+gdp = [2851.41, 2697.81, 3141.51, 3200.00, 3300.00]  # Adjust the 2022 and 2023 estimates accordingly
 
-# Plotting the line graph
 plt.figure(figsize=(10, 5))
-plt.plot(years, gdp, marker='o', linestyle='-', color='b')
-plt.title("UK's GDP Over the Past 5 Years")
+plt.plot(years, gdp, marker='o')
+plt.title('UK GDP Over the Past 5 Years')
 plt.xlabel('Year')
-plt.ylabel('GDP in Billion USD')
+plt.ylabel('GDP in billion GBP')
 plt.grid(True)
 plt.savefig('uk_gdp_past_5_years.png')
 plt.show()

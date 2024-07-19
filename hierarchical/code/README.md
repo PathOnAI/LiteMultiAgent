@@ -1,11 +1,13 @@
-# Dining Table Brands
+# Dining Table Brands and Notable Models
 
-| Brand       | Description                                                                                   |
-|-------------|-----------------------------------------------------------------------------------------------|
-| West Elm    | Known for stylish, high-end dining tables at relatively affordable price points.             |
-| Arhaus      | Offers a variety of dining tables, including the highly-rated Panta Dining Table.            |
-| Threshold   | Available at Target, offers budget-friendly options like the Astrid Mid-Century Round Extendable Dining Table. |
-| Pottery Barn| Known for versatile and elegant options like the Modern Farmhouse Extending Dining Table and Toscana Extending Dining Table. |
-| CB2         | Offers modern and luxurious dining tables, such as the Harper Dining Table with a black marble top. |
-| Wayfair     | Features various options including the George Oliver Catuy Trestle Dining Table which combines classic wood and modern glass design. |
-| Article     | Known for compact and stylish designs like the Vena Walnut Cafe Table.                       |
+| Brand            | Notable Model                                    | Highlight                        |
+|------------------|--------------------------------------------------|----------------------------------|
+| **Arhaus**       | Panta Dining Table                               | Overall best dining table        |
+| **Threshold**    | Astrid Mid-Century Round Extendable Dining Table | Best budget option               |
+| **Lulu and Georgia** | Various modern profile models                  | Modern profile dining tables     |
+| **Pottery Barn** | Modern Farmhouse Extending Dining Table          | Best farmhouse style             |
+| **Pottery Barn** | Toscana Extending Dining Table                   | Best expandable option           |
+| **CB2**          | Harper Dining Table with Black Marble Top        | Best marble dining table         |
+| **George Oliver**| Catuy Trestle Dining Table                       | Best glass dining table          |
+| **Article**      | Vena Walnut Table                                | Best café style                  |
+| **Wayfair**      | Various models                                   | Contemporary and classic styles  |
