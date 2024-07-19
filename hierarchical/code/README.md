@@ -1,30 +1,15 @@
-# Top Dining Table Brands
+| **Brand**         | **Model**                                        | **Notes**                                                |
+|-------------------|--------------------------------------------------|----------------------------------------------------------|
+| Raymour & Flanigan | Lucy Round Dining Table                          | Best round dining table                                  |
+| Zinus              | Louis Modern Studio Collection Soho Dining Table | Best budget dining table                                 |
+| Pottery Barn       | Modern Farmhouse Extending Dining Table          | Quality and versatility, great for extendable options    |
+| Pottery Barn       | Toscana Extending Dining Table                   | Quality and versatility, great for extendable options    |
+| CB2                | Harper Dining Table with Black Marble Top        | Sleek and modern design with marble top                  |
+| George Oliver      | Catuy Trestle Dining Table                       | Classic wood styling with modern glass tabletop          |
+| Article            | Vena Walnut Table                                | Perfect for small spaces and compact dining areas        |
 
-This document provides a summary of some of the top dining table brands available in the market. This summary includes a brief introduction to each brand and highlights their key features and product offerings.
-
-## Summary Table
-
-| Brand       | Description                                                                 | Key Features                                                    |
-|-------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------|
-| Raymour & Flanigan   | Known for their modern designs and durable tables.                             | Modern designs, Durable materials, Eco-friendly production      |
-| Zinus   | Offers a range of budget-friendly dining tables.                              | Affordable prices, Stylish designs, Compact options      |
-| Petra | Focuses on dark color, expandable, and wavy leg dining tables.                                     | Expandable options, Elegant designs, Versatile usage  |
-| Zinus Jen  | Renowned for their small space and budget-friendly tables.                     | Budget-friendly, Space-efficient, Functional  |
-| Several more | Various styles and price points considered.             | Wide range of styles, Different price ranges, High quality |
-
-## Detailed Descriptions
-
-### Raymour & Flanigan
-Raymour & Flanigan is renowned for its modern designs and commitment to durability. They use eco-friendly materials and production methods to ensure their products are not only stylish but also sustainable.
-
-### Zinus
-Zinus offers a range of budget-friendly dining tables to fit various styles and budgets. Their tables are known for being affordable without compromising on quality and style.
-
-### Petra
-Petra focuses on dark color, expandable, and wavy leg designs. They seek to provide versatile usage for different dining needs.
-
-### Zinus Jen
-Zinus Jen is famous for their small space and budget-friendly dining tables. Their products feature functional designs and exceptional value, making them a favorite among those with limited space.
-
-### Several more
-There are several more brands that offer a wide range of styles and price points, ensuring high quality in various budget ranges.
+Sources:
+- [Forbes](https://www.forbes.com/sites/forbes-personal-shopper/article/best-dining-tables/)
+- [Epicurious](https://www.epicurious.com/shopping/11-best-dining-tables-for-any-space)
+- [The Spruce](https://www.thespruce.com/best-dining-room-tables-4774916)
+- [House Beautiful](https://www.housebeautiful.com/shopping/furniture/g41119944/best-dining-room-tables/)

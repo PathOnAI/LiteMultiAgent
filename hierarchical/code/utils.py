@@ -97,7 +97,7 @@ def process_tool_calls(tool_calls, available_tools):
 
     return tool_call_responses
 
-def send_completion_request(client, messages: list, tools: list = None, available_tools: dict = None, depth: int = 0) -> dict:
+def send_completion_request(agent_name, client, messages: list, tools: list = None, available_tools: dict = None, depth: int = 0) -> dict:
     if depth >= 8:
         return None
 
@@ -105,7 +105,7 @@ def send_completion_request(client, messages: list, tools: list = None, availabl
         response = client.chat.completions.create(
             model="gpt-4o", messages=messages
         )
-        logger.info('depth: %s, response: %s', depth, response)
+        logger.info('agent: %s, depth: %s, response: %s', agent_name, depth, response)
         message = AssistantMessage(**response.choices[0].message.model_dump())
         messages.append(message)
         return response
@@ -116,12 +116,12 @@ def send_completion_request(client, messages: list, tools: list = None, availabl
 
     tool_calls = response.choices[0].message.tool_calls
     if tool_calls is None:
-        logger.info('depth: %s, response: %s', depth, response)
+        logger.info('agent: %s, depth: %s, response: %s', agent_name, depth, response)
         message = AssistantMessage(**response.choices[0].message.model_dump())
         messages.append(message)
         return response
 
-    logger.info('depth: %s, response: %s', depth, response)
+    logger.info('agent: %s, depth: %s, response: %s', agent_name, depth, response)
     tool_calls = [
         ToolCall(id=call.id, function=call.function, type=call.type)
         for call in response.choices[0].message.tool_calls
@@ -135,8 +135,8 @@ def send_completion_request(client, messages: list, tools: list = None, availabl
     messages.append(tool_call_message)
     tool_responses = process_tool_calls(tool_calls, available_tools)
     messages.extend(tool_responses)
-    return send_completion_request(client, messages, tools, available_tools, depth + 1)
+    return send_completion_request(agent_name, client, messages, tools, available_tools, depth + 1)
 
-def send_prompt(client, messages, content: str, tools, available_tools):
+def send_prompt(agent_name, client, messages, content: str, tools, available_tools):
     messages.append(Message(role="user", content=content))
-    return send_completion_request(client, messages, tools, available_tools, 0)
+    return send_completion_request(agent_name, client, messages, tools, available_tools, 0)

@@ -91,7 +91,7 @@ available_tools = {
 def use_exec_agent(description):
     messages = [Message(role="system",
                         content="You will exec some scripts. Either by shell or run python script")]
-    send_prompt(client, messages, description, tools, available_tools)
+    send_prompt("exec_agent", client, messages, description, tools, available_tools)
     return messages[-1].content
 
 

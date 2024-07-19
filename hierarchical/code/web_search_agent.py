@@ -88,7 +88,7 @@ def use_search_agent(query):
     messages = [Message(role="system",
                         content="You are a smart research assistant. Use the search engine to look up information.")]
     # send_prompt(messages, query)
-    send_prompt(client, messages, query, tools, available_tools)
+    send_prompt("search_agent", client, messages, query, tools, available_tools)
     return messages[-1].content
 
 

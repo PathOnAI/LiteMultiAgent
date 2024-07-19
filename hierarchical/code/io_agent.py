@@ -103,7 +103,7 @@ def use_io_agent(description):
     messages = [Message(role="system",
                         content="You are an ai agent that read and write files")]
     # send_prompt(messages, query)
-    send_prompt(client, messages, description, tools, available_tools)
+    send_prompt("io_agent", client, messages, description, tools, available_tools)
     return messages[-1].content
 
 

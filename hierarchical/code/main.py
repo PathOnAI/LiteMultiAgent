@@ -177,5 +177,5 @@ If you need to look up some information before asking a follow up question, you 
 # If you need to look up some information before asking a follow up question, you are allowed to do that!")]
 #
 query = "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file"
-send_prompt(client, messages, query, tools, available_tools)
+send_prompt("main_agent", client, messages, query, tools, available_tools)
 # save_messages_to_json(messages, filename="google_search_messages.json")
