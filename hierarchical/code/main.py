@@ -13,43 +13,13 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 from utils import *
 
-def execute_shell_command(command):
-    try:
-        result = subprocess.run(
-            command, shell=True, capture_output=True, text=True, check=True
-        )
-        output = result.stdout.strip() if result.stdout else result.stderr.strip()
-        tokens = output.split()
-        print(len(tokens))
-        if len(tokens) > 500:
-            final_result = " ".join(tokens[:100]) + "truncated...truncated" + " ".join(tokens[-100:])
-        else:
-            final_result = " ".join(tokens)
-        return final_result
-    except subprocess.CalledProcessError as e:
-        return f"Error executing command '{command}': {e.stderr.strip()}"
 
-def read_file(file_path: str, encoding: str = "utf-8") -> str:
-    if not os.path.isfile(file_path):
-        return f"Error: The file {file_path} does not exist."
-    try:
-        with open(file_path, encoding=encoding) as f:
-            return f.read()
-    except Exception as error:
-        return f"Error: {error}"
 
-def write_to_file(file_path: str, text: str, encoding: str = "utf-8") -> str:
-    try:
-        directory = os.path.dirname(file_path)
-        if directory:
-            os.makedirs(directory, exist_ok=True)
-        with open(file_path, "w", encoding=encoding) as f:
-            f.write(text)
-        return "File written successfully."
-    except Exception as error:
-        return f"Error: {error}"
 
-from web_search import use_search_agent
+
+from web_search_agent import use_search_agent
+from io_agent import use_io_agent
+from exec_agent import use_exec_agent
 
 def scan_folder(folder_path, depth=2):
     ignore_patterns = [".*", "__pycache__"]
@@ -68,81 +38,58 @@ def scan_folder(folder_path, depth=2):
             file_paths.append(os.path.join(subdir, file))
     return file_paths
 
-def run_python_script(script_name):
-    try:
-        result = subprocess.run(["python", script_name], capture_output=True, text=True, check=True)
-        res = f"stdout:{result.stdout}"
-        if result.stderr:
-            res += f"stderr:{result.stderr}"
-        return res
-    except subprocess.CalledProcessError as e:
-        return f"Error:{e}"
+
 
 tools = [
     {
         "type": "function",
         "function": {
-            "name": "write_to_file",
-            "description": "Write string content to a file.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "file_path": {
-                        "type": "string",
-                        "description": "Full file name with path where the content will be written."
-                    },
-                    "text": {
-                        "type": "string",
-                        "description": "Text content to be written into the file."
-                    },
-                    "encoding": {
-                        "type": "string",
-                        "default": "utf-8",
-                        "description": "Encoding to use for writing the file. Defaults to 'utf-8'."
-                    }
-                },
-                "required": [
-                    "file_path",
-                    "text"
-                ]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "read_file",
-            "description": "Read a file and return its contents as a string.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "file_path": {
-                        "type": "string",
-                        "description": "The full file name with path to read."
-                    },
-                    "encoding": {
-                        "type": "string",
-                        "default": "utf-8",
-                        "description": "The encoding used to decode the file. Defaults to 'utf-8'."
-                    }
-                },
-                "required": [
-                    "file_path"
-                ]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
             "name": "use_search_agent",
-            "description": "Perform a search using the TavilySearch API and return the results.",
+            "description": "Perform a search using API and return the searched results.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "query": {
                         "type": "string",
-                        "description": "The search query to be sent to the TavilySearch API."
+                        "description": "The task description describing what to read or write."
+                    }
+                },
+                "required": [
+                    "query"
+                ]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "use_io_agent",
+            "description": "read or write some content from or to a file",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "description": "The task description describing what to read or write."
+                    }
+                },
+                "required": [
+                    "query"
+                ]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "use_exec_agent",
+            "description": "Execute some script in a subprocess, either run a bash script, or run a python script ",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "description": "The task description describing what to execute in the subprocess.",
                     }
                 },
                 "required": [
@@ -171,55 +118,15 @@ tools = [
             "return_type": "list: A list of file paths str with the given extension, or all files if no extension is specified."
         }
     },
-    {
-        "type": "function",
-        "function": {
-            "name": "run_python_script",
-            "description": "Execute a Python script in a subprocess.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "script_name": {
-                        "type": "string",
-                        "description": "The name with path of the script to be executed."
-                    }
-                },
-                "required": [
-                    "script_name"
-                ]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "execute_shell_command",
-            "description": "Execute a shell command in a subprocess.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "command": {
-                        "type": "string",
-                        "description": "The shell command to be executed."
-                    }
-                },
-                "required": [
-                    "command"
-                ]
-            }
-        }
-    }
 ]
 
 client = OpenAI()
 
 available_tools = {
-            "write_to_file": write_to_file,
-            "read_file": read_file,
             "scan_folder": scan_folder,
-            "run_python_script": run_python_script,
-            "execute_shell_command": execute_shell_command,
             "use_search_agent": use_search_agent,
+            "use_io_agent": use_io_agent,
+            "use_exec_agent": use_exec_agent,
         }
 
 def save_messages_to_json(messages, filename="research_plot_messages.json"):
@@ -250,15 +157,15 @@ You are allowed to make multiple calls (either together or in sequence). \
 Only look up information when you are sure of what you want. \
 If you need to look up some information before asking a follow up question, you are allowed to do that!")]
 
-query = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
-send_prompt(client, messages, query, tools, available_tools)
-save_messages_to_json(messages, filename="research_plot_messages.json")
+# query = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
+# send_prompt(client, messages, query, tools, available_tools)
+# save_messages_to_json(messages, filename="research_plot_messages.json")
 
-messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
-You are allowed to make multiple calls (either together or in sequence). \
-Only look up information when you are sure of what you want. \
-If you need to look up some information before asking a follow up question, you are allowed to do that!")]
-
+# messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
+# You are allowed to make multiple calls (either together or in sequence). \
+# Only look up information when you are sure of what you want. \
+# If you need to look up some information before asking a follow up question, you are allowed to do that!")]
+#
 query = "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file"
 send_prompt(client, messages, query, tools, available_tools)
 save_messages_to_json(messages, filename="google_search_messages.json")
