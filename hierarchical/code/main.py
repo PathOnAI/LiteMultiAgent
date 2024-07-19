@@ -16,7 +16,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("log.txt"),
+        logging.FileHandler("log.txt", mode="w"),
         logging.StreamHandler()
     ]
 )
@@ -167,15 +167,13 @@ You are allowed to make multiple calls (either together or in sequence). \
 Only look up information when you are sure of what you want. \
 If you need to look up some information before asking a follow up question, you are allowed to do that!")]
 
-# query = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
-# send_prompt(client, messages, query, tools, available_tools)
-# save_messages_to_json(messages, filename="research_plot_messages.json")
+query = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
+send_prompt("main_agent", client, messages, query, tools, available_tools)
 
-# messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
-# You are allowed to make multiple calls (either together or in sequence). \
-# Only look up information when you are sure of what you want. \
-# If you need to look up some information before asking a follow up question, you are allowed to do that!")]
-#
+messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
+You are allowed to make multiple calls (either together or in sequence). \
+Only look up information when you are sure of what you want. \
+If you need to look up some information before asking a follow up question, you are allowed to do that!")]
 query = "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file"
 send_prompt("main_agent", client, messages, query, tools, available_tools)
 # save_messages_to_json(messages, filename="google_search_messages.json")
