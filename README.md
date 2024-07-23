@@ -2,6 +2,43 @@
 repo owner: Danni (Danqing) Zhang (danqing.zhang.personal@gmail.com)
 
 
+## 07/22, Monday
+* next step
+* multi-agent
+  * main agent
+    * (1) io sub agent
+    * (2) execution sub agent
+    * (3) information retrieval sub agent
+      * local file search sub agent
+      * web search sub agent
+    * (4) login sub agent
+    * (5) structure sub agent
+      * understand file directory
+      * scan folder
+  * use case
+    * (1) write new document based on template with customer information
+      * (1) customer information: file 1
+        * io sub agent
+      * (2) template: file 2
+        * io sub agent
+      * (3) generation []
+      * (4) output to the file 3
+        * io sub agent
+    * (2) customer database (name, customer information), customer name, template, new file
+      * (1) db: retrieval
+        * information, SQL
+      * (2) template: file 2
+        * io
+      * (3) customer + template, file 3
+        * io
+* (1) web search agent
+  * web search agent
+    * find links, azure api
+    * collect information: tavily, multion
+    * summarization
+      * langchain
+      * XXX
+
 ## 07/18, Thursday
 * multi agent review: https://github.com/Tata0703/AI_agents/tree/main/0719_SPC_multiagent
 
