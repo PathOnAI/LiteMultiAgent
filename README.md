@@ -9,9 +9,11 @@ repo owner: Danni (Danqing) Zhang (danqing.zhang.personal@gmail.com)
     * (1) io sub agent
     * (2) execution sub agent
     * (3) information retrieval sub agent
-      * local file search sub agent
+      * database retrieval agent
+      * <local file search sub agent>: RAG
       * web search sub agent
     * (4) login sub agent
+      * XXX
     * (5) structure sub agent
       * understand file directory
       * scan folder
