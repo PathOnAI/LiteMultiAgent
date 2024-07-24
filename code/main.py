@@ -36,10 +36,11 @@ logger = logging.getLogger(__name__)
 from utils import *
 
 
-from web_search_agent import use_search_agent
+# from web_search_agent import use_web_search_agent
 from io_agent import use_io_agent
 from exec_agent import use_exec_agent
-from db_retrieval_agent import use_db_retrieval_agent
+# from db_retrieval_agent import use_db_retrieval_agent
+from retrieval_agent import use_retrieval_search_agent
 
 def scan_folder(folder_path, depth=2):
     ignore_patterns = [".*", "__pycache__"]
@@ -61,25 +62,6 @@ def scan_folder(folder_path, depth=2):
 
 
 tools = [
-    {
-        "type": "function",
-        "function": {
-            "name": "use_search_agent",
-            "description": "Perform a search using API and return the searched results.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "query": {
-                        "type": "string",
-                        "description": "The task description describing what to read or write."
-                    }
-                },
-                "required": [
-                    "query"
-                ]
-            }
-        }
-    },
     {
         "type": "function",
         "function": {
@@ -141,14 +123,14 @@ tools = [
     {
       "type": "function",
       "function": {
-        "name": "use_db_retrieval_agent",
-        "description": "Use a database retrieval agent to fetch information based on a given query.",
+        "name": "use_retrieval_search_agent",
+        "description": "Use a smart research assistant to look up information using a search engine.",
         "parameters": {
           "type": "object",
           "properties": {
             "query": {
               "type": "string",
-              "description": "The query to be processed by the database retrieval agent."
+              "description": "The query to be processed by the retrieval search agent."
             }
           },
           "required": [
@@ -163,10 +145,11 @@ client = OpenAI()
 
 available_tools = {
             "scan_folder": scan_folder,
-            "use_search_agent": use_search_agent,
+            "use_retrieval_search_agent": use_retrieval_search_agent,
+            # "use_web_search_agent": use_web_search_agent,
             "use_io_agent": use_io_agent,
             "use_exec_agent": use_exec_agent,
-            "use_db_retrieval_agent": use_db_retrieval_agent,
+            # "use_db_retrieval_agent": use_db_retrieval_agent,
         }
 
 
@@ -189,44 +172,44 @@ supabase.table("multiagent").insert(data).execute()
 send_prompt("main_agent", client, messages, query, tools, available_tools)
 
 
-# messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
-# You are allowed to make multiple calls (either together or in sequence). \
-# Only look up information when you are sure of what you want. \
-# If you need to look up some information before asking a follow up question, you are allowed to do that!")]
-#
-# query = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
-# data = {
-#     "agent": None,
-#     "depth": None,
-#     "role": "user",
-#     "response": query,
-#     "prompt_tokens": 0,
-#     "completion_tokens": 0,
-# }
-# supabase.table("multiagent").insert(data).execute()
-# send_prompt("main_agent", client, messages, query, tools, available_tools)
-#
-#
-#
-#
-# messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
-# You are allowed to make multiple calls (either together or in sequence). \
-# Only look up information when you are sure of what you want. \
-# If you need to look up some information before asking a follow up question, you are allowed to do that!")]
-# query = "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file"
-# data = {
-#     "agent": None,
-#     "depth": None,
-#     "role": "user",
-#     "response": query,
-#     "prompt_tokens": 0,
-#     "completion_tokens": 0,
-#     "input_cost": 0,
-#     "output_cost": 0,
-#     "total_cost": 0,
-# }
-# supabase.table("multiagent").insert(data).execute()
-# send_prompt("main_agent", client, messages, query, tools, available_tools)
+messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
+You are allowed to make multiple calls (either together or in sequence). \
+Only look up information when you are sure of what you want. \
+If you need to look up some information before asking a follow up question, you are allowed to do that!")]
+
+query = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
+data = {
+    "agent": None,
+    "depth": None,
+    "role": "user",
+    "response": query,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+}
+supabase.table("multiagent").insert(data).execute()
+send_prompt("main_agent", client, messages, query, tools, available_tools)
+
+
+
+
+messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
+You are allowed to make multiple calls (either together or in sequence). \
+Only look up information when you are sure of what you want. \
+If you need to look up some information before asking a follow up question, you are allowed to do that!")]
+query = "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file"
+data = {
+    "agent": None,
+    "depth": None,
+    "role": "user",
+    "response": query,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "input_cost": 0,
+    "output_cost": 0,
+    "total_cost": 0,
+}
+supabase.table("multiagent").insert(data).execute()
+send_prompt("main_agent", client, messages, query, tools, available_tools)
 
 
 # messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
