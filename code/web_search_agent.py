@@ -84,7 +84,7 @@ available_tools = {
             "multion_search": multion_search
         }
 
-def use_search_agent(query):
+def use_web_search_agent(query):
     messages = [Message(role="system",
                         content="You are a smart research assistant. Use the search engine to look up information.")]
     # send_prompt(messages, query)

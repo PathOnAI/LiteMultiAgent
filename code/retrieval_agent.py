@@ -1,97 +1,97 @@
 import logging
-from dotenv import load_dotenv, find_dotenv
+from dotenv import load_dotenv
 from openai import OpenAI
-from typing import List
+import subprocess
+from typing import Any
+from pydantic import BaseModel, validator
+import requests
 import os
-import shutil
+from multion.client import MultiOn
 import json
-_ = load_dotenv(find_dotenv()) 
+_ = load_dotenv()
+# logging.basicConfig(
+#     level=logging.INFO,
+#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+#     handlers=[
+#         logging.FileHandler("log.txt", mode="w"),
+#         logging.StreamHandler()
+#     ]
+# )
 
-from langchain.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.vectorstores import Chroma
+# Create a logger
+logger = logging.getLogger(__name__)
 
+from langchain_community.tools.tavily_search import TavilySearchResults
 from utils import *
 
+from web_search_agent import use_web_search_agent
+from db_retrieval_agent import use_db_retrieval_agent
 
-def retrieve(query:str, pdf_list: List[str], persist_directory: str = 'files/chroma/', db_overwrite: bool = True) -> List[str]:
-    # Load PDF
-    loaders = [PyPDFLoader(pdf) for pdf in pdf_list]
-    docs = []
-    for loader in loaders:
-        docs.extend(loader.load())
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size = 1500, chunk_overlap = 150
-        )
-    splits = text_splitter.split_documents(docs)
-    embedding = OpenAIEmbeddings()
-    if db_overwrite and os.path.exists("./" + persist_directory):
-        shutil.rmtree("./" + persist_directory)
-    vectordb = Chroma.from_documents(
-        documents=splits,
-        embedding=embedding,
-        persist_directory=persist_directory
-        )
-    search_results = vectordb.similarity_search(query,k=3)
-    return [r.page_content for r in search_results]
 
 tools = [
     {
         "type": "function",
         "function": {
-            "name": "retrieve",
-            "description": "Processes a list of PDFs based on a query and saves the results in the specified directory.",
+            "name": "use_web_search_agent",
+            "description": "Perform a search using API and return the searched results.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "query": {
                         "type": "string",
-                        "description": "The query string to use for processing."
-                    },
-                    "pdf_list": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "List of paths to PDF files."
-                    },
-                    "persist_directory": {
-                        "type": "string",
-                        "default": "files/chroma/",
-                        "description": "Directory where results will be saved. Defaults to 'files/chroma/'."
-                    },
-                    "db_overwrite": {
-                        "type": "boolean",
-                        "default": True,
-                        "description": "Whether to overwrite the existing database. Defaults to True."
+                        "description": "The task description describing what to read or write."
                     }
                 },
                 "required": [
-                    "query",
-                    "pdf_list"
+                    "query"
                 ]
             }
         }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "use_db_retrieval_agent",
+        "description": "Use a database retrieval agent to fetch information based on a given query.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "The query to be processed by the database retrieval agent."
+            }
+          },
+          "required": [
+            "query"
+          ]
+        }
+      }
     }
 ]
 
 client = OpenAI()
-available_tools = {
-    "retrieve": retrieve
-}
 
-def use_retrieve_agent(description:str) -> str:
+available_tools = {
+            "use_web_search_agent": use_web_search_agent,
+            "use_db_retrieval_agent": use_db_retrieval_agent,
+        }
+
+
+
+def use_retrieval_search_agent(query):
     messages = [Message(role="system",
-                        content="You will retrieve relevant information using retrieve tool given a user's input query")]
-    send_prompt("retrieve_agent", client, messages, description, tools, available_tools)
+                        content="You are a smart research assistant. Use the search engine to look up information.")]
+    # send_prompt(messages, query)
+    send_prompt("retrieval_agent", client, messages, query, tools, available_tools)
     return messages[-1].content
 
 
 def main():
-    response = use_retrieve_agent("what is transformer?")
-    print(response)
-    
+    messages = use_retrieval_search_agent("Fetch the UK's GDP over the past 5 years")
+    print(messages)
+    messages = use_retrieval_search_agent(
+        "use supabase database, users table, look up the email (column name: email) for name is danqing")
+    print(messages)
 
 if __name__ == "__main__":
     main()

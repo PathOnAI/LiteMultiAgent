@@ -36,9 +36,12 @@ logger = logging.getLogger(__name__)
 from utils import *
 
 
-from web_search_agent import use_search_agent
+# from web_search_agent import use_web_search_agent
 from io_agent import use_io_agent
 from exec_agent import use_exec_agent
+# from db_retrieval_agent import use_db_retrieval_agent
+from retrieval_agent import use_retrieval_search_agent
+# from login_agent import use_login_agent
 
 def scan_folder(folder_path, depth=2):
     ignore_patterns = [".*", "__pycache__"]
@@ -60,25 +63,6 @@ def scan_folder(folder_path, depth=2):
 
 
 tools = [
-    {
-        "type": "function",
-        "function": {
-            "name": "use_search_agent",
-            "description": "Perform a search using API and return the searched results.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "query": {
-                        "type": "string",
-                        "description": "The task description describing what to read or write."
-                    }
-                },
-                "required": [
-                    "query"
-                ]
-            }
-        }
-    },
     {
         "type": "function",
         "function": {
@@ -137,58 +121,98 @@ tools = [
             "return_type": "list: A list of file paths str with the given extension, or all files if no extension is specified."
         }
     },
+    {
+      "type": "function",
+      "function": {
+        "name": "use_retrieval_search_agent",
+        "description": "Use a smart research assistant to look up information using a search engine.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "The query to be processed by the retrieval search agent."
+            }
+          },
+          "required": [
+            "query"
+          ]
+        }
+      }
+    },
+    # {
+    #     "type": "function",
+    #     "function": {
+    #         "name": "use_login_agent",
+    #         "description": "Use a smart assistant to check whether login is successful.",
+    #         "parameters": {
+    #             "type": "object",
+    #             "properties": {
+    #                 "query": {
+    #                     "type": "string",
+    #                     "description": "The query or instruction for the login agent."
+    #                 }
+    #             },
+    #             "required": [
+    #                 "query"
+    #             ]
+    #         }
+    #     }
+    # },
 ]
 
 client = OpenAI()
 
 available_tools = {
             "scan_folder": scan_folder,
-            "use_search_agent": use_search_agent,
+            "use_retrieval_search_agent": use_retrieval_search_agent,
+            # "use_web_search_agent": use_web_search_agent,
             "use_io_agent": use_io_agent,
             "use_exec_agent": use_exec_agent,
+            # "use_db_retrieval_agent": use_db_retrieval_agent,
+            # "use_login_agent": use_login_agent,
         }
 
-# def save_messages_to_json(messages, filename="research_plot_messages.json"):
-#     # Create a list to store the formatted messages
-#     formatted_messages = []
+
+
+# messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
+# You are allowed to make multiple calls (either together or in sequence). \
+# Only look up information when you are sure of what you want. \
+# If you need to look up some information before asking a follow up question, you are allowed to do that!")]
 #
-#     for index, message in enumerate(messages):
-#         # Print the message info
-#         print(index, message, type(message))
+# query = "(1) please retrieve the information for me. use supabase database, users table, look up the email (column name: email) for name (column name: name) = danqing3, use retrieval tool, not exec tool, (2) update /Users/danqingzhang/Desktop/MultiAgent/code/email.txt file with retrived name and email address"
+# data = {
+#     "agent": None,
+#     "depth": None,
+#     "role": "user",
+#     "response": query,
+#     "prompt_tokens": 0,
+#     "completion_tokens": 0,
+# }
+# supabase.table("multiagent").insert(data).execute()
+# send_prompt("main_agent", client, messages, query, tools, available_tools)
 #
-#         # Format the message for JSON
-#         formatted_message = {
-#             "index": index,
-#             "message": str(message),  # Convert message to string in case it's not serializable
-#             "type": str(type(message))  # Convert type to string for JSON serialization
-#         }
-#         formatted_messages.append(formatted_message)
 #
-#     # Save the formatted messages to a JSON file
-#     with open(filename, 'w') as f:
-#         json.dump(formatted_messages, f, indent=2)
+# messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
+# You are allowed to make multiple calls (either together or in sequence). \
+# Only look up information when you are sure of what you want. \
+# If you need to look up some information before asking a follow up question, you are allowed to do that!")]
 #
-#     print(f"Messages saved to {filename}")
-
-
-messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
-You are allowed to make multiple calls (either together or in sequence). \
-Only look up information when you are sure of what you want. \
-If you need to look up some information before asking a follow up question, you are allowed to do that!")]
-
-query = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
-data = {
-    "agent": None,
-    "depth": None,
-    "role": "user",
-    "response": query,
-    "prompt_tokens": 0,
-    "completion_tokens": 0,
-}
-supabase.table("multiagent").insert(data).execute()
-
-send_prompt("main_agent", client, messages, query, tools, available_tools)
-
+# query = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
+# data = {
+#     "agent": None,
+#     "depth": None,
+#     "role": "user",
+#     "response": query,
+#     "prompt_tokens": 0,
+#     "completion_tokens": 0,
+# }
+# supabase.table("multiagent").insert(data).execute()
+# send_prompt("main_agent", client, messages, query, tools, available_tools)
+#
+#
+#
+#
 messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
 You are allowed to make multiple calls (either together or in sequence). \
 Only look up information when you are sure of what you want. \
@@ -201,6 +225,9 @@ data = {
     "response": query,
     "prompt_tokens": 0,
     "completion_tokens": 0,
+    "input_cost": 0,
+    "output_cost": 0,
+    "total_cost": 0,
 }
 supabase.table("multiagent").insert(data).execute()
 send_prompt("main_agent", client, messages, query, tools, available_tools)
@@ -210,6 +237,6 @@ send_prompt("main_agent", client, messages, query, tools, available_tools)
 # You are allowed to make multiple calls (either together or in sequence). \
 # Only look up information when you are sure of what you want. \
 # If you need to look up some information before asking a follow up question, you are allowed to do that!")]
-# query = "write a script to access local postgresql db, show all databases"
+# query = "db configs are in /Users/danqingzhang/Desktop/MultiAgent/.env file, write a python script to access local postgresql db to show all databases, and then execute the python script as well"
 # send_prompt("main_agent", client, messages, query, tools, available_tools)
 

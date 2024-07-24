@@ -1,9 +1,25 @@
-.DS_Store
+# Byte-compiled / optimized / DLL files
+__pycache__/
 .cache
-OAI_CONFIG_LIST
-__pycache__
-pyc
-venv
+
+# Environments
 .env
-.idea
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv*
+
+.DS_Store
+.idea/*
+
+# Keys
+OAI_CONFIG_LIST
+
+pyc
+
+process_message.py
+# database
+./code/files/chroma/*
 

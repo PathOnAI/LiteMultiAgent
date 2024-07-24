@@ -108,6 +108,31 @@ def process_tool_calls(tool_calls, available_tools):
 
     return tool_call_responses
 
+def extract_cost(response):
+    # Extract token usage
+    prompt_tokens = response.usage.prompt_tokens
+    completion_tokens = response.usage.completion_tokens
+    total_tokens = response.usage.total_tokens
+
+    # Pricing for gpt-4o-mini
+    input_price_per_1m = 0.150  # $0.150 per 1M tokens for input
+    output_price_per_1m = 0.600  # $0.600 per 1M tokens for output
+
+    # Calculate cost
+    input_cost = (prompt_tokens / 1_000_000) * input_price_per_1m
+    output_cost = (completion_tokens / 1_000_000) * output_price_per_1m
+    total_cost = input_cost + output_cost
+
+    return {
+        "prompt_tokens": prompt_tokens,
+        "completion_tokens": completion_tokens,
+        "total_tokens": total_tokens,
+        "input_cost": input_cost,
+        "output_cost": output_cost,
+        "total_cost": total_cost
+    }
+
+
 def send_completion_request(agent_name, client, messages: list, tools: list = None, available_tools: dict = None, depth: int = 0) -> dict:
     if depth >= 8:
         return None
@@ -126,6 +151,9 @@ def send_completion_request(agent_name, client, messages: list, tools: list = No
             "response": json.dumps(response.choices[0].message.model_dump()),
             "prompt_tokens": response.usage.prompt_tokens,
             "completion_tokens": response.usage.completion_tokens,
+            "input_cost": usage_dict["input_cost"],
+            "output_cost": usage_dict["output_cost"],
+            "total_cost": usage_dict["total_cost"],
         }
         supabase.table("multiagent").insert(data).execute()
         message = AssistantMessage(**response.choices[0].message.model_dump())
@@ -138,19 +166,7 @@ def send_completion_request(agent_name, client, messages: list, tools: list = No
     logger.info('agent: %s, prompt tokens: %s, completion tokens: %s', agent_name, str(response.usage.prompt_tokens), str(response.usage.completion_tokens))
     logger.info('agent: %s, depth: %s, response: %s', agent_name, depth, response)
     tool_calls = response.choices[0].message.tool_calls
-    if tool_calls is None:
-        data = {
-            "agent": agent_name,
-            "depth": depth,
-            "role": "assistant",
-            "response": json.dumps(response.choices[0].message.model_dump()),
-            "prompt_tokens": response.usage.prompt_tokens,
-            "completion_tokens": response.usage.completion_tokens,
-        }
-        supabase.table("multiagent").insert(data).execute()
-        message = AssistantMessage(**response.choices[0].message.model_dump())
-        messages.append(message)
-        return response
+    usage_dict = extract_cost(response)
 
     data = {
         "agent": agent_name,
@@ -159,8 +175,17 @@ def send_completion_request(agent_name, client, messages: list, tools: list = No
         "response": json.dumps(response.choices[0].message.model_dump()),
         "prompt_tokens": response.usage.prompt_tokens,
         "completion_tokens": response.usage.completion_tokens,
+        "input_cost": usage_dict["input_cost"],
+        "output_cost": usage_dict["output_cost"],
+        "total_cost": usage_dict["total_cost"],
     }
     supabase.table("multiagent").insert(data).execute()
+
+    if tool_calls is None:
+        message = AssistantMessage(**response.choices[0].message.model_dump())
+        messages.append(message)
+        return response
+
     tool_calls = [
         ToolCall(id=call.id, function=call.function, type=call.type)
         for call in response.choices[0].message.tool_calls
@@ -174,6 +199,7 @@ def send_completion_request(agent_name, client, messages: list, tools: list = No
     messages.append(tool_call_message)
     tool_responses = process_tool_calls(tool_calls, available_tools)
     messages.extend(tool_responses)
+
     return send_completion_request(agent_name, client, messages, tools, available_tools, depth + 1)
 
 def send_prompt(agent_name, client, messages, content: str, tools, available_tools):

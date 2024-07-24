@@ -1,6 +1,7 @@
 # MultiAgent
 repo owner: Danni (Danqing) Zhang (danqing.zhang.personal@gmail.com)
 
+![design.png](design.png)
 
 ## 07/22, Monday
 * multi-agent design
