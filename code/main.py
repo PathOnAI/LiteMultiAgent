@@ -186,8 +186,10 @@ data = {
     "completion_tokens": 0,
 }
 supabase.table("multiagent").insert(data).execute()
-
 send_prompt("main_agent", client, messages, query, tools, available_tools)
+
+
+
 
 messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
 You are allowed to make multiple calls (either together or in sequence). \
@@ -201,6 +203,9 @@ data = {
     "response": query,
     "prompt_tokens": 0,
     "completion_tokens": 0,
+    "input_cost": 0,
+    "output_cost": 0,
+    "total_cost": 0,
 }
 supabase.table("multiagent").insert(data).execute()
 send_prompt("main_agent", client, messages, query, tools, available_tools)
