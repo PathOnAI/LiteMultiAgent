@@ -182,6 +182,8 @@ data = {
     "depth": None,
     "role": "user",
     "response": query,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
 }
 supabase.table("multiagent").insert(data).execute()
 
@@ -197,6 +199,8 @@ data = {
     "depth": None,
     "role": "user",
     "response": query,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
 }
 supabase.table("multiagent").insert(data).execute()
 send_prompt("main_agent", client, messages, query, tools, available_tools)

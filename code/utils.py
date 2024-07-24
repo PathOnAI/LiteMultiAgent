@@ -94,13 +94,14 @@ def process_tool_calls(tool_calls, available_tools):
 
         try:
             function_response = function_to_call(**function_args)
-            logger.info('function name: %s, function args: %s, function response: %s', function_name, function_args, function_response)
+            logger.info('function name: %s, function args: %s', function_name, function_args)
             tool_response_message = ToolResponseMessage(
                 tool_call_id=tool_call_id,
                 role="tool",
                 name=function_name,
                 content=str(function_response),
             )
+            logger.info('function name: %s, function response %s', function_name, str(function_response))
             tool_call_responses.append(tool_response_message)
         except Exception as e:
             logger.error(f"Error while calling function <{function_name}>: {e}")
@@ -113,14 +114,18 @@ def send_completion_request(agent_name, client, messages: list, tools: list = No
 
     if tools is None:
         response = client.chat.completions.create(
-            model="gpt-4o", messages=messages
+            model="gpt-4o-mini", messages=messages
         )
+        logger.info('agent: %s, prompt tokens: %s, completion tokens: %s', agent_name,
+                    str(response.usage.prompt_tokens), str(response.usage.completion_tokens))
         logger.info('agent: %s, depth: %s, response: %s', agent_name, depth, response)
         data = {
             "agent": agent_name,
             "depth": depth,
             "role": "assistant",
             "response": json.dumps(response.choices[0].message.model_dump()),
+            "prompt_tokens": response.usage.prompt_tokens,
+            "completion_tokens": response.usage.completion_tokens,
         }
         supabase.table("multiagent").insert(data).execute()
         message = AssistantMessage(**response.choices[0].message.model_dump())
@@ -128,29 +133,32 @@ def send_completion_request(agent_name, client, messages: list, tools: list = No
         return response
 
     response = client.chat.completions.create(
-        model="gpt-4o", messages=messages, tools=tools, tool_choice="auto"
+        model="gpt-4o-mini", messages=messages, tools=tools, tool_choice="auto"
     )
-
+    logger.info('agent: %s, prompt tokens: %s, completion tokens: %s', agent_name, str(response.usage.prompt_tokens), str(response.usage.completion_tokens))
+    logger.info('agent: %s, depth: %s, response: %s', agent_name, depth, response)
     tool_calls = response.choices[0].message.tool_calls
     if tool_calls is None:
-        logger.info('agent: %s, depth: %s, response: %s', agent_name, depth, response)
         data = {
             "agent": agent_name,
             "depth": depth,
             "role": "assistant",
             "response": json.dumps(response.choices[0].message.model_dump()),
+            "prompt_tokens": response.usage.prompt_tokens,
+            "completion_tokens": response.usage.completion_tokens,
         }
         supabase.table("multiagent").insert(data).execute()
         message = AssistantMessage(**response.choices[0].message.model_dump())
         messages.append(message)
         return response
 
-    logger.info('agent: %s, depth: %s, response: %s', agent_name, depth, response)
     data = {
         "agent": agent_name,
         "depth": depth,
         "role": "assistant",
         "response": json.dumps(response.choices[0].message.model_dump()),
+        "prompt_tokens": response.usage.prompt_tokens,
+        "completion_tokens": response.usage.completion_tokens,
     }
     supabase.table("multiagent").insert(data).execute()
     tool_calls = [
