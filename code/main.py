@@ -41,6 +41,7 @@ from io_agent import use_io_agent
 from exec_agent import use_exec_agent
 # from db_retrieval_agent import use_db_retrieval_agent
 from retrieval_agent import use_retrieval_search_agent
+from login_agent import use_login_agent
 
 def scan_folder(folder_path, depth=2):
     ignore_patterns = [".*", "__pycache__"]
@@ -138,7 +139,26 @@ tools = [
           ]
         }
       }
-    }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "use_login_agent",
+            "description": "Use a smart assistant to check whether login is successful.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "The query or instruction for the login agent."
+                    }
+                },
+                "required": [
+                    "query"
+                ]
+            }
+        }
+    },
 ]
 
 client = OpenAI()
@@ -150,48 +170,49 @@ available_tools = {
             "use_io_agent": use_io_agent,
             "use_exec_agent": use_exec_agent,
             # "use_db_retrieval_agent": use_db_retrieval_agent,
+            "use_login_agent": use_login_agent,
         }
 
 
 
-messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
-You are allowed to make multiple calls (either together or in sequence). \
-Only look up information when you are sure of what you want. \
-If you need to look up some information before asking a follow up question, you are allowed to do that!")]
-
-query = "(1) use supabase database, users table, look up the email (column name: email) for name (column name: name) = danqing3, (2) update /Users/danqingzhang/Desktop/MultiAgent/code/email.txt file with retrived name and email address"
-data = {
-    "agent": None,
-    "depth": None,
-    "role": "user",
-    "response": query,
-    "prompt_tokens": 0,
-    "completion_tokens": 0,
-}
-supabase.table("multiagent").insert(data).execute()
-send_prompt("main_agent", client, messages, query, tools, available_tools)
-
-
-messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
-You are allowed to make multiple calls (either together or in sequence). \
-Only look up information when you are sure of what you want. \
-If you need to look up some information before asking a follow up question, you are allowed to do that!")]
-
-query = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
-data = {
-    "agent": None,
-    "depth": None,
-    "role": "user",
-    "response": query,
-    "prompt_tokens": 0,
-    "completion_tokens": 0,
-}
-supabase.table("multiagent").insert(data).execute()
-send_prompt("main_agent", client, messages, query, tools, available_tools)
-
-
-
-
+# messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
+# You are allowed to make multiple calls (either together or in sequence). \
+# Only look up information when you are sure of what you want. \
+# If you need to look up some information before asking a follow up question, you are allowed to do that!")]
+#
+# query = "(1) please retrieve the information for me. use supabase database, users table, look up the email (column name: email) for name (column name: name) = danqing3, use retrieval tool, not exec tool, (2) update /Users/danqingzhang/Desktop/MultiAgent/code/email.txt file with retrived name and email address"
+# data = {
+#     "agent": None,
+#     "depth": None,
+#     "role": "user",
+#     "response": query,
+#     "prompt_tokens": 0,
+#     "completion_tokens": 0,
+# }
+# supabase.table("multiagent").insert(data).execute()
+# send_prompt("main_agent", client, messages, query, tools, available_tools)
+#
+#
+# messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
+# You are allowed to make multiple calls (either together or in sequence). \
+# Only look up information when you are sure of what you want. \
+# If you need to look up some information before asking a follow up question, you are allowed to do that!")]
+#
+# query = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
+# data = {
+#     "agent": None,
+#     "depth": None,
+#     "role": "user",
+#     "response": query,
+#     "prompt_tokens": 0,
+#     "completion_tokens": 0,
+# }
+# supabase.table("multiagent").insert(data).execute()
+# send_prompt("main_agent", client, messages, query, tools, available_tools)
+#
+#
+#
+#
 messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
 You are allowed to make multiple calls (either together or in sequence). \
 Only look up information when you are sure of what you want. \
@@ -216,6 +237,6 @@ send_prompt("main_agent", client, messages, query, tools, available_tools)
 # You are allowed to make multiple calls (either together or in sequence). \
 # Only look up information when you are sure of what you want. \
 # If you need to look up some information before asking a follow up question, you are allowed to do that!")]
-# query = "write a script to access local postgresql db, show all databases"
+# query = "db configs are in /Users/danqingzhang/Desktop/MultiAgent/.env file, write a python script to access local postgresql db to show all databases, and then execute the python script as well"
 # send_prompt("main_agent", client, messages, query, tools, available_tools)
 
