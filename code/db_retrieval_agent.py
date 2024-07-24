@@ -13,16 +13,6 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.exc import SQLAlchemyError
 from supabase import create_client, Client
 from utils import *
-
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler("log.txt", mode="w"),
-        logging.StreamHandler()
-    ]
-)
-
 # Create a logger
 logger = logging.getLogger(__name__)
 

@@ -39,6 +39,7 @@ from utils import *
 from web_search_agent import use_search_agent
 from io_agent import use_io_agent
 from exec_agent import use_exec_agent
+from db_retrieval_agent import use_db_retrieval_agent
 
 def scan_folder(folder_path, depth=2):
     ignore_patterns = [".*", "__pycache__"]
@@ -137,6 +138,25 @@ tools = [
             "return_type": "list: A list of file paths str with the given extension, or all files if no extension is specified."
         }
     },
+    {
+      "type": "function",
+      "function": {
+        "name": "use_db_retrieval_agent",
+        "description": "Use a database retrieval agent to fetch information based on a given query.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "The query to be processed by the database retrieval agent."
+            }
+          },
+          "required": [
+            "query"
+          ]
+        }
+      }
+    }
 ]
 
 client = OpenAI()
@@ -146,29 +166,9 @@ available_tools = {
             "use_search_agent": use_search_agent,
             "use_io_agent": use_io_agent,
             "use_exec_agent": use_exec_agent,
+            "use_db_retrieval_agent": use_db_retrieval_agent,
         }
 
-# def save_messages_to_json(messages, filename="research_plot_messages.json"):
-#     # Create a list to store the formatted messages
-#     formatted_messages = []
-#
-#     for index, message in enumerate(messages):
-#         # Print the message info
-#         print(index, message, type(message))
-#
-#         # Format the message for JSON
-#         formatted_message = {
-#             "index": index,
-#             "message": str(message),  # Convert message to string in case it's not serializable
-#             "type": str(type(message))  # Convert type to string for JSON serialization
-#         }
-#         formatted_messages.append(formatted_message)
-#
-#     # Save the formatted messages to a JSON file
-#     with open(filename, 'w') as f:
-#         json.dump(formatted_messages, f, indent=2)
-#
-#     print(f"Messages saved to {filename}")
 
 
 messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
@@ -176,7 +176,7 @@ You are allowed to make multiple calls (either together or in sequence). \
 Only look up information when you are sure of what you want. \
 If you need to look up some information before asking a follow up question, you are allowed to do that!")]
 
-query = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
+query = "(1) use supabase database, users table, look up the email (column name: email) for name (column name: name) = danqing3, (2) update /Users/danqingzhang/Desktop/MultiAgent/code/email.txt file with retrived name and email address"
 data = {
     "agent": None,
     "depth": None,
@@ -189,26 +189,44 @@ supabase.table("multiagent").insert(data).execute()
 send_prompt("main_agent", client, messages, query, tools, available_tools)
 
 
-
-
-messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
-You are allowed to make multiple calls (either together or in sequence). \
-Only look up information when you are sure of what you want. \
-If you need to look up some information before asking a follow up question, you are allowed to do that!")]
-query = "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file"
-data = {
-    "agent": None,
-    "depth": None,
-    "role": "user",
-    "response": query,
-    "prompt_tokens": 0,
-    "completion_tokens": 0,
-    "input_cost": 0,
-    "output_cost": 0,
-    "total_cost": 0,
-}
-supabase.table("multiagent").insert(data).execute()
-send_prompt("main_agent", client, messages, query, tools, available_tools)
+# messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
+# You are allowed to make multiple calls (either together or in sequence). \
+# Only look up information when you are sure of what you want. \
+# If you need to look up some information before asking a follow up question, you are allowed to do that!")]
+#
+# query = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
+# data = {
+#     "agent": None,
+#     "depth": None,
+#     "role": "user",
+#     "response": query,
+#     "prompt_tokens": 0,
+#     "completion_tokens": 0,
+# }
+# supabase.table("multiagent").insert(data).execute()
+# send_prompt("main_agent", client, messages, query, tools, available_tools)
+#
+#
+#
+#
+# messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
+# You are allowed to make multiple calls (either together or in sequence). \
+# Only look up information when you are sure of what you want. \
+# If you need to look up some information before asking a follow up question, you are allowed to do that!")]
+# query = "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file"
+# data = {
+#     "agent": None,
+#     "depth": None,
+#     "role": "user",
+#     "response": query,
+#     "prompt_tokens": 0,
+#     "completion_tokens": 0,
+#     "input_cost": 0,
+#     "output_cost": 0,
+#     "total_cost": 0,
+# }
+# supabase.table("multiagent").insert(data).execute()
+# send_prompt("main_agent", client, messages, query, tools, available_tools)
 
 
 # messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
