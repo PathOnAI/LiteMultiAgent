@@ -41,7 +41,7 @@ from io_agent import use_io_agent
 from exec_agent import use_exec_agent
 # from db_retrieval_agent import use_db_retrieval_agent
 from retrieval_agent import use_retrieval_search_agent
-from login_agent import use_login_agent
+# from login_agent import use_login_agent
 
 def scan_folder(folder_path, depth=2):
     ignore_patterns = [".*", "__pycache__"]
@@ -140,25 +140,25 @@ tools = [
         }
       }
     },
-    {
-        "type": "function",
-        "function": {
-            "name": "use_login_agent",
-            "description": "Use a smart assistant to check whether login is successful.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "query": {
-                        "type": "string",
-                        "description": "The query or instruction for the login agent."
-                    }
-                },
-                "required": [
-                    "query"
-                ]
-            }
-        }
-    },
+    # {
+    #     "type": "function",
+    #     "function": {
+    #         "name": "use_login_agent",
+    #         "description": "Use a smart assistant to check whether login is successful.",
+    #         "parameters": {
+    #             "type": "object",
+    #             "properties": {
+    #                 "query": {
+    #                     "type": "string",
+    #                     "description": "The query or instruction for the login agent."
+    #                 }
+    #             },
+    #             "required": [
+    #                 "query"
+    #             ]
+    #         }
+    #     }
+    # },
 ]
 
 client = OpenAI()
@@ -170,7 +170,7 @@ available_tools = {
             "use_io_agent": use_io_agent,
             "use_exec_agent": use_exec_agent,
             # "use_db_retrieval_agent": use_db_retrieval_agent,
-            "use_login_agent": use_login_agent,
+            # "use_login_agent": use_login_agent,
         }
 
 
