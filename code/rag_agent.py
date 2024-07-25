@@ -40,39 +40,37 @@ def retrieve(query:str, pdf_list: List[str], persist_directory: str = 'files/chr
 tools = [
     {
         "type": "function",
-        "function": {
-            "name": "retrieve",
-            "description": "Processes a list of PDFs based on a query and saves the results in the specified directory.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "query": {
-                        "type": "string",
-                        "description": "The query string to use for processing."
-                    },
-                    "pdf_list": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "List of paths to PDF files."
-                    },
-                    "persist_directory": {
-                        "type": "string",
-                        "default": "files/chroma/",
-                        "description": "Directory where results will be saved. Defaults to 'files/chroma/'."
-                    },
-                    "db_overwrite": {
-                        "type": "boolean",
-                        "default": True,
-                        "description": "Whether to overwrite the existing database. Defaults to True."
-                    }
+        "name": "retrieve",
+        "description": "Processes a list of PDFs based on a query and saves the results in the specified directory.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "The query string to use for processing."
                 },
-                "required": [
-                    "query",
-                    "pdf_list"
-                ]
-            }
+                "pdf_list": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of paths to PDF files."
+                },
+                "persist_directory": {
+                    "type": "string",
+                    "default": "files/chroma/",
+                    "description": "Directory where results will be saved. Defaults to 'files/chroma/'."
+                },
+                "db_overwrite": {
+                    "type": "boolean",
+                    "default": True,
+                    "description": "Whether to overwrite the existing database. Defaults to True."
+                }
+            },
+            "required": [
+                "query",
+                "pdf_list"
+            ]
         }
     }
 ]
