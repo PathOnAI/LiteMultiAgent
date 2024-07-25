@@ -67,7 +67,7 @@ tools = [
         "type": "function",
         "function": {
             "name": "use_io_agent",
-            "description": "read or write some content from or to a file",
+            "description": "read or write some content from or to a file or an image",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -161,11 +161,17 @@ tools = [
     # },
 ]
 
-# client = OpenAI()
-client = OpenAI(
-  base_url="https://openrouter.ai/api/v1",
-  api_key=os.getenv("OPENROUTER_API_KEY"),
-)
+from config import agent_to_model
+
+agent_name = "main_agent"
+model_name = agent_to_model[agent_name]["model_name"]
+if 'gpt' in model_name:
+    client = OpenAI()
+else:
+    client = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=os.getenv("OPENROUTER_API_KEY"),
+    )
 
 available_tools = {
             "scan_folder": scan_folder,
@@ -221,7 +227,22 @@ messages = [Message(role="system", content="You are a smart research assistant. 
 You are allowed to make multiple calls (either together or in sequence). \
 Only look up information when you are sure of what you want. \
 If you need to look up some information before asking a follow up question, you are allowed to do that!")]
-query = "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file"
+# query = "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file"
+# data = {
+#     "agent": None,
+#     "depth": None,
+#     "role": "user",
+#     "response": query,
+#     "prompt_tokens": 0,
+#     "completion_tokens": 0,
+#     "input_cost": 0,
+#     "output_cost": 0,
+#     "total_cost": 0,
+# }
+# supabase.table("multiagent").insert(data).execute()
+# send_prompt("main_agent", client, messages, query, tools, available_tools)
+
+query = "generate a image of a ginger cat and save it as ginger_cat.png"
 data = {
     "agent": None,
     "depth": None,

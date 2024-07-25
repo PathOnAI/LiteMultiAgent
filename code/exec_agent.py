@@ -82,11 +82,17 @@ tools = [
     }
 ]
 
-# client = OpenAI()
-client = OpenAI(
-  base_url="https://openrouter.ai/api/v1",
-  api_key=os.getenv("OPENROUTER_API_KEY"),
-)
+from config import agent_to_model
+agent_name = "exec_agent"
+model_name = agent_to_model[agent_name]["model_name"]
+if 'gpt' in model_name:
+    client = OpenAI()
+else:
+    client = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=os.getenv("OPENROUTER_API_KEY"),
+    )
+
 available_tools = {
             "run_python_script": run_python_script,
             "execute_shell_command": execute_shell_command,

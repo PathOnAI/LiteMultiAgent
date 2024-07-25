@@ -4,7 +4,19 @@ from dotenv import load_dotenv
 import json
 _ = load_dotenv()
 
-_ = load_dotenv()
+import logging
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("log.txt", mode="w"),
+        logging.StreamHandler()
+    ]
+)
+
+# Create a logger
+logger = logging.getLogger(__name__)
 
 
 # gets API Key from environment variable OPENAI_API_KEY
@@ -13,7 +25,9 @@ client = OpenAI(
   api_key=os.getenv("OPENROUTER_API_KEY"),
 )
 
-models = ["openai/gpt-4o-mini", "google/gemini-flash-1.5", "meta-llama/llama-3.1-8b-instruct:free"]
+# "anthropic/claude-3.5-sonnet",
+# "meta-llama/llama-3.1-8b-instruct:free"
+models = ["openai/gpt-4o-mini", "google/gemini-flash-1.5"]
 
 for model in models:
     completion = client.chat.completions.create(
@@ -26,5 +40,6 @@ for model in models:
       ],
     )
     print(model)
+    print(completion)
     print(completion.choices[0].message.content)
 
