@@ -6,6 +6,7 @@ repo owner: Danni (Danqing) Zhang (danqing.zhang.personal@gmail.com)
 ## 0724, Wednesday
 * use llamaindex or langchain to support different llm
 * use openai to call other llm
+  * https://openrouter.ai/docs/quick-start
 
 ## 07/22, Monday
 * multi-agent design
