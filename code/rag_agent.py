@@ -40,37 +40,39 @@ def retrieve(query:str, pdf_list: List[str], persist_directory: str = 'files/chr
 tools = [
     {
         "type": "function",
-        "name": "retrieve",
-        "description": "Processes a list of PDFs based on a query and saves the results in the specified directory.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "query": {
-                    "type": "string",
-                    "description": "The query string to use for processing."
-                },
-                "pdf_list": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
+        "function": {
+            "name": "retrieve",
+            "description": "Processes a list of PDFs based on a query and saves the results in the specified directory.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "The query string to use for processing."
                     },
-                    "description": "List of paths to PDF files."
+                    "pdf_list": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of paths to PDF files."
+                    },
+                    "persist_directory": {
+                        "type": "string",
+                        "default": "files/chroma/",
+                        "description": "Directory where results will be saved. Defaults to 'files/chroma/'."
+                    },
+                    "db_overwrite": {
+                        "type": "boolean",
+                        "default": True,
+                        "description": "Whether to overwrite the existing database. Defaults to True."
+                    }
                 },
-                "persist_directory": {
-                    "type": "string",
-                    "default": "files/chroma/",
-                    "description": "Directory where results will be saved. Defaults to 'files/chroma/'."
-                },
-                "db_overwrite": {
-                    "type": "boolean",
-                    "default": True,
-                    "description": "Whether to overwrite the existing database. Defaults to True."
-                }
-            },
-            "required": [
-                "query",
-                "pdf_list"
-            ]
+                "required": [
+                    "query",
+                    "pdf_list"
+                ]
+            }
         }
     }
 ]
@@ -82,7 +84,7 @@ available_tools = {
 
 def use_retrieve_agent(query):
     messages = [Message(role="system",
-                        content="You are a smart assistant and you will retrieve information from local document to answer questions or perform tasks.")]
+                        content="You are a smart assistant and you will retrieve information from local document in ./files/attention.pdf to answer questions or perform tasks.")]
     send_prompt("rag_agent", client, messages, query, tools, available_tools)
     return messages[-1].content
 
