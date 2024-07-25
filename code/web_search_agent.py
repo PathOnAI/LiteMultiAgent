@@ -78,7 +78,11 @@ tools = [
     },
 ]
 
-client = OpenAI()
+# client = OpenAI()
+client = OpenAI(
+  base_url="https://openrouter.ai/api/v1",
+  api_key=os.getenv("OPENROUTER_API_KEY"),
+)
 available_tools = {
             "tavily_search": tavily_search,
             "multion_search": multion_search
@@ -88,7 +92,7 @@ def use_web_search_agent(query):
     messages = [Message(role="system",
                         content="You are a smart research assistant. Use the search engine to look up information.")]
     # send_prompt(messages, query)
-    send_prompt("search_agent", client, messages, query, tools, available_tools)
+    send_prompt("web_search_agent", client, messages, query, tools, available_tools)
     return messages[-1].content
 
 

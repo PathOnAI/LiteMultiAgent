@@ -23,6 +23,7 @@ import os
 from dotenv import load_dotenv,find_dotenv
 load_dotenv(find_dotenv())
 from supabase import create_client, Client
+from config import agent_to_model
 
 
 
@@ -30,7 +31,6 @@ url = os.getenv("SUPABASE_URL")
 key = os.getenv("SUPABASE_ANON_KEY")
 
 supabase: Client = create_client(url, key)
-
 
 
 class Function(BaseModel):
@@ -136,10 +136,11 @@ def extract_cost(response):
 def send_completion_request(agent_name, client, messages: list, tools: list = None, available_tools: dict = None, depth: int = 0) -> dict:
     if depth >= 8:
         return None
-
+    model_name = agent_to_model[agent_name]["model_name"]
+    tool_choice = agent_to_model[agent_name]["tool_choice"]
     if tools is None:
         response = client.chat.completions.create(
-            model="gpt-4o-mini", messages=messages
+            model=model_name, messages=messages
         )
         logger.info('agent: %s, prompt tokens: %s, completion tokens: %s', agent_name,
                     str(response.usage.prompt_tokens), str(response.usage.completion_tokens))
@@ -161,8 +162,9 @@ def send_completion_request(agent_name, client, messages: list, tools: list = No
         return response
 
     response = client.chat.completions.create(
-        model="gpt-4o-mini", messages=messages, tools=tools, tool_choice="auto"
+        model=model_name, messages=messages, tools=tools, tool_choice=tool_choice
     )
+
     logger.info('agent: %s, prompt tokens: %s, completion tokens: %s', agent_name, str(response.usage.prompt_tokens), str(response.usage.completion_tokens))
     logger.info('agent: %s, depth: %s, response: %s', agent_name, depth, response)
     tool_calls = response.choices[0].message.tool_calls
