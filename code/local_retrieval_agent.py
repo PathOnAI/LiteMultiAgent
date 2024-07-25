@@ -22,7 +22,8 @@ def retrieve(query:str, pdf_list: List[str], persist_directory: str = 'files/chr
     for loader in loaders:
         docs.extend(loader.load())
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size = 1500, chunk_overlap = 150
+        separators=["\n\n","\n"],
+        chunk_size = 200, chunk_overlap = 150
         )
     splits = text_splitter.split_documents(docs)
     embedding = OpenAIEmbeddings()
@@ -81,10 +82,10 @@ available_tools = {
     "retrieve": retrieve
 }
 
-def use_retrieve_agent(description:str) -> str:
+def use_retrieve_agent(query:str) -> str:
     messages = [Message(role="system",
-                        content="You will retrieve relevant information using retrieve tool given a user's input query")]
-    send_prompt("retrieve_agent", client, messages, description, tools, available_tools)
+                        content="You are a smart assistant, you retrieve information from local document")]
+    send_prompt("local_retrieval_agent", client, messages, query, tools, available_tools)
     return messages[-1].content
 
 
