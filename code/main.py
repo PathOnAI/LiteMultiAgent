@@ -67,17 +67,17 @@ tools = [
         "type": "function",
         "function": {
             "name": "use_io_agent",
-            "description": "read or write some content from or to a file or an image",
+            "description": "Read or write content from/to a file, or generate and save an image",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "description": {
                         "type": "string",
-                        "description": "The task description describing what to read or write."
+                        "description": "The task description detailing what to read, write, or generate. This can include file operations or image generation requests."
                     }
                 },
                 "required": [
-                    "query"
+                    "description"
                 ]
             }
         }
