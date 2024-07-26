@@ -21,7 +21,9 @@ import os
 from dotenv import load_dotenv,find_dotenv
 load_dotenv(find_dotenv())
 from supabase import create_client, Client
-from config import agent_to_model
+from config import agent_to_model, function_calling_config
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 
 
 
@@ -31,28 +33,54 @@ key = os.getenv("SUPABASE_ANON_KEY")
 supabase: Client = create_client(url, key)
 
 
+import json
+import logging
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+logger = logging.getLogger(__name__)
+
+
+def process_single_tool_call(tool_call, available_tools):
+    tool_call_id = tool_call["id"]
+    function_name = tool_call["function"]["name"]
+    function_args = json.loads(tool_call["function"]["arguments"])
+
+    function_to_call = available_tools.get(function_name)
+
+    try:
+        function_response = function_to_call(**function_args)
+        logger.info('function name: %s, function args: %s', function_name, function_args)
+        tool_response_message = {
+            "tool_call_id": tool_call_id,
+            "role": "tool",
+            "name": function_name,
+            "content": str(function_response)
+        }
+        logger.info('function name: %s, function response %s', function_name, str(function_response))
+        return tool_response_message
+    except Exception as e:
+        logger.error(f"Error while calling function <{function_name}>: {e}")
+        return None
+
 
 def process_tool_calls(tool_calls, available_tools):
     tool_call_responses = []
     logger.info("Number of function calls: %i", len(tool_calls))
-    for tool_call in tool_calls:
-        tool_call_id = tool_call["id"]
-        function_name = tool_call["function"]["name"]
-        function_args = json.loads(tool_call["function"]["arguments"])
 
-        function_to_call = available_tools.get(function_name)
+    if function_calling_config.use_parallel:
+        with ThreadPoolExecutor(max_workers=function_calling_config.max_workers) as executor:
+            future_to_tool_call = {executor.submit(process_single_tool_call, tool_call, available_tools): tool_call for
+                                   tool_call in tool_calls}
 
-        try:
-            function_response = function_to_call(**function_args)
-            logger.info('function name: %s, function args: %s', function_name, function_args)
-            tool_response_message = {"tool_call_id": tool_call_id,
-                                     "role": "tool",
-                                     "name": function_name,
-                                     "content": str(function_response)}
-            logger.info('function name: %s, function response %s', function_name, str(function_response))
-            tool_call_responses.append(tool_response_message)
-        except Exception as e:
-            logger.error(f"Error while calling function <{function_name}>: {e}")
+            for future in as_completed(future_to_tool_call):
+                result = future.result()
+                if result:
+                    tool_call_responses.append(result)
+    else:
+        for tool_call in tool_calls:
+            result = process_single_tool_call(tool_call, available_tools)
+            if result:
+                tool_call_responses.append(result)
 
     return tool_call_responses
 

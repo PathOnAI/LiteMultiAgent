@@ -33,3 +33,12 @@ agent_to_model = {
             "tool_choice" : "auto",
          },
 }
+
+
+class Config:
+    def __init__(self):
+        self.use_parallel = False
+        self.max_workers = None
+
+# Create a global configuration object
+function_calling_config = Config()

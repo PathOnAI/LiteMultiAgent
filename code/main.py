@@ -11,6 +11,7 @@ import os
 import json
 _ = load_dotenv()
 from supabase import create_client, Client
+import time
 
 
 
@@ -156,9 +157,11 @@ available_tools = {
 
 
 queries = [
-    "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file",
-    "generate a image of a ginger cat and save it as ginger_cat.png",
-    "search information in /Users/danqingzhang/Desktop/MultiAgent/code/files/attention.pdf and answer the question: what is transformer?"
+    "write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt",
+    "browse google.com to check the brands of dining table and generate a image of a ginger cat and save it as ginger_cat.png"
+    # "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file",
+    # "generate a image of a ginger cat and save it as ginger_cat.png",
+    # "search information in /Users/danqingzhang/Desktop/MultiAgent/code/files/attention.pdf and answer the question: what is transformer?"
 ]
 
 for query in queries:
@@ -166,18 +169,17 @@ for query in queries:
     You are allowed to make multiple calls (either together or in sequence). \
     Only look up information when you are sure of what you want. \
     If you need to look up some information before asking a follow up question, you are allowed to do that!"}]
-    data = {
-        "agent": None,
-        "depth": None,
-        "role": "user",
-        "response": query,
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
-        "input_cost": 0,
-        "output_cost": 0,
-        "total_cost": 0,
-        "model_name": model_name
-    }
-    supabase.table("multiagent").insert(data).execute()
+
+    start_time = time.time()
+
+    # Execute the function
     send_prompt("main_agent", messages, query, tools, available_tools)
+
+    # Stop the timer
+    end_time = time.time()
+
+    # Calculate the elapsed time
+    elapsed_time = end_time - start_time
+
+    print(f"Agent execution time: {elapsed_time} seconds")
 
