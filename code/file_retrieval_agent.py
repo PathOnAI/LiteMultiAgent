@@ -15,15 +15,15 @@ from langchain.vectorstores import Chroma
 from utils import *
 
 
-# # Configure logging
-# logging.basicConfig(
-#     level=logging.INFO,
-#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-#     handlers=[
-#         logging.FileHandler("log.txt", mode="w"),
-#         logging.StreamHandler()
-#     ]
-# )
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("log.txt", mode="w"),
+        logging.StreamHandler()
+    ]
+)
 
 # Create a logger
 logger = logging.getLogger(__name__)
@@ -91,13 +91,13 @@ tools = [
 from config import agent_to_model
 agent_name = "file_retrieve_agent"
 model_name = agent_to_model[agent_name]["model_name"]
-if 'gpt' in model_name:
-    client = OpenAI()
-else:
-    client = OpenAI(
-        base_url="https://openrouter.ai/api/v1",
-        api_key=os.getenv("OPENROUTER_API_KEY"),
-    )
+# if 'gpt' in model_name:
+#     client = OpenAI()
+# else:
+#     client = OpenAI(
+#         base_url="https://openrouter.ai/api/v1",
+#         api_key=os.getenv("OPENROUTER_API_KEY"),
+#     )
 available_tools = {
     "retrieve_file": retrieve_file
 }
@@ -105,7 +105,7 @@ available_tools = {
 def use_file_retrieve_agent(query):
     messages = [Message(role="system",
                         content="You are a smart assistant and you will retrieve information from local document to answer questions or perform tasks.")]
-    send_prompt("file_retrieve_agent", client, messages, query, tools, available_tools)
+    send_prompt("file_retrieve_agent", messages, query, tools, available_tools)
     return messages[-1].content
 
 

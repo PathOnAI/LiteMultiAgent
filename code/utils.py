@@ -12,6 +12,7 @@ import os
 import json
 # Initialize logging
 import logging
+from litellm import completion
 # Get a logger for this module
 logger = logging.getLogger(__name__)
 
@@ -132,14 +133,13 @@ def extract_cost(response):
         "total_cost": total_cost
     }
 
-
-def send_completion_request(agent_name, client, messages: list, tools: list = None, available_tools: dict = None, depth: int = 0) -> dict:
+def send_completion_request(agent_name, messages: list, tools: list = None, available_tools: dict = None, depth: int = 0) -> dict:
     if depth >= 8:
         return None
     model_name = agent_to_model[agent_name]["model_name"]
     tool_choice = agent_to_model[agent_name]["tool_choice"]
     if tools is None:
-        response = client.chat.completions.create(
+        response = completion(
             model=model_name, messages=messages
         )
         logger.info('agent: %s, prompt tokens: %s, completion tokens: %s', agent_name,
@@ -161,7 +161,9 @@ def send_completion_request(agent_name, client, messages: list, tools: list = No
         messages.append(message)
         return response
 
-    response = client.chat.completions.create(
+
+
+    response = completion(
         model=model_name, messages=messages, tools=tools, tool_choice=tool_choice
     )
 
@@ -202,8 +204,8 @@ def send_completion_request(agent_name, client, messages: list, tools: list = No
     tool_responses = process_tool_calls(tool_calls, available_tools)
     messages.extend(tool_responses)
 
-    return send_completion_request(agent_name, client, messages, tools, available_tools, depth + 1)
+    return send_completion_request(agent_name, messages, tools, available_tools, depth + 1)
 
-def send_prompt(agent_name, client, messages, content: str, tools, available_tools):
+def send_prompt(agent_name, messages, content: str, tools, available_tools):
     messages.append(Message(role="user", content=content))
-    return send_completion_request(agent_name, client, messages, tools, available_tools, 0)
+    return send_completion_request(agent_name,  messages, tools, available_tools, 0)

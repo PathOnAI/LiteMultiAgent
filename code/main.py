@@ -146,13 +146,13 @@ from config import agent_to_model
 
 agent_name = "main_agent"
 model_name = agent_to_model[agent_name]["model_name"]
-if 'gpt' in model_name:
-    client = OpenAI()
-else:
-    client = OpenAI(
-        base_url="https://openrouter.ai/api/v1",
-        api_key=os.getenv("OPENROUTER_API_KEY"),
-    )
+# if 'gpt' in model_name:
+#     client = OpenAI()
+# else:
+#     client = OpenAI(
+#         base_url="https://openrouter.ai/api/v1",
+#         api_key=os.getenv("OPENROUTER_API_KEY"),
+#     )
 
 available_tools = {
             "scan_folder": scan_folder,
@@ -185,5 +185,5 @@ for query in queries:
         "total_cost": 0,
     }
     supabase.table("multiagent").insert(data).execute()
-    send_prompt("main_agent", client, messages, query, tools, available_tools)
+    send_prompt("main_agent", messages, query, tools, available_tools)
 

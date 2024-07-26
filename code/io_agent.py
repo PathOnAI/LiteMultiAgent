@@ -10,6 +10,15 @@ from multion.client import MultiOn
 import json
 _ = load_dotenv()
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("log.txt", mode="w"),
+        logging.StreamHandler()
+    ]
+)
 # Create a logger
 logger = logging.getLogger(__name__)
 from langchain_community.tools.tavily_search import TavilySearchResults
@@ -150,13 +159,13 @@ tools = [
 from config import agent_to_model
 agent_name = "io_agent"
 model_name = agent_to_model[agent_name]["model_name"]
-if 'gpt' in model_name:
-    client = OpenAI()
-else:
-    client = OpenAI(
-        base_url="https://openrouter.ai/api/v1",
-        api_key=os.getenv("OPENROUTER_API_KEY"),
-    )
+# if 'gpt' in model_name:
+#     client = OpenAI()
+# else:
+#     client = OpenAI(
+#         base_url="https://openrouter.ai/api/v1",
+#         api_key=os.getenv("OPENROUTER_API_KEY"),
+#     )
 
 client = OpenAI()
 available_tools = {
@@ -169,7 +178,7 @@ def use_io_agent(description):
     messages = [Message(role="system",
                         content="You are an ai agent that read and write files")]
     # send_prompt(messages, query)
-    send_prompt("io_agent", client, messages, description, tools, available_tools)
+    send_prompt("io_agent", messages, description, tools, available_tools)
     return messages[-1].content
 
 
