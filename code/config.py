@@ -24,8 +24,8 @@ agent_to_model = {
             "model_name" : "gpt-4o-mini",
             "tool_choice" : "auto",
          },
-   "rag_agent":{
-            "model_name" : "openai/gpt-4o-mini",
-            "tool_choice" : "required",
+    "file_retrieve_agent":{
+            "model_name" : "gpt-4o-mini",
+            "tool_choice" : "auto",
          },
 }
