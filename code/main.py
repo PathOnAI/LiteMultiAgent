@@ -145,6 +145,7 @@ tools = [
 from config import agent_to_model
 
 agent_name = "main_agent"
+model_name = agent_to_model[agent_name]["model_name"]
 
 available_tools = {
             "scan_folder": scan_folder,
@@ -155,8 +156,8 @@ available_tools = {
 
 
 queries = [
-    # "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file",
-    # "generate a image of a ginger cat and save it as ginger_cat.png",
+    "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file",
+    "generate a image of a ginger cat and save it as ginger_cat.png",
     "search information in /Users/danqingzhang/Desktop/MultiAgent/code/files/attention.pdf and answer the question: what is transformer?"
 ]
 
@@ -175,6 +176,7 @@ for query in queries:
         "input_cost": 0,
         "output_cost": 0,
         "total_cost": 0,
+        "model_name": model_name
     }
     supabase.table("multiagent").insert(data).execute()
     send_prompt("main_agent", messages, query, tools, available_tools)

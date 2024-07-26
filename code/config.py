@@ -1,3 +1,7 @@
+# groq/llama3-8b-8192
+# gpt-4o-mini
+# claude-3-5-sonnet-20240620
+# gemini/gemini-pro
 agent_to_model = {
     "main_agent":
         {
@@ -13,11 +17,11 @@ agent_to_model = {
             "tool_choice" : "auto",
          },
     "web_search_agent":{
-            "model_name" : "gpt-4o-mini",
+            "model_name" : "gemini/gemini-pro",
             "tool_choice" : "auto",
          },
     "db_retrieval_agent":{
-            "model_name" : "claude-3-5-sonnet-20240620",
+            "model_name" : "gpt-4o-mini",
             "tool_choice" : "auto",
          },
     "exec_agent":{

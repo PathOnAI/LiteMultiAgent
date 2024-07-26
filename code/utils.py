@@ -31,31 +31,14 @@ key = os.getenv("SUPABASE_ANON_KEY")
 supabase: Client = create_client(url, key)
 
 
-class Function(BaseModel):
-    arguments: str
-    name: str
-
-
-class ToolCall(BaseModel):
-    id: str
-    function: Function | dict
-    type: str
-
-    @validator("function", pre=True)
-    @classmethod
-    def ensure_function_dict(cls, v):
-        return v if isinstance(v, dict) else v.dict()
-
-
-
 
 def process_tool_calls(tool_calls, available_tools):
     tool_call_responses = []
     logger.info("Number of function calls: %i", len(tool_calls))
     for tool_call in tool_calls:
-        tool_call_id = tool_call.id
-        function_name = tool_call.function.name
-        function_args = json.loads(tool_call.function.arguments)
+        tool_call_id = tool_call["id"]
+        function_name = tool_call["function"]["name"]
+        function_args = json.loads(tool_call["function"]["arguments"])
 
         function_to_call = available_tools.get(function_name)
 
@@ -119,11 +102,13 @@ def send_completion_request(agent_name, messages: list, tools: list = None, avai
             "input_cost": usage_dict["input_cost"],
             "output_cost": usage_dict["output_cost"],
             "total_cost": usage_dict["total_cost"],
+            "model_name": model_name,
         }
         supabase.table("multiagent").insert(data).execute()
         message = AssistantMessage(**response.choices[0].message.model_dump())
         messages.append(message)
         return response
+
 
     response = completion(
         model=model_name, messages=messages, tools=tools, tool_choice=tool_choice
@@ -145,6 +130,7 @@ def send_completion_request(agent_name, messages: list, tools: list = None, avai
         "input_cost": usage_dict["input_cost"],
         "output_cost": usage_dict["output_cost"],
         "total_cost": usage_dict["total_cost"],
+        "model_name": model_name,
     }
     supabase.table("multiagent").insert(data).execute()
 
@@ -153,10 +139,7 @@ def send_completion_request(agent_name, messages: list, tools: list = None, avai
         messages.append(message)
         return response
 
-    tool_calls = [
-        ToolCall(id=call.id, function=call.function, type=call.type)
-        for call in response.choices[0].message.tool_calls
-    ]
+    tool_calls = response.choices[0].message.tool_calls
 
     tool_call_message = {"content": response.choices[0].message.content, "role": response.choices[0].message.role, "tool_calls": tool_calls}
 
