@@ -10,6 +10,6 @@ bs4==0.0.2
 chromadb==0.4.14
 tiktoken==0.7.0
 pypdf==4.3.1
-litellm
+litellm==1.42.1
 
 
