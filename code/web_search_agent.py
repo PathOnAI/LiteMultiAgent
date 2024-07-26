@@ -10,6 +10,15 @@ from multion.client import MultiOn
 from bs4 import BeautifulSoup
 import json
 _ = load_dotenv()
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("log.txt", mode="w"),
+        logging.StreamHandler()
+    ]
+)
 logger = logging.getLogger(__name__)
 
 from langchain_community.tools.tavily_search import TavilySearchResults
@@ -154,14 +163,7 @@ tools = [
 
 from config import agent_to_model
 agent_name = "web_search_agent"
-model_name = agent_to_model[agent_name]["model_name"]
-if 'gpt' in model_name:
-    client = OpenAI()
-else:
-    client = OpenAI(
-        base_url="https://openrouter.ai/api/v1",
-        api_key=os.getenv("OPENROUTER_API_KEY"),
-    )
+
 available_tools = {
             "tavily_search": tavily_search,
             "multion_search": multion_search,
@@ -170,17 +172,16 @@ available_tools = {
         }
 
 def use_web_search_agent(query):
-    messages = [Message(role="system",
-                        content="You are a smart research assistant. Use the search engine to look up information.")]
+    messages = [{"role":"system", "content" :"You are a smart research assistant. Use the search engine to look up information."}]
     # send_prompt(messages, query)
-    send_prompt("web_search_agent", client, messages, query, tools, available_tools)
-    return messages[-1].content
+    send_prompt("web_search_agent", messages, query, tools, available_tools)
+    return messages[-1]["content"]
 
 
 def main():
-    messages = use_search_agent("Fetch the UK's GDP over the past 5 years")
+    messages = use_web_search_agent("Fetch the UK's GDP over the past 5 years")
     print(messages)
-    messages = use_search_agent(
+    messages = use_web_search_agent(
         "browse google.com to check the brands of dining table and summarize the results in a table")
     print(messages)
 

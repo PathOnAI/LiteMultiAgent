@@ -1,0 +1,42 @@
+graph TD
+    A[Main Agent] --> B[IO Agent]
+    A --> C[Exec Agent]
+    A --> D[Retrieval Agent]
+    A --> E[Login Agent]
+    A --> F[Structure Agent]
+    
+    B --> G[Write File Tool]
+    B --> H[Read File Tool]
+    
+    C --> I[Run Python Script Tool]
+    C --> J[Run Shell Script Tool]
+    
+    D --> K[Web Search Agent]
+    D --> L[DB Retrieval Agent]
+    D --> M[RAG Agent]
+    
+    F --> N[Scan Folder Tool]
+    F --> O[Understand Repo Tool]
+    
+    K --> P[Azure Search Tool]
+    K --> Q[Tavily Search Tool]
+    K --> R[Multion Search Tool]
+
+    style A fill:#ffff00,stroke:#333,stroke-width:2px
+    style B fill:#00ffff,stroke:#333,stroke-width:2px
+    style C fill:#00ffff,stroke:#333,stroke-width:2px
+    style D fill:#00ffff,stroke:#333,stroke-width:2px
+    style E fill:#00ffff,stroke:#333,stroke-width:2px
+    style F fill:#00ffff,stroke:#333,stroke-width:2px
+    style G fill:#ff00ff,stroke:#333,stroke-width:2px
+    style H fill:#ff00ff,stroke:#333,stroke-width:2px
+    style I fill:#ff00ff,stroke:#333,stroke-width:2px
+    style J fill:#ff00ff,stroke:#333,stroke-width:2px
+    style K fill:#ff00ff,stroke:#333,stroke-width:2px
+    style L fill:#ff00ff,stroke:#333,stroke-width:2px
+    style M fill:#ff00ff,stroke:#333,stroke-width:2px
+    style N fill:#ff00ff,stroke:#333,stroke-width:2px
+    style O fill:#ff00ff,stroke:#333,stroke-width:2px
+    style P fill:#ff99cc,stroke:#333,stroke-width:2px
+    style Q fill:#ff99cc,stroke:#333,stroke-width:2px
+    style R fill:#ff99cc,stroke:#333,stroke-width:2px
