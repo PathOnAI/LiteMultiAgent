@@ -161,11 +161,10 @@ def send_completion_request(agent_name, messages: list, tools: list = None, avai
         messages.append(message)
         return response
 
-
-
     response = completion(
         model=model_name, messages=messages, tools=tools, tool_choice=tool_choice
     )
+
 
     logger.info('agent: %s, prompt tokens: %s, completion tokens: %s', agent_name, str(response.usage.prompt_tokens), str(response.usage.completion_tokens))
     logger.info('agent: %s, depth: %s, response: %s', agent_name, depth, response)
