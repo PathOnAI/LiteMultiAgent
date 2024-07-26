@@ -91,14 +91,6 @@ tools = [
 
 from config import agent_to_model
 agent_name = "retrieval_agent"
-model_name = agent_to_model[agent_name]["model_name"]
-# if 'gpt' in model_name:
-#     client = OpenAI()
-# else:
-#     client = OpenAI(
-#         base_url="https://openrouter.ai/api/v1",
-#         api_key=os.getenv("OPENROUTER_API_KEY"),
-#     )
 
 available_tools = {
             "use_web_search_agent": use_web_search_agent,
@@ -109,11 +101,10 @@ available_tools = {
 
 
 def use_retrieval_search_agent(task_description):
-    messages = [Message(role="system",
-                        content="You are a smart research assistant. Use the search engine to look up information.")]
+    messages = [{"role" :"system", "content":"You are a smart research assistant. Use the search engine to look up information."}]
     # send_prompt(messages, query)
     send_prompt("retrieval_agent", messages, task_description, tools, available_tools)
-    return messages[-1].content
+    return messages[-1]["content"]
 
 
 def main():

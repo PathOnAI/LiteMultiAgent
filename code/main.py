@@ -145,14 +145,6 @@ tools = [
 from config import agent_to_model
 
 agent_name = "main_agent"
-model_name = agent_to_model[agent_name]["model_name"]
-# if 'gpt' in model_name:
-#     client = OpenAI()
-# else:
-#     client = OpenAI(
-#         base_url="https://openrouter.ai/api/v1",
-#         api_key=os.getenv("OPENROUTER_API_KEY"),
-#     )
 
 available_tools = {
             "scan_folder": scan_folder,
@@ -169,10 +161,10 @@ queries = [
 ]
 
 for query in queries:
-    messages = [Message(role="system", content="You are a smart research assistant. Use the search engine to look up information. \
+    messages = [{"role":"system", "content":"You are a smart research assistant. Use the search engine to look up information. \
     You are allowed to make multiple calls (either together or in sequence). \
     Only look up information when you are sure of what you want. \
-    If you need to look up some information before asking a follow up question, you are allowed to do that!")]
+    If you need to look up some information before asking a follow up question, you are allowed to do that!"}]
     data = {
         "agent": None,
         "depth": None,

@@ -93,7 +93,6 @@ tools = [
 
 from config import agent_to_model
 agent_name = "exec_agent"
-model_name = agent_to_model[agent_name]["model_name"]
 
 available_tools = {
             "run_python_script": run_python_script,
@@ -101,15 +100,14 @@ available_tools = {
         }
 
 def use_exec_agent(description):
-    messages = [Message(role="system",
-                        content="You will exec some scripts. Either by shell or run python script")]
+    messages = [{"role":"system", "content" :"You will exec some scripts. Either by shell or run python script"}]
     send_prompt("exec_agent", messages, description, tools, available_tools)
-    return messages[-1].content
+    return messages[-1]["content"]
 
 
 def main():
-    response = use_exec_agent("run /Users/danqingzhang/Desktop/MultiAgent/hierarchical/code/draw_gdp_line_graph.py file")
-    print(response)
+    # response = use_exec_agent("run /Users/danqingzhang/Desktop/MultiAgent/hierarchical/code/draw_gdp_line_graph.py file")
+    # print(response)
     response = use_exec_agent(
         "read file 3 lines of file /Users/danqingzhang/Desktop/MultiAgent/hierarchical/code/1.txt")
     print(response)

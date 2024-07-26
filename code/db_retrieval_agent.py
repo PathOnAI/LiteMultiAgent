@@ -91,25 +91,15 @@ tools = [{
 
 from config import agent_to_model
 agent_name = "db_retrieval_agent"
-model_name = agent_to_model[agent_name]["model_name"]
-# client = None
-# if 'gpt' in model_name:
-#     client = OpenAI()
-# else:
-#     client = OpenAI(
-#         base_url="https://openrouter.ai/api/v1",
-#         api_key=os.getenv("OPENROUTER_API_KEY"),
-#     )
 
 available_tools = {
             "retrieve_db": retrieve_db,
         }
 
 def use_db_retrieval_agent(query):
-    messages = [Message(role="system",
-                        content="You are a smart assistant, you retrieve information from database")]
+    messages = [{"role":"system", "content":"You are a smart assistant, you retrieve information from database"}]
     send_prompt("db_retrieval_agent", messages, query, tools, available_tools)
-    return messages[-1].content
+    return messages[-1]["content"]
 
 
 def main():
