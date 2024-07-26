@@ -106,8 +106,6 @@ def use_exec_agent(description):
 
 
 def main():
-    # response = use_exec_agent("run /Users/danqingzhang/Desktop/MultiAgent/hierarchical/code/draw_gdp_line_graph.py file")
-    # print(response)
     response = use_exec_agent(
         "read file 3 lines of file /Users/danqingzhang/Desktop/MultiAgent/hierarchical/code/1.txt")
     print(response)
