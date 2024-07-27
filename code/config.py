@@ -17,7 +17,7 @@ agent_to_model = {
             "tool_choice" : "auto",
          },
     "web_search_agent":{
-            "model_name" : "gemini/gemini-pro",
+            "model_name" : "gpt-4o-mini",
             "tool_choice" : "auto",
          },
     "db_retrieval_agent":{

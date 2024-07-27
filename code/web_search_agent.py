@@ -6,7 +6,7 @@ from typing import Any
 from pydantic import BaseModel, validator
 import requests
 import os
-from multion.client import MultiOn
+# from multion.client import MultiOn
 from bs4 import BeautifulSoup
 import json
 _ = load_dotenv()
@@ -82,49 +82,49 @@ def scrape(url: str):
 
 
 tools = [
-    {
-        "type": "function",
-        "function": {
-            "name": "tavily_search",
-            "description": "Perform a search using the TavilySearch API and return the results.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "query": {
-                        "type": "string",
-                        "description": "The search query to be sent to the TavilySearch API."
-                    }
-                },
-                "required": [
-                    "query"
-                ]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "multion_search",
-            "description": "For complicated search that require browsing/ scrolling down behavior, use multion api and return the results.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "query": {
-                        "type": "string",
-                        "description": "The search query to be sent to the multion API."
-                    },
-                    "url":{
-                        "type": "string",
-                        "description": "The website where multion api starts the browsing activity."
-                    }
-                },
-                "required": [
-                    "query",
-                    "url"
-                ]
-            }
-        }
-    },
+    # {
+    #     "type": "function",
+    #     "function": {
+    #         "name": "tavily_search",
+    #         "description": "Perform a search using the TavilySearch API and return the results.",
+    #         "parameters": {
+    #             "type": "object",
+    #             "properties": {
+    #                 "query": {
+    #                     "type": "string",
+    #                     "description": "The search query to be sent to the TavilySearch API."
+    #                 }
+    #             },
+    #             "required": [
+    #                 "query"
+    #             ]
+    #         }
+    #     }
+    # },
+    # {
+    #     "type": "function",
+    #     "function": {
+    #         "name": "multion_search",
+    #         "description": "For complicated search that require browsing/ scrolling down behavior, use multion api and return the results.",
+    #         "parameters": {
+    #             "type": "object",
+    #             "properties": {
+    #                 "query": {
+    #                     "type": "string",
+    #                     "description": "The search query to be sent to the multion API."
+    #                 },
+    #                 "url":{
+    #                     "type": "string",
+    #                     "description": "The website where multion api starts the browsing activity."
+    #                 }
+    #             },
+    #             "required": [
+    #                 "query",
+    #                 "url"
+    #             ]
+    #         }
+    #     }
+    # },
     {
         "type": "function",
         "function": {
@@ -165,10 +165,10 @@ from config import agent_to_model
 agent_name = "web_search_agent"
 
 available_tools = {
-            "tavily_search": tavily_search,
-            "multion_search": multion_search,
+            # "tavily_search": tavily_search,
+            # "multion_search": multion_search,
             "bing_search": bing_search,
-            "scrap" : scrap
+            "scrape" : scrape
         }
 
 def use_web_search_agent(query):
@@ -181,9 +181,9 @@ def use_web_search_agent(query):
 def main():
     messages = use_web_search_agent("Fetch the UK's GDP over the past 5 years")
     print(messages)
-    messages = use_web_search_agent(
-        "browse google.com to check the brands of dining table and summarize the results in a table")
-    print(messages)
+    # messages = use_web_search_agent(
+    #     "browse google.com to check the brands of dining table and summarize the results in a table")
+    # print(messages)
 
 if __name__ == "__main__":
     main()
