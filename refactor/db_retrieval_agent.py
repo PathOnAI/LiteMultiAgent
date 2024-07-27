@@ -99,7 +99,7 @@ available_tools = {
 
 class DB_Retrieval_Agent(Agent):
     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
-        super().__init__("retrieval_agent", tools, available_tools, meta_task_id, task_id)
+        super().__init__("db_retrieval_agent", tools, available_tools, meta_task_id, task_id)
 
 
 agent = DB_Retrieval_Agent(0, 0)

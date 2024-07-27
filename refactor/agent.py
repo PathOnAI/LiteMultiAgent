@@ -3,7 +3,7 @@ from typing import List, Dict, Any, Optional
 from openai import OpenAI
 import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from config import agent_to_model
+from config import agent_to_model, model_cost
 from supabase import create_client, Client
 import os
 from dotenv import load_dotenv
@@ -158,8 +158,8 @@ class Agent:
         total_tokens = response.usage.total_tokens
 
         # Pricing for gpt-4-0314
-        input_price_per_1m = 0.03  # $0.03 per 1K tokens for input
-        output_price_per_1m = 0.06  # $0.06 per 1K tokens for output
+        input_price_per_1m = model_cost[self.model_name]["input_price_per_1m"]
+        output_price_per_1m = model_cost[self.model_name]["output_price_per_1m"]
 
         input_cost = (prompt_tokens / 1000) * input_price_per_1m
         output_cost = (completion_tokens / 1000) * output_price_per_1m

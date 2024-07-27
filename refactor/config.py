@@ -2,6 +2,26 @@
 # gpt-4o-mini
 # claude-3-5-sonnet-20240620
 # gemini/gemini-pro
+
+model_cost = {
+    "gpt-4o-mini": {
+        "input_price_per_1m": 0.15,
+        "output_price_per_1m": 0.6,
+    },
+    "gemini/gemini-pro": {
+        "input_price_per_1m": 0,
+        "output_price_per_1m": 0,
+    },
+    "claude-3-5-sonnet-20240620": {
+        "input_price_per_1m": 3,
+        "output_price_per_1m": 15,
+    },
+    "groq/llama3-8b-8192": {
+        "input_price_per_1m": 0.05,
+        "output_price_per_1m": 0.08,
+    },
+}
+
 agent_to_model = {
     "main_agent":
         {
