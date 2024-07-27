@@ -101,17 +101,19 @@ class DB_Retrieval_Agent(Agent):
     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
         super().__init__("db_retrieval_agent", tools, available_tools, meta_task_id, task_id)
 
-
-agent = DB_Retrieval_Agent(0, 0)
-response = agent.send_prompt("use supabase database, users table, look up the email (column name: email) for name is danqing2")
-print(response)
-print(agent.messages)
-
-
 def use_db_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
     agent = DB_Retrieval_Agent(meta_task_id, task_id)
     return agent.send_prompt(query)
 
-# Example usage:
-response = use_db_retrieval_agent("use supabase database, users table, look up the email (column name: email) for name is danqing2", 0, 0)
-print(response)
+
+def main():
+    agent = DB_Retrieval_Agent(0, 0)
+    response = agent.send_prompt("use supabase database, users table, look up the email (column name: email) for name is danqing2")
+    print(response)
+    print(agent.messages)
+    # Example usage:
+    response = use_db_retrieval_agent("use supabase database, users table, look up the email (column name: email) for name is danqing2", 0, 0)
+    print(response)
+
+if __name__ == "__main__":
+    main()

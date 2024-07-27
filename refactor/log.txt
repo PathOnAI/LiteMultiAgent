@@ -1,28 +1,54 @@
-2024-07-27 11:39:39,801 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
-2024-07-27 11:39:39,818 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
-2024-07-27 11:39:39,819 - agent - INFO - Agent: db_retrieval_agent, prompt tokens: 145, completion tokens: 37
-2024-07-27 11:39:39,819 - agent - INFO - Agent: db_retrieval_agent, depth: 0, response: ModelResponse(id='chatcmpl-9pgcNijtKQFin5ekXJ4IXPEuA9Odx', choices=[Choices(finish_reason='tool_calls', index=0, message=Message(content=None, role='assistant', tool_calls=[ChatCompletionMessageToolCall(function=Function(arguments='{"client":"SUPABASE","db":"users","input_column":"name","output_column":"email","input_value":"danqing2"}', name='retrieve_db'), id='call_hTWaMoEDrpWCjdXYpn932cWR', type='function')], function_call=None))], created=1722105579, model='gpt-4o-mini-2024-07-18', object='chat.completion', system_fingerprint='fp_ba606877f9', usage=Usage(completion_tokens=37, prompt_tokens=145, total_tokens=182))
-2024-07-27 11:39:40,473 - httpx - INFO - HTTP Request: POST https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/multiagent "HTTP/1.1 201 Created"
-2024-07-27 11:39:40,482 - agent - INFO - Number of function calls: 1
-2024-07-27 11:39:40,882 - httpx - INFO - HTTP Request: GET https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/users?select=email&name=eq.danqing2 "HTTP/1.1 200 OK"
-2024-07-27 11:39:40,884 - agent - INFO - Function name: retrieve_db, function args: {'client': 'SUPABASE', 'db': 'users', 'input_column': 'name', 'output_column': 'email', 'input_value': 'danqing2'}
-2024-07-27 11:39:40,885 - agent - INFO - Function name: retrieve_db, function response: danqing0703@gmail.com
-2024-07-27 11:39:41,600 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
-2024-07-27 11:39:41,603 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
-2024-07-27 11:39:41,604 - agent - INFO - Agent: db_retrieval_agent, prompt tokens: 196, completion tokens: 21
-2024-07-27 11:39:41,605 - agent - INFO - Agent: db_retrieval_agent, depth: 1, response: ModelResponse(id='chatcmpl-9pgcPtnX1YioWCKUciTamohnWHYfN', choices=[Choices(finish_reason='stop', index=0, message=Message(content='The email address associated with the name "danqing2" is danqing0703@gmail.com.', role='assistant', tool_calls=None, function_call=None))], created=1722105581, model='gpt-4o-mini-2024-07-18', object='chat.completion', system_fingerprint='fp_ba606877f9', usage=Usage(completion_tokens=21, prompt_tokens=196, total_tokens=217))
-2024-07-27 11:39:41,905 - httpx - INFO - HTTP Request: POST https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/multiagent "HTTP/1.1 201 Created"
-2024-07-27 11:39:43,354 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
-2024-07-27 11:39:43,356 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
-2024-07-27 11:39:43,358 - agent - INFO - Agent: db_retrieval_agent, prompt tokens: 145, completion tokens: 37
-2024-07-27 11:39:43,358 - agent - INFO - Agent: db_retrieval_agent, depth: 0, response: ModelResponse(id='chatcmpl-9pgcQp3EzKTrNOaTkeZ4gLP82Q02U', choices=[Choices(finish_reason='tool_calls', index=0, message=Message(content=None, role='assistant', tool_calls=[ChatCompletionMessageToolCall(function=Function(arguments='{"client":"SUPABASE","db":"users","input_column":"name","output_column":"email","input_value":"danqing2"}', name='retrieve_db'), id='call_5x5eHvHYKcNdO5Y2FmeivoKz', type='function')], function_call=None))], created=1722105582, model='gpt-4o-mini-2024-07-18', object='chat.completion', system_fingerprint='fp_ba606877f9', usage=Usage(completion_tokens=37, prompt_tokens=145, total_tokens=182))
-2024-07-27 11:39:43,470 - httpx - INFO - HTTP Request: POST https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/multiagent "HTTP/1.1 201 Created"
-2024-07-27 11:39:43,472 - agent - INFO - Number of function calls: 1
-2024-07-27 11:39:43,834 - httpx - INFO - HTTP Request: GET https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/users?select=email&name=eq.danqing2 "HTTP/1.1 200 OK"
-2024-07-27 11:39:43,836 - agent - INFO - Function name: retrieve_db, function args: {'client': 'SUPABASE', 'db': 'users', 'input_column': 'name', 'output_column': 'email', 'input_value': 'danqing2'}
-2024-07-27 11:39:43,836 - agent - INFO - Function name: retrieve_db, function response: danqing0703@gmail.com
-2024-07-27 11:39:44,409 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
-2024-07-27 11:39:44,412 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
-2024-07-27 11:39:44,413 - agent - INFO - Agent: db_retrieval_agent, prompt tokens: 196, completion tokens: 21
-2024-07-27 11:39:44,413 - agent - INFO - Agent: db_retrieval_agent, depth: 1, response: ModelResponse(id='chatcmpl-9pgcShKfHLUEWkspc2m74XmIwCbl8', choices=[Choices(finish_reason='stop', index=0, message=Message(content='The email address for the user named "danqing2" is danqing0703@gmail.com.', role='assistant', tool_calls=None, function_call=None))], created=1722105584, model='gpt-4o-mini-2024-07-18', object='chat.completion', system_fingerprint='fp_ba606877f9', usage=Usage(completion_tokens=21, prompt_tokens=196, total_tokens=217))
-2024-07-27 11:39:44,774 - httpx - INFO - HTTP Request: POST https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/multiagent "HTTP/1.1 201 Created"
+2024-07-27 12:08:42,921 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-27 12:08:42,940 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-07-27 12:08:42,941 - agent - INFO - Agent: retrieval_agent, prompt tokens: 91, completion tokens: 29
+2024-07-27 12:08:42,941 - agent - INFO - Agent: retrieval_agent, depth: 0, response: ModelResponse(id='chatcmpl-9ph4Ur4Fw8HtlWH3iB1hWvZYygr0V', choices=[Choices(finish_reason='tool_calls', index=0, message=Message(content=None, role='assistant', tool_calls=[ChatCompletionMessageToolCall(function=Function(arguments='{"query":"SELECT email FROM users WHERE name = \'danqing2\'"}', name='use_db_retrieval_agent'), id='call_AUQ8CPQkC0AEZfhheIHtFfny', type='function')], function_call=None))], created=1722107322, model='gpt-4o-mini-2024-07-18', object='chat.completion', system_fingerprint='fp_611b667b19', usage=Usage(completion_tokens=29, prompt_tokens=91, total_tokens=120))
+2024-07-27 12:08:43,106 - httpx - INFO - HTTP Request: POST https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/multiagent "HTTP/1.1 201 Created"
+2024-07-27 12:08:43,119 - agent - INFO - Number of function calls: 1
+2024-07-27 12:08:43,979 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-27 12:08:43,981 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-07-27 12:08:43,981 - agent - INFO - Agent: db_retrieval_agent, prompt tokens: 133, completion tokens: 37
+2024-07-27 12:08:43,982 - agent - INFO - Agent: db_retrieval_agent, depth: 0, response: ModelResponse(id='chatcmpl-9ph4VPzNskLJgfcCtgmOi7snpX8ZS', choices=[Choices(finish_reason='tool_calls', index=0, message=Message(content=None, role='assistant', tool_calls=[ChatCompletionMessageToolCall(function=Function(arguments='{"client":"SUPABASE","db":"users","input_column":"name","output_column":"email","input_value":"danqing2"}', name='retrieve_db'), id='call_QDgra511yVykUQMHIOjeHHBw', type='function')], function_call=None))], created=1722107323, model='gpt-4o-mini-2024-07-18', object='chat.completion', system_fingerprint='fp_611b667b19', usage=Usage(completion_tokens=37, prompt_tokens=133, total_tokens=170))
+2024-07-27 12:08:44,087 - httpx - INFO - HTTP Request: POST https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/multiagent "HTTP/1.1 201 Created"
+2024-07-27 12:08:44,088 - agent - INFO - Number of function calls: 1
+2024-07-27 12:08:44,407 - httpx - INFO - HTTP Request: GET https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/users?select=email&name=eq.danqing2 "HTTP/1.1 200 OK"
+2024-07-27 12:08:44,411 - agent - INFO - Function name: retrieve_db, function args: {'client': 'SUPABASE', 'db': 'users', 'input_column': 'name', 'output_column': 'email', 'input_value': 'danqing2'}
+2024-07-27 12:08:44,412 - agent - INFO - Function name: retrieve_db, function response: danqing0703@gmail.com
+2024-07-27 12:08:45,579 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-27 12:08:45,582 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-07-27 12:08:45,584 - agent - INFO - Agent: db_retrieval_agent, prompt tokens: 184, completion tokens: 19
+2024-07-27 12:08:45,584 - agent - INFO - Agent: db_retrieval_agent, depth: 1, response: ModelResponse(id='chatcmpl-9ph4Wt071GJWDyIvFWH9ep056gEHK', choices=[Choices(finish_reason='stop', index=0, message=Message(content="The email for the user 'danqing2' is danqing0703@gmail.com.", role='assistant', tool_calls=None, function_call=None))], created=1722107324, model='gpt-4o-mini-2024-07-18', object='chat.completion', system_fingerprint='fp_611b667b19', usage=Usage(completion_tokens=19, prompt_tokens=184, total_tokens=203))
+2024-07-27 12:08:45,887 - httpx - INFO - HTTP Request: POST https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/multiagent "HTTP/1.1 201 Created"
+2024-07-27 12:08:45,893 - agent - INFO - Function name: use_db_retrieval_agent, function args: {'query': "SELECT email FROM users WHERE name = 'danqing2'"}
+2024-07-27 12:08:45,894 - agent - INFO - Function name: use_db_retrieval_agent, function response: The email for the user 'danqing2' is danqing0703@gmail.com.
+2024-07-27 12:08:46,452 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-27 12:08:46,455 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-07-27 12:08:46,456 - agent - INFO - Agent: retrieval_agent, prompt tokens: 150, completion tokens: 19
+2024-07-27 12:08:46,456 - agent - INFO - Agent: retrieval_agent, depth: 1, response: ModelResponse(id='chatcmpl-9ph4YROTbNRpdvjJFdl3qjB07sHbi', choices=[Choices(finish_reason='stop', index=0, message=Message(content="The email for the user 'danqing2' is danqing0703@gmail.com.", role='assistant', tool_calls=None, function_call=None))], created=1722107326, model='gpt-4o-mini-2024-07-18', object='chat.completion', system_fingerprint='fp_611b667b19', usage=Usage(completion_tokens=19, prompt_tokens=150, total_tokens=169))
+2024-07-27 12:08:46,574 - httpx - INFO - HTTP Request: POST https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/multiagent "HTTP/1.1 201 Created"
+2024-07-27 12:08:47,182 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-27 12:08:47,185 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-07-27 12:08:47,187 - agent - INFO - Agent: retrieval_agent, prompt tokens: 91, completion tokens: 29
+2024-07-27 12:08:47,187 - agent - INFO - Agent: retrieval_agent, depth: 0, response: ModelResponse(id='chatcmpl-9ph4YSanzm5dCJh7iMTj6NZKDgYjC', choices=[Choices(finish_reason='tool_calls', index=0, message=Message(content=None, role='assistant', tool_calls=[ChatCompletionMessageToolCall(function=Function(arguments='{"query":"SELECT email FROM users WHERE name = \'danqing2\'"}', name='use_db_retrieval_agent'), id='call_GZmZaY0MlXnWeBdAV6G1hXFi', type='function')], function_call=None))], created=1722107326, model='gpt-4o-mini-2024-07-18', object='chat.completion', system_fingerprint='fp_ba606877f9', usage=Usage(completion_tokens=29, prompt_tokens=91, total_tokens=120))
+2024-07-27 12:08:47,468 - httpx - INFO - HTTP Request: POST https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/multiagent "HTTP/1.1 201 Created"
+2024-07-27 12:08:47,475 - agent - INFO - Number of function calls: 1
+2024-07-27 12:08:48,519 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-27 12:08:48,523 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-07-27 12:08:48,524 - agent - INFO - Agent: db_retrieval_agent, prompt tokens: 133, completion tokens: 37
+2024-07-27 12:08:48,525 - agent - INFO - Agent: db_retrieval_agent, depth: 0, response: ModelResponse(id='chatcmpl-9ph4ZXoC0Gh40IXN8gRPyKIM6Pcbw', choices=[Choices(finish_reason='tool_calls', index=0, message=Message(content=None, role='assistant', tool_calls=[ChatCompletionMessageToolCall(function=Function(arguments='{"client":"SUPABASE","db":"users","input_column":"name","output_column":"email","input_value":"danqing2"}', name='retrieve_db'), id='call_PgZUaRwPSHsoig9P8QPMMUb8', type='function')], function_call=None))], created=1722107327, model='gpt-4o-mini-2024-07-18', object='chat.completion', system_fingerprint='fp_ba606877f9', usage=Usage(completion_tokens=37, prompt_tokens=133, total_tokens=170))
+2024-07-27 12:08:48,782 - httpx - INFO - HTTP Request: POST https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/multiagent "HTTP/1.1 201 Created"
+2024-07-27 12:08:48,786 - agent - INFO - Number of function calls: 1
+2024-07-27 12:08:49,136 - httpx - INFO - HTTP Request: GET https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/users?select=email&name=eq.danqing2 "HTTP/1.1 200 OK"
+2024-07-27 12:08:49,139 - agent - INFO - Function name: retrieve_db, function args: {'client': 'SUPABASE', 'db': 'users', 'input_column': 'name', 'output_column': 'email', 'input_value': 'danqing2'}
+2024-07-27 12:08:49,139 - agent - INFO - Function name: retrieve_db, function response: danqing0703@gmail.com
+2024-07-27 12:08:49,669 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-27 12:08:49,672 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-07-27 12:08:49,673 - agent - INFO - Agent: db_retrieval_agent, prompt tokens: 184, completion tokens: 20
+2024-07-27 12:08:49,674 - agent - INFO - Agent: db_retrieval_agent, depth: 1, response: ModelResponse(id='chatcmpl-9ph4b0fM0aHIzbdwd64lMyijxlcAb', choices=[Choices(finish_reason='stop', index=0, message=Message(content="The email for the user named 'danqing2' is danqing0703@gmail.com.", role='assistant', tool_calls=None, function_call=None))], created=1722107329, model='gpt-4o-mini-2024-07-18', object='chat.completion', system_fingerprint='fp_ba606877f9', usage=Usage(completion_tokens=20, prompt_tokens=184, total_tokens=204))
+2024-07-27 12:08:49,782 - httpx - INFO - HTTP Request: POST https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/multiagent "HTTP/1.1 201 Created"
+2024-07-27 12:08:49,787 - agent - INFO - Function name: use_db_retrieval_agent, function args: {'query': "SELECT email FROM users WHERE name = 'danqing2'"}
+2024-07-27 12:08:49,787 - agent - INFO - Function name: use_db_retrieval_agent, function response: The email for the user named 'danqing2' is danqing0703@gmail.com.
+2024-07-27 12:08:50,393 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-07-27 12:08:50,396 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-07-27 12:08:50,398 - agent - INFO - Agent: retrieval_agent, prompt tokens: 151, completion tokens: 20
+2024-07-27 12:08:50,398 - agent - INFO - Agent: retrieval_agent, depth: 1, response: ModelResponse(id='chatcmpl-9ph4bqx8Ri21g5usVXjz74N81hqO9', choices=[Choices(finish_reason='stop', index=0, message=Message(content="The email for the user named 'danqing2' is danqing0703@gmail.com.", role='assistant', tool_calls=None, function_call=None))], created=1722107329, model='gpt-4o-mini-2024-07-18', object='chat.completion', system_fingerprint='fp_611b667b19', usage=Usage(completion_tokens=20, prompt_tokens=151, total_tokens=171))
+2024-07-27 12:08:50,523 - httpx - INFO - HTTP Request: POST https://wciyohcbhxaopgowtvvf.supabase.co/rest/v1/multiagent "HTTP/1.1 201 Created"

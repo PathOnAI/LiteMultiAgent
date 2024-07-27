@@ -43,7 +43,6 @@ class Agent:
         if depth >= 8:
             return None
 
-        client = OpenAI()
 
         if self.tools is None:
             response = completion(
