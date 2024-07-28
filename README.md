@@ -53,6 +53,8 @@ python main.py --main-workers-parallel
 ```
 Then it's further sped up. Total execution time for all tasks: 29.34 seconds.
 
+If we neither the tasks at main agent level or sub agent level are paralleled, the total execution time for all tasks: 88.43 seconds
+
 ## 🏠 2. Architecture Design
 
 ![design.png](images/design.png)
