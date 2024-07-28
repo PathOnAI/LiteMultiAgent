@@ -7,7 +7,7 @@ repo owner: Danni (Danqing) Zhang (danqing.zhang.personal@gmail.com)
 
 
 
-![design.png](design.png)
+![design.png](images/design.png)
 
 ## 0724, Wednesday
 * use llamaindex or langchain to support different llm
