@@ -230,7 +230,7 @@ if __name__ == "__main__":
 
     queries = [
         "write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt",
-        "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file",
+        "browse web to search and check the brands of dining table, and summarize the results in a table, save the table as a readme file",
         "generate a image of a ginger cat and save it as ginger_cat.png",
     ]
 
