@@ -11,8 +11,10 @@ import os
 import json
 _ = load_dotenv()
 from supabase import create_client, Client
+from typing import Any, List, Dict
 import time
-
+import argparse
+import concurrent.futures
 
 
 url = os.getenv("SUPABASE_URL")
@@ -156,16 +158,8 @@ available_tools = {
         }
 
 
-queries = [
-    "write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt",
-    "browse google.com to check the brands of dining table and generate a image of a ginger cat and save it as ginger_cat.png"
-    # "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file",
-    # "generate a image of a ginger cat and save it as ginger_cat.png",
-    # "search information in /Users/danqingzhang/Desktop/MultiAgent/code/files/attention.pdf and answer the question: what is transformer?"
-]
-
-for query in queries:
-    messages = [{"role":"system", "content":"You are a smart research assistant. Use the search engine to look up information. \
+def execute_task(query: str, task_id: int, use_sub_workers_parallel: bool) -> Dict[str, Any]:
+    messages = [{"role": "system", "content": "You are a smart research assistant. Use the search engine to look up information. \
     You are allowed to make multiple calls (either together or in sequence). \
     Only look up information when you are sure of what you want. \
     If you need to look up some information before asking a follow up question, you are allowed to do that!"}]
@@ -173,13 +167,71 @@ for query in queries:
     start_time = time.time()
 
     # Execute the function
-    send_prompt("main_agent", messages, query, tools, available_tools)
+    result = send_prompt("main_agent", messages, query, tools, available_tools)
 
-    # Stop the timer
     end_time = time.time()
-
-    # Calculate the elapsed time
     elapsed_time = end_time - start_time
 
-    print(f"Agent execution time: {elapsed_time} seconds")
+    return {
+        "task_id": task_id,
+        "query": query,
+        "result": result,
+        "elapsed_time": elapsed_time
+    }
 
+
+def main(queries: List[str], use_main_workers_parallel: bool, use_sub_workers_parallel: bool, write_to_db: bool):
+    total_start_time = time.time()
+
+    task_results = []
+
+    if use_main_workers_parallel:
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future_to_query = {executor.submit(execute_task, query, idx, use_sub_workers_parallel): idx for idx, query in enumerate(queries)}
+
+            for future in concurrent.futures.as_completed(future_to_query):
+                task_id = future_to_query[future]
+                try:
+                    result = future.result()
+                    task_results.append(result)
+                    print(f"Task {task_id}: {result['query']}")
+                    print(f"Execution time: {result['elapsed_time']:.2f} seconds")
+                    print("---")
+                except Exception as exc:
+                    print(f"Task {task_id} generated an exception: {exc}")
+    else:
+        for idx, query in enumerate(queries):
+            try:
+                result = execute_task(query, idx, use_sub_workers_parallel)
+                task_results.append(result)
+                print(f"Task {idx}: {result['query']}")
+                print(f"Execution time: {result['elapsed_time']:.2f} seconds")
+                print("---")
+            except Exception as exc:
+                print(f"Task {idx} generated an exception: {exc}")
+
+    total_end_time = time.time()
+    total_elapsed_time = total_end_time - total_start_time
+
+    print(f"Total execution time for all tasks: {total_elapsed_time:.2f} seconds")
+
+    # Write results to Supabase if specified
+    if write_to_db:
+        write_to_supabase(task_results)
+    else:
+        print("Results not written to database as per configuration.")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run agent tasks with configurable parallelism.")
+    parser.add_argument("--main-workers-parallel", action="store_true", help="Enable parallel execution for main workers")
+    parser.add_argument("--sub-workers-parallel", action="store_true", help="Enable parallel execution for sub-workers")
+    parser.add_argument("--write-to-db", action="store_true", help="Write results to Supabase")
+    args = parser.parse_args()
+
+    queries = [
+        "write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt",
+        "browse google.com to check the brands of dining table and summarize the results in a table, save the table as a readme file",
+        "generate a image of a ginger cat and save it as ginger_cat.png",
+    ]
+
+    main(queries, args.main_workers_parallel, args.sub_workers_parallel, args.write_to_db)

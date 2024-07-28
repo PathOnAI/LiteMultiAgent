@@ -116,10 +116,10 @@ def use_web_search_agent(query):
 
 
 def main():
-    # messages = use_web_search_agent("Fetch the UK's GDP over the past 5 years")
-    # print(messages)
+    messages = use_web_search_agent("Fetch the UK's GDP over the past 5 years")
+    print(messages)
     messages = use_web_search_agent(
-        "browse web to check the brands of dining table and summarize the results in a table")
+        "browse web to search and check the brands of dining table, and summarize the results in a table")
     print(messages)
 
 if __name__ == "__main__":
