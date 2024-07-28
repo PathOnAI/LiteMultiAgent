@@ -6,7 +6,6 @@ from typing import Any, Optional
 from pydantic import BaseModel, validator
 import requests
 import os
-from multion.client import MultiOn
 import json
 
 _ = load_dotenv()

@@ -9,3 +9,4 @@ chromadb==0.4.14
 tiktoken==0.7.0
 pypdf==4.3.1
 litellm==1.42.1
+langchain-community==0.2.7
