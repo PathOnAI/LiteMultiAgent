@@ -77,3 +77,4 @@ logging.basicConfig(
 
 # Create a logger
 LiteMultiAgentLogger = logging.getLogger(__name__)
+AgentLogger = logging.getLogger('BaseAgent')

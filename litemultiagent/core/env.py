@@ -17,4 +17,5 @@ if SUPABASE_URL and SUPABASE_ANON_KEY:
     try:
         supabase = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
     except Exception as e:
+        supabase = None
         LiteMultiAgentLogger.error(f"Failed to initialize Supabase client: {e}")
