@@ -26,7 +26,6 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger(__name__)
-from litellm import completion
 
 def retrieve_db(client, db, input_column, output_column, input_value):
     if client == "SUPABASE":
@@ -103,14 +102,15 @@ class DB_Retrieval_Agent(Agent):
 
 def use_db_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
     agent = DB_Retrieval_Agent(meta_task_id, task_id)
+    agent.messages = [{"role":"system", "content":"You are a smart assistant, you retrieve information from database"}]
     return agent.send_prompt(query)
 
 
 def main():
-    agent = DB_Retrieval_Agent(0, 0)
-    response = agent.send_prompt("use supabase database, users table, look up the email (column name: email) for name is danqing2")
-    print(response)
-    print(agent.messages)
+    # agent = DB_Retrieval_Agent(0, 0)
+    # response = agent.send_prompt("use supabase database, users table, look up the email (column name: email) for name is danqing2")
+    # print(response)
+    # print(agent.messages)
     # Example usage:
     response = use_db_retrieval_agent("use supabase database, users table, look up the email (column name: email) for name is danqing2", 0, 0)
     print(response)

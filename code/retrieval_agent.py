@@ -99,7 +99,7 @@ available_tools = {
 
 
 def use_retrieval_search_agent(task_description):
-    messages = [{"role" :"system", "content":"You are a smart research assistant. Use the search engine to look up information."}]
+    messages = [{"role":"system", "content":"You are a smart research assistant. Use the search engine to look up information."}]
     # send_prompt(messages, query)
     send_prompt("retrieval_agent", messages, task_description, tools, available_tools)
     return messages[-1]["content"]
@@ -107,11 +107,6 @@ def use_retrieval_search_agent(task_description):
 
 def main():
     response = use_retrieval_search_agent("Fetch the UK's GDP over the past 5 years")
-    print(response)
-    response = use_retrieval_search_agent(
-        "use supabase database, users table, look up the email (column name: email) for name is danqing")
-    print(response)
-    response = use_file_retrieve_agent("search information in /Users/danqingzhang/Desktop/MultiAgent/code/files/attention.pdf and answer what is transformer?")
     print(response)
 
 if __name__ == "__main__":

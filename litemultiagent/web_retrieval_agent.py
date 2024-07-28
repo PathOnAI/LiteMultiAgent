@@ -1,8 +1,9 @@
+from agent import Agent
 import logging
 from dotenv import load_dotenv
 from openai import OpenAI
 import subprocess
-from typing import Any
+from typing import Any, Optional
 from pydantic import BaseModel, validator
 import requests
 import os
@@ -20,7 +21,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-from utils import *
 
 def bing_search(query:str):
     search_url = "https://api.bing.microsoft.com/v7.0/search"
@@ -40,9 +40,14 @@ def bing_search(query:str):
         raise ex
     # limit web page 
     pages = search_results["webPages"]["value"]
-    n_web = min(3, len(pages))
+    n_web = min(5, len(pages))
     search_results["webPages"]["value"] = pages[:n_web]
-    return search_results
+    urls = [x['url'] for x in search_results["webPages"]["value"]]
+
+    formatted_string = f"the related urls of the search are {', '.join(urls)}"
+
+    print(formatted_string)
+    return formatted_string
 
 def scrape(url: str):
     # scrape website. Url is the url of the website to be scraped
@@ -108,19 +113,28 @@ available_tools = {
             "scrape" : scrape
         }
 
-def use_web_search_agent(query):
-    messages = [{"role":"system", "content" :"You are a smart research assistant. Use the search engine to look up information."}]
-    # send_prompt(messages, query)
-    send_prompt("web_search_agent", messages, query, tools, available_tools)
-    return messages[-1]["content"]
+
+class Web_Retrieval_Agent(Agent):
+    def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
+        super().__init__("web_retrieval_agent", tools, available_tools, meta_task_id, task_id)
+
+def use_web_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
+    agent = Web_Retrieval_Agent(meta_task_id, task_id)
+    agent.messages = [{"role":"system", "content" :"You are a smart research assistant. Use the search engine to look up information."}]
+    return agent.send_prompt(query)
 
 
 def main():
-    messages = use_web_search_agent("Fetch the UK's GDP over the past 5 years")
-    print(messages)
-    # messages = use_web_search_agent(
-    #     "browse web to search and check the brands of dining table, and summarize the results in a table")
-    # print(messages)
+    # agent = Web_Search_Agent(0, 0)
+    # response = agent.send_prompt("Fetch the UK's GDP over the past 5 years")
+    # print(response)
+    # print(agent.messages)
+    # # Example usage:
+    response = use_web_retrieval_agent("Fetch the UK's GDP over the past 5 years", 0, 0)
+    print(response)
+    # response = use_web_retrieval_agent("the related urls of the search are https://www.macrotrends.net/global-metrics/countries/GBR/united-kingdom/gdp-gross-domestic-product, https://www.ons.gov.uk/economy/grossdomesticproductgdp, https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/ihyp/pn2", 0, 0)
+    # print(response)
 
 if __name__ == "__main__":
     main()
+
