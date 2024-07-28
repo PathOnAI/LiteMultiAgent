@@ -38,7 +38,7 @@ Then set up a Supabase project to retrieve the API keys, and create a table if y
 Then please create a .env file, and update your API keys:
 
 ```bash
-cp env.example .env
+cp .env.example .env
 ```
 
 ### (2) Quickstart
