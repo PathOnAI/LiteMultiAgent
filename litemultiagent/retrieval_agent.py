@@ -22,33 +22,96 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 from agent import Agent
-from db_retrieval_agent import DB_Retrieval_Agent
+from db_retrieval_agent import use_db_retrieval_agent
+from file_retrieval_agent import use_file_retrieval_agent
+from web_retrieval_agent import use_web_retrieval_agent
 
 
 # Modify the use_db_retrieval_agent function to accept meta_task_id and task_id
-def use_db_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
-    agent = DB_Retrieval_Agent(meta_task_id, task_id)
-    return agent.send_prompt(query)
+# def use_db_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
+#     agent = DB_Retrieval_Agent(meta_task_id, task_id)
+#     return agent.send_prompt(query)
+
+
+# tools = [
+#     {
+#         "type": "function",
+#         "function": {
+#             "name": "use_db_retrieval_agent",
+#             "description": "Use a database retrieval agent to fetch information based on a given query.",
+#             "parameters": {
+#                 "type": "object",
+#                 "properties": {
+#                     "query": {
+#                         "type": "string",
+#                         "description": "The query to be processed by the database retrieval agent."
+#                     }
+#                 },
+#                 "required": ["query"]
+#             }
+#         }
+#     },
+# ]
 
 
 tools = [
     {
         "type": "function",
         "function": {
-            "name": "use_db_retrieval_agent",
-            "description": "Use a database retrieval agent to fetch information based on a given query.",
+            "name": "use_web_retrieval_agent",
+            "description": "Perform a search using API and return the searched results.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "query": {
                         "type": "string",
-                        "description": "The query to be processed by the database retrieval agent."
+                        "description": "The task description describing what to read or write."
                     }
                 },
-                "required": ["query"]
+                "required": [
+                    "query"
+                ]
             }
         }
     },
+    {
+      "type": "function",
+      "function": {
+        "name": "use_db_retrieval_agent",
+        "description": "Use a database retrieval agent to fetch information based on a given query.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "The query to be processed by the database retrieval agent."
+            }
+          },
+          "required": [
+            "query"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "use_file_retrieve_agent",
+        "description": "Retrieve information from local documents to answer questions or perform tasks.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "The task description specifying the local file and the question to be answered. specify this in natural language"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        }
+      }
+    }
 ]
 
 agent_name = "retrieval_agent"
@@ -60,32 +123,42 @@ class Retrieval_Agent(Agent):
         def wrapped_use_db_retrieval_agent(query: str) -> str:
             return use_db_retrieval_agent(query, meta_task_id=meta_task_id, task_id=task_id)
 
+        def wrapped_use_web_retrieval_agent(query: str) -> str:
+            return use_web_retrieval_agent(query, meta_task_id=meta_task_id, task_id=task_id)
+
+        def wrapped_use_file_retrieve_agent(query: str) -> str:
+            return use_file_retrieve_agent(query, meta_task_id=meta_task_id, task_id=task_id)
+
         available_tools = {
             "use_db_retrieval_agent": wrapped_use_db_retrieval_agent,
+            "use_web_retrieval_agent": wrapped_use_web_retrieval_agent,
+            "use_file_retrieve_agent": wrapped_use_file_retrieve_agent,
         }
 
         super().__init__("retrieval_agent", tools, available_tools, meta_task_id, task_id)
 
+# # Example usage
+# agent = Retrieval_Agent(meta_task_id="example_meta_task", task_id=124)
+# response = agent.send_prompt(
+#     "use supabase database, users table, look up the email (column name: email) for name is danqing2")
+# print(response)
+# print(agent.messages)
+#
+# for index, message in enumerate(agent.messages):
+#     print(f"Message {index}: {message}")
 
-# Example usage
-agent = Retrieval_Agent(meta_task_id="example_meta_task", task_id=124)
-response = agent.send_prompt(
-    "use supabase database, users table, look up the email (column name: email) for name is danqing2")
-print(response)
-print(agent.messages)
 
-for index, message in enumerate(agent.messages):
-    print(f"Message {index}: {message}")
-
-
-def use_retrieval_search_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
+def use_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
     agent = Retrieval_Agent(meta_task_id, task_id)
+    agent.messages = [{"role" :"system", "content": "You are a smart research assistant. Use the search engine to look up information."}]
     return agent.send_prompt(query)
 
 
 def main():
-    response = use_retrieval_search_agent(
+    response = use_retrieval_agent(
         "use supabase database, users table, look up the email (column name: email) for name is danqing2", "test", 0)
+    print(response)
+    response = use_web_retrieval_agent("Fetch the UK's GDP over the past 5 years", 0, 0)
     print(response)
 
 

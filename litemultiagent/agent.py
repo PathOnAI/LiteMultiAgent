@@ -35,6 +35,7 @@ class Agent:
         self.meta_task_id = meta_task_id
         self.task_id = task_id
 
+
     def send_prompt(self, content: str) -> str:
         self.messages.append({"role": "user", "content": content})
         return self._send_completion_request()
@@ -146,6 +147,7 @@ class Agent:
             "total_cost": usage_dict["total_cost"],
             "model_name": self.model_name,
         }
+
         try:
             supabase.table("multiagent").insert(data).execute()
         except Exception as e:
@@ -173,22 +175,3 @@ class Agent:
             "total_cost": total_cost
         }
 
-
-# class MainAgent(Agent):
-#     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
-#         super().__init__("main_agent", tools, available_tools, meta_task_id, task_id)
-#
-#
-# class RetrievalAgent(Agent):
-#     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
-#         super().__init__("retrieval_agent", tools, available_tools, meta_task_id, task_id)
-#
-#
-# # Define tools and available_tools here, or import them from the existing files
-# tools = [
-#     # ... (copy the tools from the original code)
-# ]
-#
-# available_tools = {
-#     # ... (copy the available_tools from the original code)
-# }
