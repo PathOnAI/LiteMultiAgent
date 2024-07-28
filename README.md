@@ -1,5 +1,7 @@
-# MultiAgent
+# LiteMultiAgent
 repo owner: Danni (Danqing) Zhang (danqing.zhang.personal@gmail.com)
+
+<a href='https://discord.gg/Wa9WqppE'><img src='https://img.shields.io/badge/Community-Discord-8A2BE2'></a>
 
 ![design.png](design.png)
 
