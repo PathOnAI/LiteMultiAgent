@@ -95,20 +95,6 @@ available_tools = {
     "retrieve_file": retrieve_file
 }
 
-# def use_file_retrieve_agent(query):
-#     messages = [{"role":"system", "content": "You are a smart assistant and you will retrieve information from local document to answer questions or perform tasks."}]
-#     send_prompt("file_retrieve_agent", messages, query, tools, available_tools)
-#     return messages[-1]["content"]
-#
-#
-# def main():
-#     response = use_file_retrieve_agent("search information in ./files/attention.pdf and answer what is transformer?")
-#     print(response)
-#
-#
-# if __name__ == "__main__":
-#     main()
-
 
 class File_Retrieval_Agent(Agent):
     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):

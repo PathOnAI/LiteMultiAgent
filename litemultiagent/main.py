@@ -37,16 +37,10 @@ logging.basicConfig(
 
 # Create a logger
 logger = logging.getLogger(__name__)
-
-# from utils import *
-
-
-# from web_search_agent import use_web_search_agent
 from io_agent import use_io_agent
 from exec_agent import use_exec_agent
-# from db_retrieval_agent import use_db_retrieval_agent
 from retrieval_agent import use_retrieval_agent
-# from login_agent import use_login_agent
+
 
 def scan_folder(folder_path, depth=2):
     ignore_patterns = [".*", "__pycache__"]
@@ -152,15 +146,6 @@ from config import agent_to_model
 agent_name = "main_agent"
 model_name = agent_to_model[agent_name]["model_name"]
 
-# available_tools = {
-#             "scan_folder": scan_folder,
-#             "use_retrieval_agent": use_retrieval_agent,
-#             "use_io_agent": use_io_agent,
-#             "use_exec_agent": use_exec_agent,
-#         }
-
-
-
 class Main_Agent(Agent):
     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
         # Create a wrapper for use_db_retrieval_agent that includes meta_task_id and task_id
@@ -185,9 +170,6 @@ class Main_Agent(Agent):
 
 def execute_task(query: str, meta_task_id, task_id: int) -> Dict[str, Any]:
     agent = Main_Agent(meta_task_id, task_id)
-    # agent.messages = [{"role" :"system", "content": "You are a smart research assistant. Use the search engine to look up information."}]
-    # return agent.send_prompt(query)
-
     agent.messages = [{"role": "system", "content": "You are a smart research assistant. Use the search engine to look up information. \
     You are allowed to make multiple calls (either together or in sequence). \
     Only look up information when you are sure of what you want. \
@@ -216,7 +198,6 @@ def execute_task(query: str, meta_task_id: str, task_id: int, use_sub_workers_pa
     Only look up information when you are sure of what you want. \
     If you need to look up some information before asking a follow up question, you are allowed to do that!"}]
 
-    print("start running task")
     start_time = time.time()
     # Execute the function
     response = agent.send_prompt(query)

@@ -98,26 +98,6 @@ available_tools = {
             "execute_shell_command": execute_shell_command,
         }
 
-# def use_exec_agent(description):
-#     messages = [{"role":"system", "content" :"You will exec some scripts. Either by shell or run python script"}]
-#     send_prompt("exec_agent", messages, description, tools, available_tools)
-#     return messages[-1]["content"]
-#
-#
-# def main():
-#     response = use_exec_agent(
-#         "read file 3 lines of file /Users/danqingzhang/Desktop/MultiAgent/hierarchical/code/1.txt")
-#     print(response)
-#     response = use_exec_agent(
-#         "pip list to show installed python environment")
-#     print(response)
-#     response = use_exec_agent(
-#         "show me the python path of this virtual environment")
-#     print(response)
-#
-# if __name__ == "__main__":
-#     main()
-
 class Exec_Agent(Agent):
     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
         super().__init__("exec_agent", tools, available_tools, meta_task_id, task_id)

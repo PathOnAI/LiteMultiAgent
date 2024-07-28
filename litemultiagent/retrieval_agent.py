@@ -26,32 +26,6 @@ from file_retrieval_agent import use_file_retrieval_agent
 from web_retrieval_agent import use_web_retrieval_agent
 
 
-# Modify the use_db_retrieval_agent function to accept meta_task_id and task_id
-# def use_db_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
-#     agent = DB_Retrieval_Agent(meta_task_id, task_id)
-#     return agent.send_prompt(query)
-
-
-# tools = [
-#     {
-#         "type": "function",
-#         "function": {
-#             "name": "use_db_retrieval_agent",
-#             "description": "Use a database retrieval agent to fetch information based on a given query.",
-#             "parameters": {
-#                 "type": "object",
-#                 "properties": {
-#                     "query": {
-#                         "type": "string",
-#                         "description": "The query to be processed by the database retrieval agent."
-#                     }
-#                 },
-#                 "required": ["query"]
-#             }
-#         }
-#     },
-# ]
-
 
 tools = [
     {
@@ -135,16 +109,6 @@ class Retrieval_Agent(Agent):
         }
 
         super().__init__("retrieval_agent", tools, available_tools, meta_task_id, task_id)
-
-# # Example usage
-# agent = Retrieval_Agent(meta_task_id="example_meta_task", task_id=124)
-# response = agent.send_prompt(
-#     "use supabase database, users table, look up the email (column name: email) for name is danqing2")
-# print(response)
-# print(agent.messages)
-#
-# for index, message in enumerate(agent.messages):
-#     print(f"Message {index}: {message}")
 
 
 def use_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:

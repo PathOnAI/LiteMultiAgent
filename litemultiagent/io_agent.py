@@ -165,22 +165,6 @@ available_tools = {
             "generate_and_download_image": generate_and_download_image,
         }
 
-# def use_io_agent(description):
-#     messages = [{"role": "system", "content":"You are an ai agent that read and write files"}]
-#     # send_prompt(messages, query)
-#     send_prompt("io_agent", messages, description, tools, available_tools)
-#     return messages[-1]["content"]
-#
-#
-# def main():
-#     response = use_io_agent("write aaa to file /Users/danqingzhang/Desktop/MultiAgent/hierarchical/code/2.txt")
-#     print(response)
-#     response = use_io_agent("generate a image of a ginger cat and save it as ginger_cat.png")
-#     print(response)
-#
-# if __name__ == "__main__":
-#     main()
-
 class IO_Agent(Agent):
     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
         super().__init__("io_agent", tools, available_tools, meta_task_id, task_id)
@@ -192,13 +176,6 @@ def use_io_agent(query: str, meta_task_id: Optional[str] = None, task_id: Option
 
 
 def main():
-    # agent = DB_Retrieval_Agent(0, 0)
-    # response = agent.send_prompt("use supabase database, users table, look up the email (column name: email) for name is danqing2")
-    # print(response)
-    # print(agent.messages)
-    # Example usage:
-    # response = use_io_agent("use supabase database, users table, look up the email (column name: email) for name is danqing2", 0, 0)
-    # print(response
     response = use_io_agent("write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt")
     print(response)
     response = use_io_agent("generate a image of a ginger cat and save it as ginger_cat.png")

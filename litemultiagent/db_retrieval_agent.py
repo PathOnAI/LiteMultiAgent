@@ -107,11 +107,6 @@ def use_db_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_
 
 
 def main():
-    # agent = DB_Retrieval_Agent(0, 0)
-    # response = agent.send_prompt("use supabase database, users table, look up the email (column name: email) for name is danqing2")
-    # print(response)
-    # print(agent.messages)
-    # Example usage:
     response = use_db_retrieval_agent("use supabase database, users table, look up the email (column name: email) for name is danqing2", 0, 0)
     print(response)
 

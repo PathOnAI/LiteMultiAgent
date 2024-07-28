@@ -125,15 +125,9 @@ def use_web_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task
 
 
 def main():
-    # agent = Web_Search_Agent(0, 0)
-    # response = agent.send_prompt("Fetch the UK's GDP over the past 5 years")
-    # print(response)
-    # print(agent.messages)
-    # # Example usage:
     response = use_web_retrieval_agent("Fetch the UK's GDP over the past 5 years", 0, 0)
     print(response)
-    # response = use_web_retrieval_agent("the related urls of the search are https://www.macrotrends.net/global-metrics/countries/GBR/united-kingdom/gdp-gross-domestic-product, https://www.ons.gov.uk/economy/grossdomesticproductgdp, https://www.ons.gov.uk/economy/grossdomesticproductgdp/timeseries/ihyp/pn2", 0, 0)
-    # print(response)
+
 
 if __name__ == "__main__":
     main()
