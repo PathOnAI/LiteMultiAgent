@@ -2,7 +2,6 @@ openai==1.34.0
 python-dotenv==1.0.1
 pydantic==2.7.4
 requests
-langchain-community==0.2.7
 supabase
 langchain==0.2.7
 bs4==0.0.2
