@@ -5,6 +5,7 @@ class Tools:
     _io: list[dict]
     _db: list[dict]
     _file: list[dict]
+    _retrieve: list[dict]
 
 Tools._exec = [
     {
@@ -198,5 +199,65 @@ Tools._file = [
                 ]
             }
         }
+    }
+]
+
+Tools._retrieve = [
+    {
+        "type": "function",
+        "function": {
+            "name": "use_web_retrieval_agent",
+            "description": "Perform a search using API and return the searched results.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "The task description describing what to read or write."
+                    }
+                },
+                "required": [
+                    "query"
+                ]
+            }
+        }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "use_db_retrieval_agent",
+        "description": "Use a database retrieval agent to fetch information based on a given query.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "The query to be processed by the database retrieval agent."
+            }
+          },
+          "required": [
+            "query"
+          ]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "use_file_retrieve_agent",
+        "description": "Retrieve information from local documents to answer questions or perform tasks.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "The task description specifying the local file and the question to be answered. specify this in natural language"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        }
+      }
     }
 ]
