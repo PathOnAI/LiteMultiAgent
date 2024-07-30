@@ -2,6 +2,7 @@
 
 class Tools:
     _exec: list[dict]
+    _io: list[dict]
 
 Tools._exec = [
     {
@@ -45,5 +46,85 @@ Tools._exec = [
                 ]
             }
         }
+    }
+]
+
+Tools._io = [
+    {
+        "type": "function",
+        "function": {
+            "name": "write_to_file",
+            "description": "Write string content to a file.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "file_path": {
+                        "type": "string",
+                        "description": "Full file name with path where the content will be written."
+                    },
+                    "text": {
+                        "type": "string",
+                        "description": "Text content to be written into the file."
+                    },
+                    "encoding": {
+                        "type": "string",
+                        "default": "utf-8",
+                        "description": "Encoding to use for writing the file. Defaults to 'utf-8'."
+                    }
+                },
+                "required": [
+                    "file_path",
+                    "text"
+                ]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "read_file",
+            "description": "Read a file and return its contents as a string.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "file_path": {
+                        "type": "string",
+                        "description": "The full file name with path to read."
+                    },
+                    "encoding": {
+                        "type": "string",
+                        "default": "utf-8",
+                        "description": "The encoding used to decode the file. Defaults to 'utf-8'."
+                    }
+                },
+                "required": [
+                    "file_path"
+                ]
+            }
+        }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "generate_and_download_image",
+        "description": "Generate an image using DALL-E 2 based on a prompt and download it.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "prompt": {
+              "type": "string",
+              "description": "The text prompt to generate the image from."
+            },
+            "filename": {
+              "type": "string",
+              "description": "The filename (including path) to save the downloaded image."
+            }
+          },
+          "required": [
+            "prompt",
+            "filename"
+          ]
+        }
+      }
     }
 ]

@@ -1,4 +1,5 @@
 from agents.exec import Exec_Agent
+from agents.io import IO_Agent
 
 from typing import Optional
 
@@ -7,7 +8,10 @@ def use_exec_agent(query: str, meta_task_id: Optional[str] = None, task_id: Opti
     agent.messages = [{"role": "system", "content":"You will exec some scripts. Either by shell or run python script"}]
     return agent.send_prompt(query)
 
-
+def use_io_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
+    agent = IO_Agent(meta_task_id, task_id)
+    agent.messages = [{"role": "system", "content":"You are an ai agent that read and write files"}]
+    return agent.send_prompt(query)
 
 def main():
     response = use_exec_agent(
@@ -18,6 +22,11 @@ def main():
     print(response)
     response = use_exec_agent(
         "show me the python path of this virtual environment")
+    print(response)
+
+    response = use_io_agent("write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt")
+    print(response)
+    response = use_io_agent("generate a image of a ginger cat and save it as ginger_cat.png")
     print(response)
 
 if __name__ == "__main__":

@@ -1,27 +1,13 @@
-from agent import Agent
-import logging
-from dotenv import load_dotenv
+from agents.base import Agent
+from utils.tools import Tools
+
 from openai import OpenAI
-import subprocess
+
 from typing import Any, Optional
-from pydantic import BaseModel, validator
+
 import requests
 import os
-import json
-_ = load_dotenv()
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler("log.txt", mode="w"),
-        logging.StreamHandler()
-    ]
-)
-# Create a logger
-logger = logging.getLogger(__name__)
-# from utils import *
 
 def read_file(file_path: str, encoding: str = "utf-8") -> str:
     if not os.path.isfile(file_path):
@@ -74,112 +60,18 @@ def generate_and_download_image(prompt, filename):
 
 
 
-tools = [
-    {
-        "type": "function",
-        "function": {
-            "name": "write_to_file",
-            "description": "Write string content to a file.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "file_path": {
-                        "type": "string",
-                        "description": "Full file name with path where the content will be written."
-                    },
-                    "text": {
-                        "type": "string",
-                        "description": "Text content to be written into the file."
-                    },
-                    "encoding": {
-                        "type": "string",
-                        "default": "utf-8",
-                        "description": "Encoding to use for writing the file. Defaults to 'utf-8'."
-                    }
-                },
-                "required": [
-                    "file_path",
-                    "text"
-                ]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "read_file",
-            "description": "Read a file and return its contents as a string.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "file_path": {
-                        "type": "string",
-                        "description": "The full file name with path to read."
-                    },
-                    "encoding": {
-                        "type": "string",
-                        "default": "utf-8",
-                        "description": "The encoding used to decode the file. Defaults to 'utf-8'."
-                    }
-                },
-                "required": [
-                    "file_path"
-                ]
-            }
-        }
-    },
-    {
-      "type": "function",
-      "function": {
-        "name": "generate_and_download_image",
-        "description": "Generate an image using DALL-E 2 based on a prompt and download it.",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "prompt": {
-              "type": "string",
-              "description": "The text prompt to generate the image from."
-            },
-            "filename": {
-              "type": "string",
-              "description": "The filename (including path) to save the downloaded image."
-            }
-          },
-          "required": [
-            "prompt",
-            "filename"
-          ]
-        }
-      }
-    }
-]
 
-# client = OpenAI()
-from config import agent_to_model
-agent_name = "io_agent"
+
+
 
 client = OpenAI()
 available_tools = {
-            "write_to_file": write_to_file,
-            "read_file": read_file,
-            "generate_and_download_image": generate_and_download_image,
-        }
+    "write_to_file": write_to_file,
+    "read_file": read_file,
+    "generate_and_download_image": generate_and_download_image,
+}
 
 class IO_Agent(Agent):
     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
-        super().__init__("io_agent", tools, available_tools, meta_task_id, task_id)
+        super().__init__("io_agent", Tools._io, available_tools, meta_task_id, task_id)
 
-def use_io_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
-    agent = IO_Agent(meta_task_id, task_id)
-    agent.messages = [{"role": "system", "content":"You are an ai agent that read and write files"}]
-    return agent.send_prompt(query)
-
-
-def main():
-    response = use_io_agent("write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt")
-    print(response)
-    response = use_io_agent("generate a image of a ginger cat and save it as ginger_cat.png")
-    print(response)
-
-if __name__ == "__main__":
-    main()

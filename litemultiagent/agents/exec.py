@@ -1,4 +1,4 @@
-from agent import Agent
+from agents.base import Agent
 
 import subprocess
 from typing import Optional
