@@ -8,8 +8,6 @@ from core.env import supabase
 from litellm import completion
 from openai.types.chat import ChatCompletion
 
-
-
 class Agent:
     def __init__(self, agent_name: str, tools: list[dict[str, Any]], available_tools: dict[str, callable],
                  meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
