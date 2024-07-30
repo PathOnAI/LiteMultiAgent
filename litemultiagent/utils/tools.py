@@ -6,6 +6,7 @@ class Tools:
     _db: list[dict]
     _file: list[dict]
     _retrieve: list[dict]
+    _web: list[dict]
 
 Tools._exec = [
     {
@@ -260,4 +261,41 @@ Tools._retrieve = [
         }
       }
     }
+]
+
+Tools._web = [    
+    {
+        "type": "function",
+        "function": {
+            "name": "bing_search",
+            "description": "Bing search for relevant information given a query.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "Bing search query."
+                    }
+                },
+                "required": ["query"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "scrape",
+            "description": "Scraping website content based on url from Bing search.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "description": "Website url to scrape."
+                    }
+                },
+                "required": ["url"]
+            }
+        }
+    },
 ]

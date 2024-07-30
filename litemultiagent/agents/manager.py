@@ -3,6 +3,7 @@ from agents.io import IO_Agent
 from agents.db_retrieval import DB_Retrieval_Agent
 from agents.file_retrieval import File_Retrieval_Agent
 from agents.retrieval import Retrieval_Agent
+from agents.web_retrieval import Web_Retrieval_Agent
 
 from typing import Optional
 
@@ -33,6 +34,10 @@ def use_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id:
     agent.messages = [{"role" :"system", "content": "You are a smart research assistant. Use the search engine to look up information."}]
     return agent.send_prompt(query)
 
+def use_web_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
+    agent = Web_Retrieval_Agent(meta_task_id, task_id)
+    agent.messages = [{"role":"system", "content" :"You are a smart research assistant. Use the search engine to look up information."}]
+    return agent.send_prompt(query)
 
 def main():
     response = use_exec_agent(
@@ -61,6 +66,7 @@ def main():
     response = use_retrieval_agent(
         "use supabase database, users table, look up the email (column name: email) for name is danqing2", "test", 0)
     print(response)
+
     response = use_web_retrieval_agent("Fetch the UK's GDP over the past 5 years", 0, 0)
     print(response)
 
