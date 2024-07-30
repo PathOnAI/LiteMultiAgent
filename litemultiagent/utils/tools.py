@@ -3,6 +3,8 @@
 class Tools:
     _exec: list[dict]
     _io: list[dict]
+    _db: list[dict]
+    _file: list[dict]
 
 Tools._exec = [
     {
@@ -168,3 +170,33 @@ Tools._db = [{
     }
   }
 }]
+
+Tools._file = [
+    {
+        "type": "function",
+        "function": {
+            "name": "retrieve_file",
+            "description": "Processes a list of PDFs based on a query and saves the results in the specified directory.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "The query string to use for processing."
+                    },
+                    "pdf_list": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of paths to PDF files."
+                    },
+                },
+                "required": [
+                    "query",
+                    "pdf_list"
+                ]
+            }
+        }
+    }
+]

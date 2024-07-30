@@ -1,6 +1,7 @@
 from agents.exec import Exec_Agent
 from agents.io import IO_Agent
 from agents.db_retrieval import DB_Retrieval_Agent
+from agents.file_retrieval import File_Retrieval_Agent
 
 from typing import Optional
 
@@ -20,6 +21,13 @@ def use_db_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_
     agent.messages = [{"role":"system", "content":"You are a smart assistant, you retrieve information from database"}]
     return agent.send_prompt(query)
 
+
+def use_file_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
+    agent = File_Retrieval_Agent(meta_task_id, task_id)
+    agent.messages = [{"role":"system", "content": "You are a smart assistant and you will retrieve information from local document to answer questions or perform tasks."}]
+    return agent.send_prompt(query)
+
+
 def main():
     response = use_exec_agent(
         "read file 3 lines of file agent.py in the current folder")
@@ -38,6 +46,11 @@ def main():
 
     response = use_db_retrieval_agent("use supabase database, users table, look up the email (column name: email) for name is danqing2", 0, 0)
     print(response)
+
+    agent = File_Retrieval_Agent(0, 0)
+    response = agent.send_prompt("search information in ./files/attention.pdf and answer what is transformer?")
+    print(response)
+    print(agent.messages)
 
 if __name__ == "__main__":
     main()
