@@ -128,3 +128,43 @@ Tools._io = [
       }
     }
 ]
+
+Tools._db = [{
+  "type": "function",
+  "function": {
+    "name": "retrieve_db",
+    "description": "Retrieve data from a specified database (currently supports Supabase) based on input parameters.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "client": {
+          "type": "string",
+          "description": "The database client to use. Currently supports 'SUPABASE'."
+        },
+        "db": {
+          "type": "string",
+          "description": "The name of the database table to query."
+        },
+        "input_column": {
+          "type": "string",
+          "description": "The column name to search in."
+        },
+        "output_column": {
+          "type": "string",
+          "description": "The column name to retrieve data from."
+        },
+        "input_value": {
+          "type": "string",
+          "description": "The value to search for in the input column."
+        }
+      },
+      "required": [
+        "client",
+        "db",
+        "input_column",
+        "output_column",
+        "input_value"
+      ]
+    }
+  }
+}]

@@ -1,7 +1,9 @@
 from agents.exec import Exec_Agent
 from agents.io import IO_Agent
+from agents.db_retrieval import DB_Retrieval_Agent
 
 from typing import Optional
+
 
 def use_exec_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
     agent = Exec_Agent(meta_task_id, task_id)
@@ -11,6 +13,11 @@ def use_exec_agent(query: str, meta_task_id: Optional[str] = None, task_id: Opti
 def use_io_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
     agent = IO_Agent(meta_task_id, task_id)
     agent.messages = [{"role": "system", "content":"You are an ai agent that read and write files"}]
+    return agent.send_prompt(query)
+
+def use_db_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
+    agent = DB_Retrieval_Agent(meta_task_id, task_id)
+    agent.messages = [{"role":"system", "content":"You are a smart assistant, you retrieve information from database"}]
     return agent.send_prompt(query)
 
 def main():
@@ -27,6 +34,9 @@ def main():
     response = use_io_agent("write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt")
     print(response)
     response = use_io_agent("generate a image of a ginger cat and save it as ginger_cat.png")
+    print(response)
+
+    response = use_db_retrieval_agent("use supabase database, users table, look up the email (column name: email) for name is danqing2", 0, 0)
     print(response)
 
 if __name__ == "__main__":
