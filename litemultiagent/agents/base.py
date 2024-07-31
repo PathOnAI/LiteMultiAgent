@@ -1,42 +1,30 @@
-import logging
-from typing import List, Dict, Any, Optional
-from openai import OpenAI
+from typing import Any, Optional
 import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from config import agent_to_model, model_cost
-from supabase import create_client, Client
-import os
-from dotenv import load_dotenv
-_ = load_dotenv()
+
+from core.config import AGENT_TO_MODEL, MODEL_COST, AgentLogger
+from core.env import supabase
+
 from litellm import completion
-
-logger = logging.getLogger(__name__)
-
-# Initialize Supabase client only if environment variables are set
-url = os.getenv("SUPABASE_URL")
-key = os.getenv("SUPABASE_ANON_KEY")
-supabase: Optional[Client] = None
-if url and key:
-    try:
-        supabase = create_client(url, key)
-    except Exception as e:
-        logger.error(f"Failed to initialize Supabase client: {e}")
-
+from openai.types.chat import ChatCompletion
 
 class Agent:
-    def __init__(self, agent_name: str, tools: List[Dict[str, Any]], available_tools: Dict[str, callable],
+    def __init__(self, agent_name: str, tools: list[dict[str, Any]], available_tools: dict[str, callable],
                  meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
         self.agent_name = agent_name
         self.tools = tools
         self.available_tools = available_tools
-        self.model_name = agent_to_model[agent_name]["model_name"]
-        self.tool_choice = agent_to_model[agent_name]["tool_choice"]
+        self.model_name = AGENT_TO_MODEL[agent_name]["model_name"]
+        self.tool_choice = AGENT_TO_MODEL[agent_name]["tool_choice"]
         self.messages = []
         self.meta_task_id = meta_task_id
         self.task_id = task_id
 
+        
+
 
     def send_prompt(self, content: str) -> str:
+        print('huhhh')
         self.messages.append({"role": "user", "content": content})
         return self._send_completion_request()
 
@@ -85,9 +73,9 @@ class Agent:
 
         return self._send_completion_request(depth + 1)
 
-    def _process_tool_calls(self, tool_calls: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _process_tool_calls(self, tool_calls: list[dict[str, Any]]) -> list[dict[str, Any]]:
         tool_call_responses = []
-        logger.info(f"Number of function calls: {len(tool_calls)}")
+        AgentLogger.info(f"Number of function calls: {len(tool_calls)}")
 
         with ThreadPoolExecutor(max_workers=None) as executor:
             future_to_tool_call = {executor.submit(self._process_single_tool_call, tool_call): tool_call for tool_call
@@ -100,7 +88,7 @@ class Agent:
 
         return tool_call_responses
 
-    def _process_single_tool_call(self, tool_call: Dict[str, Any]) -> Dict[str, Any]:
+    def _process_single_tool_call(self, tool_call: dict[str, Any]) -> dict[str, Any]:
         tool_call_id = tool_call["id"]
         function_name = tool_call["function"]["name"]
         function_args = json.loads(tool_call["function"]["arguments"])
@@ -109,27 +97,27 @@ class Agent:
 
         try:
             function_response = function_to_call(**function_args)
-            logger.info(f'Function name: {function_name}, function args: {function_args}')
+            AgentLogger.info(f'Function name: {function_name}, function args: {function_args}')
             tool_response_message = {
                 "tool_call_id": tool_call_id,
                 "role": "tool",
                 "name": function_name,
                 "content": str(function_response)
             }
-            logger.info(f'Function name: {function_name}, function response: {str(function_response)}')
+            AgentLogger.info(f'Function name: {function_name}, function response: {str(function_response)}')
             return tool_response_message
         except Exception as e:
-            logger.error(f"Error while calling function <{function_name}>: {e}")
+            AgentLogger.error(f"Error while calling function <{function_name}>: {e}")
             return None
 
     def _log_response(self, response, depth):
-        logger.info(
+        AgentLogger.info(
             f'Agent: {self.agent_name}, prompt tokens: {response.usage.prompt_tokens}, completion tokens: {response.usage.completion_tokens}')
-        logger.info(f'Agent: {self.agent_name}, depth: {depth}, response: {response}')
+        AgentLogger.info(f'Agent: {self.agent_name}, depth: {depth}, response: {response}')
 
-    def _save_to_supabase(self, response, depth):
+    def _save_to_supabase(self, response: ChatCompletion, depth):
         if supabase is None:
-            logger.warning("Supabase client is not initialized. Skipping database save.")
+            AgentLogger.warning("Supabase client is not initialized. Skipping database save.")
             return
 
         usage_dict = self._extract_cost(response)
@@ -151,16 +139,16 @@ class Agent:
         try:
             supabase.table("multiagent").insert(data).execute()
         except Exception as e:
-            logger.error(f"Failed to save data to Supabase: {e}")
+           AgentLogger.error(f"Failed to save data to Supabase: {e}")
 
-    def _extract_cost(self, response):
+    def _extract_cost(self, response: ChatCompletion):
         prompt_tokens = response.usage.prompt_tokens
         completion_tokens = response.usage.completion_tokens
         total_tokens = response.usage.total_tokens
 
         # Pricing for gpt-4-0314
-        input_price_per_1m = model_cost[self.model_name]["input_price_per_1m"]
-        output_price_per_1m = model_cost[self.model_name]["output_price_per_1m"]
+        input_price_per_1m = MODEL_COST[self.model_name]["input_price_per_1m"]
+        output_price_per_1m = MODEL_COST[self.model_name]["output_price_per_1m"]
 
         input_cost = (prompt_tokens / 1000) * input_price_per_1m
         output_cost = (completion_tokens / 1000) * output_price_per_1m

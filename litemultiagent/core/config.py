@@ -3,7 +3,9 @@
 # claude-3-5-sonnet-20240620
 # gemini/gemini-pro
 
-model_cost = {
+import logging
+
+MODEL_COST = {
     "gpt-4o-mini": {
         "input_price_per_1m": 0.15,
         "output_price_per_1m": 0.6,
@@ -22,7 +24,7 @@ model_cost = {
     },
 }
 
-agent_to_model = {
+AGENT_TO_MODEL = {
     "main_agent":
         {
             "model_name" : "gpt-4o-mini",
@@ -62,3 +64,17 @@ class Config:
 
 # Create a global configuration object
 function_calling_config = Config()
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("log.txt", mode="w"),
+        logging.StreamHandler()
+    ]
+)
+
+# Create a logger
+LiteMultiAgentLogger = logging.getLogger(__name__)
+AgentLogger = logging.getLogger('BaseAgent')

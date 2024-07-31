@@ -38,20 +38,20 @@ Then set up a Supabase project to retrieve the API keys, and create a table if y
 Then please create a .env file, and update your API keys:
 
 ```bash
-cp env.example .env
+cp .env.example .env
 ```
 
 ### (2) Quickstart
 After configuring your API keys, you can run main.py, where the sub-agents are already parallelized through parallel function calling.
 ```bash
-python main.py
+python demo_agent.py
 ```
 Then we can get the total execution time for all tasks: 67.07 seconds.
 
 You can parallelize the execution of the tasks of main agents:
 
 ```bash
-python main.py --main-workers-parallel
+python demo_agent.py --main-workers-parallel
 ```
 Then it's further sped up. Total execution time for all tasks: 29.34 seconds.
 
