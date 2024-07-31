@@ -5,7 +5,7 @@ FROM python:3.10-slim
 WORKDIR /app
 
 # Copy the requirements.txt file into the container at /app
-COPY ../requirements.txt .
+COPY ../litemultiagent/requirements.txt .
 
 # Copy the env.example file into the container at /app
 COPY ../env.example .
@@ -20,4 +20,3 @@ RUN cp env.example .env
 COPY .. .
 
 # Command to run the application
-CMD ["python", "main.py"]
