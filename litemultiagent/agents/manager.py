@@ -45,7 +45,10 @@ class AgentManager:
 
         self.current_agent = agent
 
-        return agent.send_prompt(query)
+        res = agent.send_prompt(query)
+        print(res)
+
+        return res
 
 
 

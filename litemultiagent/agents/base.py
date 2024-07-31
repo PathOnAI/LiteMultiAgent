@@ -15,13 +15,16 @@ class Agent:
         self.tools = tools
         self.available_tools = available_tools
         self.model_name = AGENT_TO_MODEL[agent_name]["model_name"]
-        self.tool_choice = MODEL_COST[agent_name]["tool_choice"]
+        self.tool_choice = AGENT_TO_MODEL[agent_name]["tool_choice"]
         self.messages = []
         self.meta_task_id = meta_task_id
         self.task_id = task_id
 
+        
+
 
     def send_prompt(self, content: str) -> str:
+        print('huhhh')
         self.messages.append({"role": "user", "content": content})
         return self._send_completion_request()
 
