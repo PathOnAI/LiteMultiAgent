@@ -19,3 +19,5 @@ if SUPABASE_URL and SUPABASE_ANON_KEY:
     except Exception as e:
         supabase = None
         LiteMultiAgentLogger.error(f"Failed to initialize Supabase client: {e}")
+else:
+    supabase = None

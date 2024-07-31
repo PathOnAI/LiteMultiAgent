@@ -1,10 +1,10 @@
 from agents.base import Agent
 from agents.exec import Exec_Agent
 from agents.io import IO_Agent
-from litemultiagent.agents.retrieval.db import DB_Retrieval_Agent
-from litemultiagent.agents.retrieval.file import File_Retrieval_Agent
-from litemultiagent.agents.retrieval import Retrieval_Agent
-from litemultiagent.agents.retrieval.web import Web_Retrieval_Agent
+from agents.retrieval.db import DB_Retrieval_Agent
+from agents.retrieval.file import File_Retrieval_Agent
+# from agents.retrieval import Retrieval_Agent
+from agents.retrieval.web import Web_Retrieval_Agent
 
 from typing import Optional
 from enum import Enum
@@ -30,9 +30,9 @@ class AgentManager:
         elif type_ == AgentType.IO:
             agent = IO_Agent(meta_task_id, task_id)
             agent.messages = [{"role": "system", "content":"You are an ai agent that read and write files"}]
-        elif type_ == AgentType.RETRIEVE:
-            agent = Retrieval_Agent(meta_task_id, task_id)
-            agent.messages = [{"role":"system", "content" :"You are a smart research assistant. Use the search engine to look up information."}]
+        # elif type_ == AgentType.RETRIEVE:
+        #     agent = Retrieval_Agent(meta_task_id, task_id)
+        #     agent.messages = [{"role":"system", "content" :"You are a smart research assistant. Use the search engine to look up information."}]
         elif type_ == AgentType.RETRIEVE_DB:
             agent = DB_Retrieval_Agent(meta_task_id, task_id)
             agent.messages = [{"role":"system", "content":"You are a smart assistant, you retrieve information from database"}]

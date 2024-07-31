@@ -8,6 +8,8 @@ class Tools:
     _retrieve: list[dict]
     _web: list[dict]
 
+    _demo: list[dict]
+
 Tools._exec = [
     {
         "type": "function",
@@ -295,6 +297,86 @@ Tools._web = [
                     }
                 },
                 "required": ["url"]
+            }
+        }
+    },
+]
+
+Tools._demo = tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "use_io_agent",
+            "description": "Read or write content from/to a file, or generate and save an image using text input",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "description": "The task description detailing what to read, write, or generate. This can include file operations or image generation requests."
+                    }
+                },
+                "required": [
+                    "description"
+                ]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "use_exec_agent",
+            "description": "Execute some script in a subprocess, either run a bash script, or run a python script ",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "description": "The task description describing what to execute in the subprocess.",
+                    }
+                },
+                "required": [
+                    "query"
+                ]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "scan_folder",
+            "description": "Scan a directory recursively for files with path with depth 2. You can also use this function to understand the folder structure in a given folder path.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "folder_path": {
+                        "type": "string",
+                        "description": "The folder path to scan."
+                    }
+                },
+                "required": [
+                    "folder_path"
+                ]
+            },
+            "return_type": "list: A list of file paths str with the given extension, or all files if no extension is specified."
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "use_retrieval_agent",
+            "description": "Use a smart research assistant to look up information using multiple sources including web search, database retrieval, and local file retrieval.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "description": "The task description specifying the information source (web search, database, local file) and the question to be answered. specify this in natural language"
+                    }
+                },
+                "required": [
+                    "query"
+                ]
             }
         }
     },
