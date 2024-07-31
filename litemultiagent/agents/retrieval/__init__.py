@@ -2,7 +2,7 @@ from typing import Any, Optional
 
 from agents.base import Agent
 from agents.manager import use_db_retrieval_agent, use_file_retrieval_agent
-from web_retrieval_agent import use_web_retrieval_agent
+from agents.manager import use_web_retrieval_agent
 
 from utils.tools import Tools
 

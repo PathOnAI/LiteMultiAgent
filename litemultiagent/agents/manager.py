@@ -1,43 +1,49 @@
 from agents.exec import Exec_Agent
 from agents.io import IO_Agent
-from agents.db_retrieval import DB_Retrieval_Agent
-from agents.file_retrieval import File_Retrieval_Agent
-from agents.retrieval import Retrieval_Agent
-from agents.web_retrieval import Web_Retrieval_Agent
+from litemultiagent.agents.retrieval.db import DB_Retrieval_Agent
+from litemultiagent.agents.retrieval.file import File_Retrieval_Agent
+from litemultiagent.agents.retrieval import Retrieval_Agent
+from litemultiagent.agents.retrieval.web import Web_Retrieval_Agent
 
 from typing import Optional
+from enum import Enum
+
+class AgentType(Enum):
+    EXEC = 'exec'
+    IO = 'io'
+    RETRIEVE = 'retrieve'
+    RETRIEVE_WEB = 'retrieve_web'
+    RETRIEVE_FILE = 'retrieve_file'
+    RETRIEVE_DB = 'retrieve_db'
 
 
-def use_exec_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
-    agent = Exec_Agent(meta_task_id, task_id)
-    agent.messages = [{"role": "system", "content":"You will exec some scripts. Either by shell or run python script"}]
-    return agent.send_prompt(query)
+class AgentManager:
+    def __init__(self):
+        self.agents = {}
 
-def use_io_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
-    agent = IO_Agent(meta_task_id, task_id)
-    agent.messages = [{"role": "system", "content":"You are an ai agent that read and write files"}]
-    return agent.send_prompt(query)
+    def use_agent(self, type_: AgentType, query: str,  meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
+        if type_ == AgentType.EXEC:
+            agent = Exec_Agent(meta_task_id, task_id)
+            agent.messages = [{"role": "system", "content":"You will exec some scripts. Either by shell or run python script"}]
+        elif type_ == AgentType.IO:
+            agent = IO_Agent(meta_task_id, task_id)
+            agent.messages = [{"role": "system", "content":"You are an ai agent that read and write files"}]
+        elif type_ == AgentType.RETRIEVE:
+            agent = Retrieval_Agent(meta_task_id, task_id)
+            agent.messages = [{"role":"system", "content" :"You are a smart research assistant. Use the search engine to look up information."}]
+        elif type_ == AgentType.RETRIEVE_DB:
+            agent = DB_Retrieval_Agent(meta_task_id, task_id)
+            agent.messages = [{"role":"system", "content":"You are a smart assistant, you retrieve information from database"}]
+        elif type_ == AgentType.RETRIEVE_FILE:
+            agent = File_Retrieval_Agent(meta_task_id, task_id)
+            agent.messages = [{"role":"system", "content": "You are a smart assistant and you will retrieve information from local document to answer questions or perform tasks."}]
+        elif type_ == AgentType.RETRIEVE_WEB:
+            agent = Web_Retrieval_Agent(meta_task_id, task_id)
+            agent.messages = [{"role" :"system", "content": "You are a smart research assistant. Use the search engine to look up information."}]
 
-def use_db_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
-    agent = DB_Retrieval_Agent(meta_task_id, task_id)
-    agent.messages = [{"role":"system", "content":"You are a smart assistant, you retrieve information from database"}]
-    return agent.send_prompt(query)
+        return agent.send_prompt(query)
 
 
-def use_file_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
-    agent = File_Retrieval_Agent(meta_task_id, task_id)
-    agent.messages = [{"role":"system", "content": "You are a smart assistant and you will retrieve information from local document to answer questions or perform tasks."}]
-    return agent.send_prompt(query)
-
-def use_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
-    agent = Retrieval_Agent(meta_task_id, task_id)
-    agent.messages = [{"role" :"system", "content": "You are a smart research assistant. Use the search engine to look up information."}]
-    return agent.send_prompt(query)
-
-def use_web_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
-    agent = Web_Retrieval_Agent(meta_task_id, task_id)
-    agent.messages = [{"role":"system", "content" :"You are a smart research assistant. Use the search engine to look up information."}]
-    return agent.send_prompt(query)
 
 def main():
     response = use_exec_agent(
