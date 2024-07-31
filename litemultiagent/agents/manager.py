@@ -1,3 +1,4 @@
+from agents.base import Agent
 from agents.exec import Exec_Agent
 from agents.io import IO_Agent
 from litemultiagent.agents.retrieval.db import DB_Retrieval_Agent
@@ -20,6 +21,7 @@ class AgentType(Enum):
 class AgentManager:
     def __init__(self):
         self.agents = {}
+        self.current_agent: Agent | None = None
 
     def use_agent(self, type_: AgentType, query: str,  meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
         if type_ == AgentType.EXEC:
@@ -41,39 +43,50 @@ class AgentManager:
             agent = Web_Retrieval_Agent(meta_task_id, task_id)
             agent.messages = [{"role" :"system", "content": "You are a smart research assistant. Use the search engine to look up information."}]
 
+        self.current_agent = agent
+
         return agent.send_prompt(query)
 
 
 
 def main():
-    response = use_exec_agent(
+    manager = AgentManager()
+
+    response = manager.use_agent(
+        AgentType.EXEC,
         "read file 3 lines of file agent.py in the current folder")
     print(response)
-    response = use_exec_agent(
+
+    response = manager.use_agent(
+        AgentType.EXEC,
         "pip list to show installed python environment")
     print(response)
-    response = use_exec_agent(
+
+    response = manager.use_agent(
+        AgentType.EXEC,
         "show me the python path of this virtual environment")
     print(response)
 
-    response = use_io_agent("write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt")
-    print(response)
-    response = use_io_agent("generate a image of a ginger cat and save it as ginger_cat.png")
+    response = manager.use_agent(AgentType.IO, "write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt")
     print(response)
 
-    response = use_db_retrieval_agent("use supabase database, users table, look up the email (column name: email) for name is danqing2", 0, 0)
+    response = manager.use_agent(AgentType.IO, "generate a image of a ginger cat and save it as ginger_cat.png")
     print(response)
 
-    agent = File_Retrieval_Agent(0, 0)
-    response = agent.send_prompt("search information in ./files/attention.pdf and answer what is transformer?")
+    response = manager.use_agent(AgentType.RETRIEVE_DB, "use supabase database, users table, look up the email (column name: email) for name is danqing2", 0, 0)
     print(response)
-    print(agent.messages)
 
-    response = use_retrieval_agent(
+
+    response = manager.use_agent(AgentType.RETRIEVE_FILE, "search information in ./files/attention.pdf and answer what is transformer?", 0, 0)
+    print(response)
+    print(manager.current_agent.messages)
+
+    response = manager.use_agent(
+        AgentType.RETRIEVE_DB,
         "use supabase database, users table, look up the email (column name: email) for name is danqing2", "test", 0)
     print(response)
 
-    response = use_web_retrieval_agent("Fetch the UK's GDP over the past 5 years", 0, 0)
+    response = manager.use_agent(AgentType.RETRIEVE_WEB, "Fetch the UK's GDP over the past 5 years", 0, 0)
     print(response)
 
 if __name__ == "__main__":
