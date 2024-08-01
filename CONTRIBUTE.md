@@ -1,6 +1,6 @@
 # How to contribute to LiteMultiAgent
 
-## 3. Submitting Changes
+## 🚀 1. Submitting Changes
 
 ### Code format check
 Please ensure your code is formatted correctly using pre-commit
@@ -26,3 +26,7 @@ git commit -m <type>: <subject>
 ### Create a Pull Request
 
 1. Write a title and describe your changes in the description. And it is recommended to select the label of the change to make it more clear.
+
+
+## 🤝 2. Acknowledgement
+The inspiration for the hierarchical multi-agent idea came up when Danni was working with Zhaolong Zhong (zhlgzh@gmail.com) on another project called mini-agent.
