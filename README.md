@@ -65,3 +65,5 @@ If we neither the tasks at main agent level or sub agent level are paralleled, t
 ## 🚀 3. Contributions
 For how to contribute, see [CONTRIBUTE](https://github.com/PathOnAI/LiteMultiAgent/blob/main/CONTRIBUTE.md). If you would like to contribute to the codebase, [issues](https://github.com/PathOnAI/LiteMultiAgent/issues) or [pull requests](https://github.com/PathOnAI/LiteMultiAgent/pulls) are always welcome!
 
+## 🤝 4. Acknowledgement
+The inspiration for the hierarchical multi-agent idea came up when Danni was working with Zhaolong Zhong (zhlgzh@gmail.com) on another project called mini-agent.
