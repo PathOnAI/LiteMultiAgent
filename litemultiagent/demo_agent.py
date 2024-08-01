@@ -9,11 +9,6 @@ import concurrent.futures
 import uuid
 
 
-# url = os.getenv("SUPABASE_URL")
-# key = os.getenv("SUPABASE_ANON_KEY")
-
-# supabase: Client = create_client(url, key)
-
 
 from agents.manager import AgentManager, AgentType
 
@@ -81,13 +76,11 @@ def execute_task(query: str, meta_task_id, task_id: int) -> dict[str, Any]:
 # TODO: pass use_sub_workers_parallel: bool, write_to_db: bool to agent
 def execute_task(query: str, meta_task_id: str, task_id: int, use_sub_workers_parallel: bool,
                  write_to_db: bool) -> None:
-    # print(query)
     agent = Main_Agent(meta_task_id, task_id)
     agent.messages = [{"role": "system", "content": "You are a smart research assistant. Use the search engine to look up information. \
     You are allowed to make multiple calls (either together or in sequence). \
     Only look up information when you are sure of what you want. \
     If you need to look up some information before asking a follow up question, you are allowed to do that!"}]
-    print(query)
     start_time = time.time()
     # Execute the function
     response = agent.send_prompt(query)

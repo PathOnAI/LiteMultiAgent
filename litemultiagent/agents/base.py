@@ -24,7 +24,6 @@ class Agent:
 
 
     def send_prompt(self, content: str) -> str:
-        print('huhhh')
         self.messages.append({"role": "user", "content": content})
         return self._send_completion_request()
 
