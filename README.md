@@ -3,7 +3,7 @@ repo owner: Danni (Danqing) Zhang (danqing.zhang.personal@gmail.com)
 
 main contributors: Balaji Rama (balajirw10@gmail.com), Shiying He (sy.he0303@gmail.com) and Jingyi Ni (jingyi.ni.personal@gmail.com)
 
-<a href='https://discord.gg/YX5tJ2zH'><img src='https://img.shields.io/badge/Community-Discord-8A2BE2'></a>
+<a href='https://discord.gg/u2GXH4TC'><img src='https://img.shields.io/badge/Community-Discord-8A2BE2'></a>
 <a href='https://danqingz.github.io/blog/2024/07/27/LiteMultiAgent.html'><img src='https://img.shields.io/badge/BLOG-181717?logo=github&logoColor=white'></a>
 <a href='https://litemultiagent.readthedocs.io/en/latest/'><img src='https://img.shields.io/badge/Documentation-green'></a>
 
