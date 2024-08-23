@@ -1,4 +1,4 @@
-from agents.base import Agent
+from litemultiagent.agents.base import Agent
 
 
 
@@ -11,7 +11,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
 
-from utils.tools import Tools
+from litemultiagent.utils.tools import Tools
 
 
 

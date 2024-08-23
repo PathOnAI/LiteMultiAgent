@@ -1,5 +1,5 @@
-from agents.base import Agent
-from utils.tools import Tools
+from litemultiagent.agents.base import Agent
+from litemultiagent.utils.tools import Tools
 
 from openai import OpenAI
 
