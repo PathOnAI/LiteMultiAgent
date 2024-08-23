@@ -1,4 +1,4 @@
-from agents.base import Agent
+from litemultiagent.agents.base import Agent
 from typing import Any, Optional
 import os
 
@@ -7,10 +7,12 @@ import time
 import argparse
 import concurrent.futures
 import uuid
+from litemultiagent.core.config import AGENT_TO_MODEL
+from litemultiagent.utils.tools import Tools
 
 
 
-from agents.manager import AgentManager, AgentType
+from litemultiagent.agents.manager import AgentManager, AgentType
 
 def scan_folder(folder_path, depth=2):
     ignore_patterns = [".*", "__pycache__"]
@@ -32,8 +34,7 @@ def scan_folder(folder_path, depth=2):
 
 
 
-from core.config import AGENT_TO_MODEL
-from utils.tools import Tools
+
 
 model_name = AGENT_TO_MODEL["main_agent"]["model_name"]
 
@@ -117,7 +118,7 @@ if __name__ == "__main__":
 
     queries = [
         "write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt",
-        "browse web to search and check the brands of dining table, and summarize the results in a table, save the table as a readme file",
+        "browse web to search and check the brands of dining table, and summarize the results in a table, save the table as a markdown file called summary.md",
         "generate a image of a ginger cat and save it as ginger_cat.png",
     ]
 

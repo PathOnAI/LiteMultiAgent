@@ -1,4 +1,4 @@
-from agents.base import Agent
+from litemultiagent.agents.base import Agent
 
 from typing import Optional
 
@@ -6,7 +6,7 @@ import requests
 import os
 from bs4 import BeautifulSoup
 
-from utils.tools import Tools
+from litemultiagent.utils.tools import Tools
 
 def bing_search(query:str):
     search_url = "https://api.bing.microsoft.com/v7.0/search"

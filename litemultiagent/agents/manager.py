@@ -1,10 +1,10 @@
-from agents.base import Agent
-from agents.exec import Exec_Agent
-from agents.io import IO_Agent
-from agents.retrieval.db import DB_Retrieval_Agent
-from agents.retrieval.file import File_Retrieval_Agent
+from litemultiagent.agents.base import Agent
+from litemultiagent.agents.exec import Exec_Agent
+from litemultiagent.agents.io import IO_Agent
+from litemultiagent.agents.retrieval.db import DB_Retrieval_Agent
+from litemultiagent.agents.retrieval.file import File_Retrieval_Agent
 # from agents.retrieval import Retrieval_Agent
-from agents.retrieval.web import Web_Retrieval_Agent
+from litemultiagent.agents.retrieval.web import Web_Retrieval_Agent
 
 from typing import Optional
 from enum import Enum

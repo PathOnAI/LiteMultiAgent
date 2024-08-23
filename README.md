@@ -45,14 +45,14 @@ cp .env.example .env
 After configuring your API keys, you can run main.py, where the sub-agents are already parallelized through parallel function calling.
 ```bash
 cd litemultiagent
-python demo_agent.py
+python -m litemultiagent.demo_agent
 ```
 Then we can get the total execution time for all tasks: 67.07 seconds.
 
 You can parallelize the execution of the tasks of main agents:
 
 ```bash
-python demo_agent.py --main-workers-parallel
+python -m litemultiagent.demo_agent --main-workers-parallel
 ```
 Then it's further sped up. Total execution time for all tasks: 29.34 seconds.
 

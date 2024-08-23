@@ -1,9 +1,9 @@
-from agents.base import Agent
+from litemultiagent.agents.base import Agent
 
 import subprocess
 from typing import Optional
 
-from utils.tools import Tools
+from litemultiagent.utils.tools import Tools
 
 def execute_shell_command(command, wait=True):
     try:

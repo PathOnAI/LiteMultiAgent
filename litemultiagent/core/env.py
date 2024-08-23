@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 from supabase import create_client, Client
 
-from core.config import LiteMultiAgentLogger
+from litemultiagent.core.config import LiteMultiAgentLogger
 
 load_dotenv()
 

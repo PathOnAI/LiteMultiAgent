@@ -2,8 +2,8 @@ from typing import Any, Optional
 import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from core.config import AGENT_TO_MODEL, MODEL_COST, AgentLogger
-from core.env import supabase
+from litemultiagent.core.config import AGENT_TO_MODEL, MODEL_COST, AgentLogger
+from litemultiagent.core.env import supabase
 
 from litellm import completion
 from openai.types.chat import ChatCompletion
