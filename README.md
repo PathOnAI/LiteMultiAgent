@@ -12,11 +12,17 @@ In our exploration of building multi-agent systems, we have investigated AutoGen
 ## ✈️ 1. Getting Started
 
 ### (1) Installation
-First set up virtual environment
+From PyPI: https://pypi.org/project/litemultiagent/
+```
+pip install litemultiagent 
+```
+
+Set up locally
+First set up virtual environment, and allow your code to be able to see 'litemultiagent'
 ```bash
-$ python3 -m venv venv
-$ . venv/bin/activate
-$ pip install -r requirements.txt
+python3 -m venv venv
+. venv/bin/activate
+pip install -e .
 ```
 Then set up a Supabase project to retrieve the API keys, and create a table if you want to save the results to a Supabase table. Please add the below columns to your Supabase table, and disable RLS.
 

@@ -1,3 +1,6 @@
+litemultiagent.egg-info
+build
+dist
 log.txt
 chroma
 # Byte-compiled / optimized / DLL files
