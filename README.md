@@ -70,3 +70,13 @@ If we neither the tasks at main agent level or sub agent level are paralleled, t
 
 ## 🚀 3. Contributions
 For how to contribute, see [CONTRIBUTE](https://github.com/PathOnAI/LiteMultiAgent/blob/main/CONTRIBUTE.md). If you would like to contribute to the codebase, [issues](https://github.com/PathOnAI/LiteMultiAgent/issues) or [pull requests](https://github.com/PathOnAI/LiteMultiAgent/pulls) are always welcome!
+
+## 📄 4. Citing LiteMultiAgent
+```
+@misc{zhang2024litemultiagent,
+  title={LiteMultiAgent},
+  author={Zhang, Danqing and Rama, Balaji and He, Shiying and Ni, Jingyi},
+  journal={https://danqingz.github.io/blog/2024/07/27/LiteMultiAgent.html},
+  year={2024}
+}
+```
