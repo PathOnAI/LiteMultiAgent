@@ -1,4 +1,4 @@
-from litemultiagent.agents.BaseAgent import Agent
+from litemultiagent.agents.BaseAgent import BaseAgent
 import logging
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -98,7 +98,7 @@ available_tools = {
             "execute_shell_command": execute_shell_command,
         }
 
-class Exec_Agent(Agent):
+class Exec_Agent(BaseAgent):
     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
         super().__init__("use_exec_agent", tools, available_tools, meta_task_id, task_id)
 

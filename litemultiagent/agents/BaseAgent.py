@@ -33,7 +33,7 @@ if url and key:
         logger.error(f"Failed to initialize Supabase client: {e}")
 
 
-class Agent:
+class BaseAgent:
     def __init__(self, agent_name: str, tools: List[Dict[str, Any]], available_tools: Dict[str, callable],
                  meta_task_id: Optional[str] = None, task_id: Optional[int] = None, save_to="csv", log="log"):
         self.agent_name = agent_name

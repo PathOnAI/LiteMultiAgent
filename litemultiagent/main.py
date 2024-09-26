@@ -1,4 +1,4 @@
-from litemultiagent.agents.BaseAgent import Agent
+from litemultiagent.agents.BaseAgent import BaseAgent
 import logging
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -146,7 +146,7 @@ from config import agent_to_model
 agent_name = "main_agent"
 model_name = agent_to_model[agent_name]["model_name"]
 
-class Main_Agent(Agent):
+class Main_Agent(BaseAgent):
     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
         # Create a wrapper for use_db_retrieval_agent that includes meta_task_id and task_id
         def wrapped_use_retrieval_agent(description: str) -> str:
@@ -234,7 +234,8 @@ if __name__ == "__main__":
 
     queries = [
         #"write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt",
-        "browse web to search and check the brands of dining table, and summarize the results in a table, save the table as a readme file",
+        "write python script to calculate the sum from 1 to 10, and run the python script to get result"
+        #"browse web to search and check the brands of dining table, and summarize the results in a table, save the table as a readme file",
         #"generate a image of a ginger cat and save it as ginger_cat.png",
     ]
 

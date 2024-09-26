@@ -20,7 +20,7 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-from litemultiagent.agents.BaseAgent import Agent
+from litemultiagent.agents.BaseAgent import BaseAgent
 from db_retrieval_agent import use_db_retrieval_agent
 from file_retrieval_agent import use_file_retrieval_agent
 from web_retrieval_agent import use_web_retrieval_agent
@@ -90,7 +90,7 @@ tools = [
 agent_name = "retrieval_agent"
 
 
-class Retrieval_Agent(Agent):
+class Retrieval_Agent(BaseAgent):
     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
         # Create a wrapper for use_db_retrieval_agent that includes meta_task_id and task_id
         def wrapped_use_db_retrieval_agent(query: str) -> str:
