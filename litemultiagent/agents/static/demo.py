@@ -196,8 +196,7 @@ def run(
     total_elapsed_time = total_end_time - total_start_time
     print(f"Total execution time for all tasks: {total_elapsed_time:.2f} seconds")
 
-
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="Run agent tasks with configurable parallelism.")
     parser.add_argument("--main-workers-parallel", action="store_true", help="Enable parallel execution for main workers")
     parser.add_argument("--sub-workers-parallel", action="store_true", help="Enable parallel execution for sub-workers")
@@ -212,3 +211,7 @@ if __name__ == "__main__":
     ]
 
     run(queries, args.main_workers_parallel, args.sub_workers_parallel, args.write_to_db)
+
+
+if __name__ == "__main__":
+   main()
