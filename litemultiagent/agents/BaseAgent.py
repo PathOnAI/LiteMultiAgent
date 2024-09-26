@@ -102,7 +102,6 @@ class Agent:
         self.messages.append(tool_call_message)
         tool_responses = self._process_tool_calls(tool_calls)
         self.messages.extend(tool_responses)
-        import pdb; pdb.set_trace()
 
         return self._send_completion_request(depth + 1)
 
