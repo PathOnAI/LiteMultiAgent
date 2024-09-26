@@ -1,4 +1,6 @@
 # LiteMultiAgent
+Please note that the LiteMultiAgent repository is in development mode. We have open-sourced the repository to foster collaboration between contributors.
+
 repo owner: Danni (Danqing) Zhang (danqing.zhang.personal@gmail.com)
 
 main contributors: Balaji Rama (balajirw10@gmail.com), Shiying He (sy.he0303@gmail.com) and Jingyi Ni (jingyi.ni.personal@gmail.com)
