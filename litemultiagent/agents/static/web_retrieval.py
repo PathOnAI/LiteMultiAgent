@@ -1,26 +1,10 @@
-from litemultiagent.agents.BaseAgent import BaseAgent
-import logging
-from dotenv import load_dotenv
-from openai import OpenAI
-import subprocess
-from typing import Any, Optional
-from pydantic import BaseModel, validator
+from litemultiagent.agents.core.DefaultAgent import DefaultAgent
+
+from typing import Optional
+
 import requests
 import os
 from bs4 import BeautifulSoup
-import json
-_ = load_dotenv()
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler("log.txt", mode="w"),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger(__name__)
-
 
 def bing_search(query:str):
     search_url = "https://api.bing.microsoft.com/v7.0/search"
@@ -49,11 +33,6 @@ def bing_search(query:str):
     print(formatted_string)
     return formatted_string
 
-
-import requests
-from bs4 import BeautifulSoup
-
-
 def scrape(url: str):
     # scrape website. Url is the url of the website to be scraped
     print("Scraping website...")
@@ -71,7 +50,6 @@ def scrape(url: str):
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
         return ""
-
 
 tools = [
     {
@@ -110,30 +88,25 @@ tools = [
     },
 ]
 
-from config import agent_to_model
-agent_name = "web_search_agent"
-
 available_tools = {           
-            "bing_search": bing_search,
-            "scrape" : scrape
-        }
+    "bing_search": bing_search,
+    "scrape" : scrape
+}
 
-
-class Web_Retrieval_Agent(BaseAgent):
+class WebRetrievalAgent(DefaultAgent):
     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
         super().__init__("use_web_retrieval_agent", tools, available_tools, meta_task_id, task_id)
 
-def use_web_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
-    agent = Web_Retrieval_Agent(meta_task_id, task_id)
-    agent.messages = [{"role":"system", "content" :"You are a smart research assistant. Use the search engine to look up information."}]
-    return agent.send_prompt(query)
-
-
-def main():
-    response = use_web_retrieval_agent("Fetch the UK's GDP over the past 5 years", 0, 0)
-    print(response)
-
-
 if __name__ == "__main__":
+    def use_web_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
+        agent = WebRetrievalAgent(meta_task_id, task_id)
+        agent.messages = [{"role":"system", "content" :"You are a smart research assistant. Use the search engine to look up information."}]
+        return agent.send_prompt(query)
+
+
+    def main():
+        response = use_web_retrieval_agent("Fetch the UK's GDP over the past 5 years", 0, 0)
+        print(response)
+
     main()
 

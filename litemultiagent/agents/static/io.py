@@ -1,27 +1,10 @@
-from litemultiagent.agents.BaseAgent import BaseAgent
-import logging
-from dotenv import load_dotenv
+from litemultiagent.agents.core.DefaultAgent import DefaultAgent
 from openai import OpenAI
-import subprocess
 from typing import Any, Optional
-from pydantic import BaseModel, validator
 import requests
 import os
-import json
-_ = load_dotenv()
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler("log.txt", mode="w"),
-        logging.StreamHandler()
-    ]
-)
-# Create a logger
-logger = logging.getLogger(__name__)
-# from utils import *
+client = OpenAI()
 
 def read_file(file_path: str, encoding: str = "utf-8") -> str:
     if not os.path.isfile(file_path):
@@ -42,7 +25,6 @@ def write_to_file(file_path: str, text: str, encoding: str = "utf-8") -> str:
         return "File written successfully."
     except Exception as error:
         return f"Error: {error}"
-
 
 def generate_and_download_image(prompt, filename):
     model="dall-e-2"
@@ -70,8 +52,6 @@ def generate_and_download_image(prompt, filename):
         return f"Image downloaded successfully: {filename}"
     else:
         return f"Failed to download image. Status code: {image_response.status_code}"
-
-
 
 
 tools = [
@@ -154,32 +134,31 @@ tools = [
     }
 ]
 
-# client = OpenAI()
-from config import agent_to_model
-agent_name = "io_agent"
 
-client = OpenAI()
+
 available_tools = {
-            "write_to_file": write_to_file,
-            "read_file": read_file,
-            "generate_and_download_image": generate_and_download_image,
-        }
+    "write_to_file": write_to_file,
+    "read_file": read_file,
+    "generate_and_download_image": generate_and_download_image,
+}
 
-class IO_Agent(BaseAgent):
+class IOAgent(DefaultAgent):
     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
         super().__init__("use_io_agent", tools, available_tools, meta_task_id, task_id)
 
-def use_io_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
-    agent = IO_Agent(meta_task_id, task_id)
-    agent.messages = [{"role": "system", "content":"You are an ai agent that read and write files"}]
-    return agent.send_prompt(query)
 
 
-def main():
-    response = use_io_agent("write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt")
-    print(response)
-    response = use_io_agent("generate a image of a ginger cat and save it as ginger_cat.png")
-    print(response)
 
 if __name__ == "__main__":
+    def use_io_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
+        agent = IOAgent(meta_task_id, task_id)
+        agent.messages = [{"role": "system", "content":"You are an ai agent that read and write files"}]
+        return agent.send_prompt(query)
+    
+    def main():
+        response = use_io_agent("write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt")
+        print(response)
+        response = use_io_agent("generate a image of a ginger cat and save it as ginger_cat.png")
+        print(response)
+
     main()

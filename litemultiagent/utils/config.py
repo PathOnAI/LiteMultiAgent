@@ -32,7 +32,7 @@ agent_to_model = {
             "model_name" : "claude-3-5-sonnet-20240620",
             "tool_choice" : "auto",
          },
-    "use_retrieval_agent": {
+    "use_retrieval_router_agent": {
             "model_name" : "gpt-4o-mini",
             "tool_choice" : "auto",
          },

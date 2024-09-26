@@ -1,32 +1,14 @@
-from litemultiagent.agents.BaseAgent import BaseAgent
-import logging
-from dotenv import load_dotenv, find_dotenv
-from openai import OpenAI
+from litemultiagent.agents.core.DefaultAgent import DefaultAgent
 from typing import List, Optional
 import os
 import shutil
-import json
-_ = load_dotenv(find_dotenv()) 
+
 
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 
-
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler("log.txt", mode="w"),
-        logging.StreamHandler()
-    ]
-)
-
-# Create a logger
-logger = logging.getLogger(__name__)
 
 def retrieve_file(query:str, pdf_list: List[str]) -> List[str]:
     # Load PDF
@@ -54,9 +36,6 @@ def retrieve_file(query:str, pdf_list: List[str]) -> List[str]:
         return [r.page_content for r in search_results]
     except Exception as e:
         return f"An error occurred while retrieving information from file: {str(e)}"
-
-
-
 
 tools = [
     {
@@ -88,29 +67,24 @@ tools = [
     }
 ]
 
-from config import agent_to_model
-agent_name = "file_retrieve_agent"
-
 available_tools = {
     "retrieve_file": retrieve_file
 }
 
-
-class File_Retrieval_Agent(BaseAgent):
+class FileRetrievalAgent(DefaultAgent):
     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
         super().__init__("use_file_retrieval_agent", tools, available_tools, meta_task_id, task_id)
 
-def use_file_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
-    agent = File_Retrieval_Agent(meta_task_id, task_id)
-    agent.messages = [{"role":"system", "content": "You are a smart assistant and you will retrieve information from local document to answer questions or perform tasks."}]
-    return agent.send_prompt(query)
-
-
-def main():
-    agent = File_Retrieval_Agent(0, 0)
-    response = agent.send_prompt("search information in ./files/attention.pdf and answer what is transformer?")
-    print(response)
-    print(agent.messages)
-
 if __name__ == "__main__":
+    def use_file_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
+        agent = FileRetrievalAgent(meta_task_id, task_id)
+        agent.messages = [{"role":"system", "content": "You are a smart assistant and you will retrieve information from local document to answer questions or perform tasks."}]
+        return agent.send_prompt(query)
+    
+    def main():
+        agent = FileRetrievalAgent(0, 0)
+        response = agent.send_prompt("search information in ./files/attention.pdf and answer what is transformer?")
+        print(response)
+        print(agent.messages)
+
     main()

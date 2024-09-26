@@ -1,31 +1,11 @@
-from litemultiagent.agents.BaseAgent import BaseAgent
-from dotenv import load_dotenv
-from openai import OpenAI
-import subprocess
-from typing import Any, Optional
-from pydantic import BaseModel, validator
-import sys
-from logging.handlers import RotatingFileHandler
-import requests
-import os
-import json
-_ = load_dotenv()
-from sqlalchemy import create_engine, text
-from sqlalchemy.exc import SQLAlchemyError
-from supabase import create_client, Client
-import logging
-# Create a logger
+from litemultiagent.agents.core.DefaultAgent import DefaultAgent
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler("log.txt", mode="w"),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger(__name__)
+from typing import Optional
+
+import os
+
+from supabase import create_client, Client
+
 
 def retrieve_db(client, db, input_column, output_column, input_value):
     if client == "SUPABASE":
@@ -89,26 +69,22 @@ tools = [{
   }
 }]
 
-from config import agent_to_model
-agent_name = "db_retrieval_agent"
-
 available_tools = {
-            "retrieve_db": retrieve_db,
-        }
+    "retrieve_db": retrieve_db,
+}
 
-class DB_Retrieval_Agent(BaseAgent):
+class DatabaseRetrievalAgent(DefaultAgent):
     def __init__(self, meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
         super().__init__("use_db_retrieval_agent", tools, available_tools, meta_task_id, task_id)
 
-def use_db_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
-    agent = DB_Retrieval_Agent(meta_task_id, task_id)
-    agent.messages = [{"role":"system", "content":"You are a smart assistant, you retrieve information from database"}]
-    return agent.send_prompt(query)
-
-
-def main():
-    response = use_db_retrieval_agent("use supabase database, users table, look up the email (column name: email) for name is danqing2", 0, 0)
-    print(response)
-
 if __name__ == "__main__":
+    def use_db_retrieval_agent(query: str, meta_task_id: Optional[str] = None, task_id: Optional[int] = None) -> str:
+        agent = DatabaseRetrievalAgent(meta_task_id, task_id)
+        agent.messages = [{"role":"system", "content":"You are a smart assistant, you retrieve information from database"}]
+        return agent.send_prompt(query)
+    
+    def main():
+        response = use_db_retrieval_agent("use supabase database, users table, look up the email (column name: email) for name is danqing2", 0, 0)
+        print(response)
+
     main()

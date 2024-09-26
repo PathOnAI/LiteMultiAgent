@@ -7,7 +7,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from typing import List, Dict, Any, Optional
 
-from config import agent_to_model, model_cost
+from litemultiagent.utils.config import agent_to_model, model_cost
 
 from litellm import completion
 
@@ -29,6 +29,15 @@ class DefaultAgent:
         self.log = log
         self._logger = logging.getLogger(__name__)
         self._database_client = db_client
+
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            handlers=[
+                logging.FileHandler("log.txt", mode="w"),
+                logging.StreamHandler()
+            ]
+        )
 
 
     def send_prompt(self, content: str) -> str:
