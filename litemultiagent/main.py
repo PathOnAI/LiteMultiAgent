@@ -1,4 +1,4 @@
-from litemultiagent.agents.BaseAgent import BaseAgent
+from litemultiagent.agents.DefaultAgent import BaseAgent
 import logging
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -233,10 +233,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     queries = [
-        #"write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt",
+        "write aaa to 1.txt, bbb to 2.txt, ccc to 3.txt",
         "write python script to calculate the sum from 1 to 10, and run the python script to get result"
-        #"browse web to search and check the brands of dining table, and summarize the results in a table, save the table as a readme file",
-        #"generate a image of a ginger cat and save it as ginger_cat.png",
+        "browse web to search and check the brands of dining table, and summarize the results in a table, save the table as a readme file",
+        "generate a image of a ginger cat and save it as ginger_cat.png",
     ]
 
     main(queries, args.main_workers_parallel, args.sub_workers_parallel, args.write_to_db)

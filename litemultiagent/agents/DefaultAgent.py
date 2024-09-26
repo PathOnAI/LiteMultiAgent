@@ -1,41 +1,22 @@
 import logging
-from typing import List, Dict, Any, Optional
-from openai import OpenAI
+import csv
 import json
+from datetime import datetime
+import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
+
+from typing import List, Dict, Any, Optional
+
 from config import agent_to_model, model_cost
-from supabase import create_client, Client
-import os
-from dotenv import load_dotenv
-_ = load_dotenv()
+
 from litellm import completion
-from datetime import datetime
-import csv
-import json
-import os
-from datetime import datetime
 
-import csv
-import json
-import os
-from datetime import datetime
+from supabase import Client
 
-logger = logging.getLogger(__name__)
-
-# Initialize Supabase client only if environment variables are set
-url = os.getenv("SUPABASE_URL")
-key = os.getenv("SUPABASE_ANON_KEY")
-supabase: Optional[Client] = None
-if url and key:
-    try:
-        supabase = create_client(url, key)
-    except Exception as e:
-        logger.error(f"Failed to initialize Supabase client: {e}")
-
-
-class BaseAgent:
+class DefaultAgent:
     def __init__(self, agent_name: str, tools: List[Dict[str, Any]], available_tools: Dict[str, callable],
-                 meta_task_id: Optional[str] = None, task_id: Optional[int] = None, save_to="csv", log="log"):
+                 meta_task_id: Optional[str] = None, task_id: Optional[int] = None, save_to="csv", log="log",
+                 db_client: Client=None):
         self.agent_name = agent_name
         self.tools = tools
         self.available_tools = available_tools
@@ -46,7 +27,8 @@ class BaseAgent:
         self.task_id = task_id
         self.save_to = save_to
         self.log = log
-
+        self._logger = logging.getLogger(__name__)
+        self._database_client = db_client
 
 
     def send_prompt(self, content: str) -> str:
@@ -107,7 +89,7 @@ class BaseAgent:
 
     def _process_tool_calls(self, tool_calls: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         tool_call_responses = []
-        logger.info(f"Number of function calls: {len(tool_calls)}")
+        self._logger.info(f"Number of function calls: {len(tool_calls)}")
 
         with ThreadPoolExecutor(max_workers=None) as executor:
             future_to_tool_call = {executor.submit(self._process_single_tool_call, tool_call): tool_call for tool_call
@@ -129,23 +111,23 @@ class BaseAgent:
 
         try:
             function_response = function_to_call(**function_args)
-            logger.info(f'Function name: {function_name}, function args: {function_args}')
+            self._logger.info(f'Function name: {function_name}, function args: {function_args}')
             tool_response_message = {
                 "tool_call_id": tool_call_id,
                 "role": "tool",
                 "name": function_name,
                 "content": str(function_response)
             }
-            logger.info(f'Function name: {function_name}, function response: {str(function_response)}')
+            self._logger.info(f'Function name: {function_name}, function response: {str(function_response)}')
             return tool_response_message
         except Exception as e:
-            logger.error(f"Error while calling function <{function_name}>: {e}")
+            self._logger.error(f"Error while calling function <{function_name}>: {e}")
             return None
 
     def _log_response(self, response, depth):
-        logger.info(
+        self._logger.info(
             f'Agent: {self.agent_name}, prompt tokens: {response.usage.prompt_tokens}, completion tokens: {response.usage.completion_tokens}')
-        logger.info(f'Agent: {self.agent_name}, depth: {depth}, response: {response}')
+        self._logger.info(f'Agent: {self.agent_name}, depth: {depth}, response: {response}')
 
 
     def _save_to_csv(self, response, depth):
@@ -178,7 +160,7 @@ class BaseAgent:
                 fieldnames = list(data.keys())
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 writer.writeheader()
-            logger.info(f"Created new CSV file with header: {filename}")
+            self._logger.info(f"Created new CSV file with header: {filename}")
 
         # Append data to the file
         with open(filename, 'a', newline='') as csvfile:
@@ -186,12 +168,12 @@ class BaseAgent:
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writerow(data)
 
-        logger.info(f"Data saved to CSV: {filename}")
+        self._logger.info(f"Data saved to CSV: {filename}")
 
 
     def _save_to_supabase(self, response, depth):
-        if supabase is None:
-            logger.warning("Supabase client is not initialized. Skipping database save.")
+        if self._database_client is None:
+            self._logger.warning("Supabase client is not initialized. Skipping database save.")
             return
 
         usage_dict = self._extract_cost(response)
@@ -211,9 +193,9 @@ class BaseAgent:
         }
 
         try:
-            supabase.table("multiagent").insert(data).execute()
+            self._database_client.table("multiagent").insert(data).execute()
         except Exception as e:
-            logger.error(f"Failed to save data to Supabase: {e}")
+            self._logger.error(f"Failed to save data to Supabase: {e}")
 
     def _extract_cost(self, response):
         prompt_tokens = response.usage.prompt_tokens
