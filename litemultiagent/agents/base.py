@@ -3,26 +3,74 @@ from typing import List, Dict, Any, Optional
 from openai import OpenAI
 import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from config import agent_to_model, model_cost
+#from litemultiagent.config.agent_config import agent_to_model, model_cost
+# from litemultiagent.agents.base import BaseAgent
+# from litemultiagent.tools.registry import ToolRegistry, Tool
 from supabase import create_client, Client
+from litellm import completion
 import os
 from dotenv import load_dotenv
-_ = load_dotenv()
 from litellm import completion
 from datetime import datetime
 import csv
-import json
-import os
-from datetime import datetime
 
-import csv
-import json
-import os
-from datetime import datetime
+_ = load_dotenv()
 
 logger = logging.getLogger(__name__)
 
-# Initialize Supabase client only if environment variables are set
+
+model_cost = {
+    "gpt-4o-mini": {
+        "input_price_per_1m": 0.15,
+        "output_price_per_1m": 0.6,
+    },
+    "gemini/gemini-pro": {
+        "input_price_per_1m": 0,
+        "output_price_per_1m": 0,
+    },
+    "claude-3-5-sonnet-20240620": {
+        "input_price_per_1m": 3,
+        "output_price_per_1m": 15,
+    },
+    "groq/llama3-8b-8192": {
+        "input_price_per_1m": 0.05,
+        "output_price_per_1m": 0.08,
+    },
+}
+
+agent_to_model = {
+    "main_agent":
+        {
+            "model_name" : "gpt-4o-mini",
+            "tool_choice" : "auto",
+         },
+    "io_agent": {
+            "model_name" : "gpt-4o-mini",
+            "tool_choice" : "auto",
+         },
+    "retrieval_agent": {
+            "model_name" : "gpt-4o-mini",
+            "tool_choice" : "auto",
+         },
+    "web_retrieval_agent":{
+            "model_name" : "gpt-4o-mini",
+            "tool_choice" : "auto",
+         },
+    "db_retrieval_agent":{
+            "model_name" : "gpt-4o-mini",
+            "tool_choice" : "auto",
+         },
+    "exec_agent":{
+            "model_name" : "gpt-4o-mini",
+            "tool_choice" : "auto",
+         },
+    "file_retrieval_agent":{
+            "model_name" : "gpt-4o-mini",
+            "tool_choice" : "auto",
+         },
+}
+
+# Initialize Supabase client
 url = os.getenv("SUPABASE_URL")
 key = os.getenv("SUPABASE_ANON_KEY")
 supabase: Optional[Client] = None
@@ -32,9 +80,8 @@ if url and key:
     except Exception as e:
         logger.error(f"Failed to initialize Supabase client: {e}")
 
-
 class BaseAgent:
-    def __init__(self, agent_name: str, tools: List[Dict[str, Any]], available_tools: Dict[str, callable],
+    def __init__(self, agent_name: str, agent_description, parameter_description, tools: List[Dict[str, Any]], available_tools: Dict[str, callable],
                  meta_task_id: Optional[str] = None, task_id: Optional[int] = None, save_to="csv", log="log"):
         self.agent_name = agent_name
         self.tools = tools
@@ -46,13 +93,14 @@ class BaseAgent:
         self.task_id = task_id
         self.save_to = save_to
         self.log = log
-
-
+        self.agent_description = agent_description
+        self.parameter_description = parameter_description
 
     def send_prompt(self, content: str) -> str:
         self.messages.append({"role": "user", "content": content})
         return self._send_completion_request()
 
+    # ... (rest of the BaseAgent methods remain the same)
     def _send_completion_request(self, depth: int = 0) -> str:
         if depth >= 8:
             return None
