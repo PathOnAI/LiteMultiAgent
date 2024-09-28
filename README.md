@@ -54,16 +54,7 @@ After configuring your API keys, you can run main.py, where the sub-agents are a
 ```bash
 python litemultiagent/main.py
 ```
-Then we can get the total execution time for all tasks: 67.07 seconds.
-
-You can parallelize the execution of the tasks of main agents:
-
-```bash
-python litemultiagent/main.py --main-workers-parallel
-```
-Then it's further sped up. Total execution time for all tasks: 29.34 seconds.
-
-If we neither the tasks at main agent level or sub agent level are paralleled, the total execution time for all tasks: 88.43 seconds
+TODO: add parallel function calling
 
 ## 🏠 2. Architecture Design
 
