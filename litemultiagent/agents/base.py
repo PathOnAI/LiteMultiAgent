@@ -100,7 +100,6 @@ class BaseAgent:
         self.messages.append({"role": "user", "content": content})
         return self._send_completion_request()
 
-    # ... (rest of the BaseAgent methods remain the same)
     def _send_completion_request(self, depth: int = 0) -> str:
         if depth >= 8:
             return None
