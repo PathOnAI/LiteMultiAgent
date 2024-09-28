@@ -152,17 +152,19 @@ def main():
     main_agent = agent_manager.get_agent(main_agent_config)
 
     # # # Example usage
-    # task = "generate a image of a ginger cat and save it as ginger_cat.png"
-    # result = main_agent.execute(task)
-    # print("IO Agent Result:", result)
-    #
-    # task = "write python script to calculate the sum from 1 to 10, and run the python script to get result"
-    # result = main_agent.execute(task)
-    # print("IO Agent Result:", result)
+    task = "generate a image of a ginger cat and save it as ginger_cat.png"
+    result = main_agent.execute(task)
+    print("IO Agent Result:", result)
+
+    task = "write python script to calculate the sum from 1 to 10, and run the python script to get result"
+    result = main_agent.execute(task)
+    print("IO Agent Result:", result)
 
     task = "browse web to search and check the brands of dining table, and summarize the results in a table, save the table into a markdown file called summary.md"
     result = main_agent.execute(task)
     print("IO Agent Result:", result)
+
+
 
 if __name__ == "__main__":
     main()

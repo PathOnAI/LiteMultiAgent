@@ -3,9 +3,6 @@ from typing import List, Dict, Any, Optional
 from openai import OpenAI
 import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
-#from litemultiagent.config.agent_config import agent_to_model, model_cost
-# from litemultiagent.agents.base import BaseAgent
-# from litemultiagent.tools.registry import ToolRegistry, Tool
 from supabase import create_client, Client
 from litellm import completion
 import os
@@ -45,7 +42,7 @@ agent_to_model = {
             "tool_choice" : "auto",
          },
     "io_agent": {
-            "model_name" : "gpt-4o-mini",
+            "model_name" : "claude-3-5-sonnet-20240620",
             "tool_choice" : "auto",
          },
     "retrieval_agent": {
@@ -116,7 +113,7 @@ class BaseAgent:
             if self.save_to == "csv":
                 self._save_to_csv(response, depth)
             message = response.choices[0].message
-            self.messages.append(message)
+            self.messages.append(message.model_dump())
             return message.content
 
         response = completion(
@@ -137,7 +134,7 @@ class BaseAgent:
 
         if tool_calls is None or len(tool_calls) == 0:
             message = response.choices[0].message
-            self.messages.append(message)
+            self.messages.append(message.model_dump())
             return message.content
 
         tool_call_message = {
@@ -156,14 +153,10 @@ class BaseAgent:
         tool_call_responses = []
         logger.info(f"Number of function calls: {len(tool_calls)}")
 
-        with ThreadPoolExecutor(max_workers=None) as executor:
-            future_to_tool_call = {executor.submit(self._process_single_tool_call, tool_call): tool_call for tool_call
-                                   in tool_calls}
-
-            for future in as_completed(future_to_tool_call):
-                result = future.result()
-                if result:
-                    tool_call_responses.append(result)
+        for tool_call in tool_calls:
+            result = self._process_single_tool_call(tool_call)
+            if result:
+                tool_call_responses.append(result)
 
         return tool_call_responses
 
