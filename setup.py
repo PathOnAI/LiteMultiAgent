@@ -7,7 +7,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='litemultiagent',
-    version='0.1.1',
+    version='0.1.2',
     packages=find_packages(),
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
