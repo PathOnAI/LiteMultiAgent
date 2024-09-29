@@ -26,22 +26,13 @@ python3 -m venv venv
 . venv/bin/activate
 pip install -e .
 ```
-Then set up a Supabase project to retrieve the API keys, and create a table if you want to save the results to a Supabase table. Please add the below columns to your Supabase table, and disable RLS.
+Then set up a Supabase project and retrieve the project's database URL (https://supabase.com/dashboard/project/[PROJECT_NAME]/settings/database).
+Make sure to save the transaction URL in the .env file as DATABASE_URL. Next, run 
+```
+python db_setup.py
+```
+to generate a compatible and ready table in your database.
 
-| Column Name     | Data Type     |
-|-----------------|---------------|
-| agent           | text          |
-| depth           | int8          |
-| response        | text          |
-| role            | text          |
-| prompt_tokens   | int8          |
-| completion_tokens | int8        |
-| input_cost      | float8        |
-| output_cost     | float8        |
-| total_cost      | float8        |
-| model_name      | text          |
-| meta_task_id    | text          |
-| task_id         | int8          |
 
 Then please create a .env file, and update your API keys:
 
