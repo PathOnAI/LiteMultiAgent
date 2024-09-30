@@ -51,11 +51,16 @@ This will create the multiagent table in your database
 
 
 ### (2) Quickstart
-After configuring your API keys, you can run main.py, where the sub-agents are already parallelized through parallel function calling.
+After setting up your API keys, you can explore the examples in the examples folder:
+* The atomic agent uses functions as its tools.
+* The composite agent can utilize sub-agents as tools while also leveraging functions.
+
 ```bash
-python litemultiagent/main.py
+python examples/atomic/IOAgent.py   
 ```
-TODO: add parallel function calling
+```bash
+python examples/composite/MasterAgent.py
+```
 
 
 ## 🚀 2. Contributions
