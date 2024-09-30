@@ -3,8 +3,7 @@ from litemultiagent.tools.registry import ToolRegistry, Tool
 from typing import List, Dict, Any, Optional
 
 class CompositeAgent(BaseAgent):
-    def __init__(self, agent_name: str, agent_description, parameter_description, sub_agent_configs: List[Dict[str, Any]], tool_names: List[str], meta_task_id: Optional[str] = None, task_id: Optional[int] = None):
-        #super().__init__(agent_name, tools, meta_task_id, task_id)
+    def __init__(self, agent_name: str, agent_description, parameter_description, sub_agent_configs: List[Dict[str, Any]], tool_names: List[str], meta_data):
         self.tool_registry = ToolRegistry()
         self.available_tools = {}
         self.tools = []
@@ -13,7 +12,7 @@ class CompositeAgent(BaseAgent):
             self.tools.append(self.tool_registry.get_tool_description(tool_name))
         self.sub_agents = self._build_sub_agents(sub_agent_configs)
         self._register_sub_agents_as_tools()
-        super().__init__(agent_name, agent_description, parameter_description, self.tools, self.available_tools, meta_task_id, task_id)
+        super().__init__(agent_name, agent_description, parameter_description, self.tools, self.available_tools, meta_data)
 
 
     def _build_sub_agents(self, sub_agent_configs: List[Dict[str, Any]]) -> List[BaseAgent]:

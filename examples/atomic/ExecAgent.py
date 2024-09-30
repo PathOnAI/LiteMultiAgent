@@ -19,8 +19,13 @@ def main():
     exec_agent_config = {
         "name": "exec_agent",
         "type": "atomic",
-        "meta_task_id": "exec_subtask",
-        "task_id": 5,
+        "meta_data":
+            {
+                "meta_task_id": "exec_subtask",
+                "task_id": 5,
+                "save_to": "csv",
+                "log": "log"
+            },
         "tools": ["execute_shell_command", "run_python_script"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Execute some script in a subprocess, either run a bash script, or run a python script ",
         "parameter_description": "The task description describing what to execute in the subprocess."
