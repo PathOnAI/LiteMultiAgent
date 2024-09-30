@@ -19,8 +19,13 @@ def main():
     file_retrieval_agent_config = {
         "name": "file_retrieval_agent",
         "type": "atomic",
-        "meta_task_id": "file_retrieval_subtask",
-        "task_id": 3,
+        "meta_data":
+            {
+                "meta_task_id": "file_retrieval_subtask",
+                "task_id": 3,
+                "save_to": "supabase",
+                "log": "log"
+            },
         "tools": ["retrieve_file"],
         "agent_description": "Retrieve information from local documents to answer questions or perform tasks.",
         "parameter_description": "The task description specifying the local file and the question to be answered. specify this in natural language"

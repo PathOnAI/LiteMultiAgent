@@ -19,8 +19,13 @@ def main():
     web_retrieval_agent_config = {
         "name": "web_retrieval_agent",
         "type": "atomic",
-        "meta_task_id": "web_retrieval_subtask",
-        "task_id": 4,
+        "meta_data":
+            {
+                "meta_task_id": "web_retrieval_subtask",
+                "task_id": 4,
+                "save_to": "supabase",
+                "log": "log"
+            },
         "tools": ["bing_search", "scrape"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Perform a search using API and return the searched results.",
         "parameter_description": "The task description describing what to read or write."

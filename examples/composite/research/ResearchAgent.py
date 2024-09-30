@@ -16,11 +16,18 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 def main():
     agent_manager = AgentManager()
+    meta_task_id = "research_task"
+    task_id = 1
     io_agent_config = {
         "name": "io_agent",
         "type": "atomic",
-        "meta_task_id": "io_subtask",
-        "task_id": 1,
+        "meta_data":
+            {
+                "meta_task_id": meta_task_id,
+                "task_id": task_id,
+                "save_to": "csv",
+                "log": "log"
+            },
         "tools": ["read_file", "write_to_file", "generate_and_download_image"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Read or write content from/to a file, or generate and save an image using text input",
         "parameter_description": "The task description detailing what to read, write, or generate. This can include file operations or image generation requests."
@@ -29,8 +36,13 @@ def main():
     web_retrieval_agent_config = {
         "name": "web_retrieval_agent",
         "type": "atomic",
-        "meta_task_id": "web_retrieval_subtask",
-        "task_id": 4,
+        "meta_data":
+            {
+                "meta_task_id": meta_task_id,
+                "task_id": task_id,
+                "save_to": "csv",
+                "log": "log"
+            },
         "tools": ["bing_search", "scrape"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Perform a search using API and return the searched results.",
         "parameter_description": "The task description describing what to read or write."
@@ -39,8 +51,13 @@ def main():
     exec_agent_config = {
         "name": "exec_agent",
         "type": "atomic",
-        "meta_task_id": "exec_subtask",
-        "task_id": 5,
+        "meta_data":
+            {
+                "meta_task_id": meta_task_id,
+                "task_id": task_id,
+                "save_to": "csv",
+                "log": "log"
+            },
         "tools": ["execute_shell_command", "run_python_script"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Execute some script in a subprocess, either run a bash script, or run a python script ",
         "parameter_description": "The task description describing what to execute in the subprocess."
@@ -50,8 +67,13 @@ def main():
     research_agent_config = {
         "name": "retrieval_agent",
         "type": "composite",
-        "meta_task_id": "retrieval_task",
-        "task_id": 6,
+        "meta_data":
+            {
+                "meta_task_id": meta_task_id,
+                "task_id": task_id,
+                "save_to": "csv",
+                "log": "log"
+            },
         "tools": ["scan_folder"],
         "sub_agents": [
             web_retrieval_agent_config,

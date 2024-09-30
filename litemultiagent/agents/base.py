@@ -79,17 +79,17 @@ if url and key:
 
 class BaseAgent:
     def __init__(self, agent_name: str, agent_description, parameter_description, tools: List[Dict[str, Any]], available_tools: Dict[str, callable],
-                 meta_task_id: Optional[str] = None, task_id: Optional[int] = None, save_to="csv", log="log"):
+                 meta_data):
         self.agent_name = agent_name
         self.tools = tools
         self.available_tools = available_tools
         self.model_name = agent_to_model[agent_name]["model_name"]
         self.tool_choice = agent_to_model[agent_name]["tool_choice"]
         self.messages = []
-        self.meta_task_id = meta_task_id
-        self.task_id = task_id
-        self.save_to = save_to
-        self.log = log
+        self.meta_task_id = meta_data["meta_task_id"]
+        self.task_id = meta_data["task_id"]
+        self.save_to = meta_data["save_to"]
+        self.log = meta_data["log"]
         self.agent_description = agent_description
         self.parameter_description = parameter_description
 

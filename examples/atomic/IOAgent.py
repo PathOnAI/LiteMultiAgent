@@ -19,8 +19,13 @@ def main():
     io_agent_config = {
         "name": "io_agent",
         "type": "atomic",
-        "meta_task_id": "io_subtask",
-        "task_id": 1,
+        "meta_data":
+            {
+                "meta_task_id": "io_subtask",
+                "task_id": 1,
+                "save_to": "supabase",
+                "log": "log"
+            },
         "tools": ["read_file", "write_to_file", "generate_and_download_image"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Read or write content from/to a file, or generate and save an image using text input",
         "parameter_description": "The task description detailing what to read, write, or generate. This can include file operations or image generation requests."
