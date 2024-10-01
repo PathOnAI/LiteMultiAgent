@@ -16,7 +16,7 @@ _ = load_dotenv()
 logger = logging.getLogger(__name__)
 
 
-model_cost = {
+MODEL_COST = {
     "gpt-4o-mini": {
         "input_price_per_1m": 0.15,
         "output_price_per_1m": 0.6,
@@ -274,8 +274,8 @@ class BaseAgent:
         total_tokens = response.usage.total_tokens
 
         # Pricing for gpt-4-0314
-        input_price_per_1m = model_cost[self.model_name]["input_price_per_1m"]
-        output_price_per_1m = model_cost[self.model_name]["output_price_per_1m"]
+        input_price_per_1m = MODEL_COST[self.model_name]["input_price_per_1m"]
+        output_price_per_1m = MODEL_COST[self.model_name]["output_price_per_1m"]
 
         input_cost = (prompt_tokens / 1000) * input_price_per_1m
         output_cost = (completion_tokens / 1000) * output_price_per_1m
