@@ -24,7 +24,9 @@ def main():
                 "meta_task_id": "io_subtask",
                 "task_id": 1,
                 "save_to": "supabase",
-                "log": "log"
+                "log": "log",
+                "model_name": "gpt-4o-mini",
+                "tool_choice": "auto"
             },
         "tools": ["read_file", "write_to_file", "generate_and_download_image"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Read or write content from/to a file, or generate and save an image using text input",

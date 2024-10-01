@@ -24,7 +24,9 @@ def main():
                 "meta_task_id": "file_retrieval_subtask",
                 "task_id": 3,
                 "save_to": "supabase",
-                "log": "log"
+                "log": "log",
+                "model_name": "gpt-4o-mini",
+                "tool_choice": "auto"
             },
         "tools": ["retrieve_file"],
         "agent_description": "Retrieve information from local documents to answer questions or perform tasks.",

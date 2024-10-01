@@ -9,8 +9,6 @@ class AgentFactory:
         agent_type = config["type"]
         agent_name = config["name"]
         meta_data = config.get("meta_data")
-        # meta_task_id = config.get("meta_task_id")
-        # task_id = config.get("task_id")
         tools = config.get("tools", [])
         agent_description = config["agent_description"]
         parameter_description = config["parameter_description"]

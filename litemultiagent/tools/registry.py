@@ -87,6 +87,10 @@ class ToolRegistry:
             print("Registering File System tools...")  # Debug statement
             register_file_system_tools()
             print("Finished registering file system tools.")  # Debug statement
+            from litemultiagent.tools.web_agent_tool import register_webagent_tools
+            print("Registering Web Agent tools...")  # Debug statement
+            register_webagent_tools()
+            print("Finished registering web agent tools.")  # Debug statement
         except Exception as e:
             print(f"Error while registering tools: {e}")  # Debug statement to catch any import or registration issues
 

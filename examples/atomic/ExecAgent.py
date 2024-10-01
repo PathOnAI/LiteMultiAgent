@@ -24,7 +24,9 @@ def main():
                 "meta_task_id": "exec_subtask",
                 "task_id": 5,
                 "save_to": "csv",
-                "log": "log"
+                "log": "log",
+                "model_name": "gpt-4o-mini",
+                "tool_choice": "auto"
             },
         "tools": ["execute_shell_command", "run_python_script"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Execute some script in a subprocess, either run a bash script, or run a python script ",
