@@ -1,8 +1,5 @@
 from litemultiagent.core.agent_manager import AgentManager
-from litemultiagent.tools.registry import ToolRegistry, Tool
 import logging
-
-from litemultiagent.tools.exec import execute_shell_command_tool, run_python_script_tool
 
 # Configure logging
 logging.basicConfig(
@@ -18,12 +15,6 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 def main():
     agent_manager = AgentManager()
-
-    ToolRegistry.register(
-        execute_shell_command_tool,
-        run_python_script_tool
-    )
-
     exec_agent_config = {
         "name": "exec_agent",
         "type": "atomic",

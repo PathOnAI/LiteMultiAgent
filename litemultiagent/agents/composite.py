@@ -38,7 +38,7 @@ class CompositeAgent(BaseAgent):
                 }
             ))
         # Update the tools and available_tools after registering sub-agents
-        self.tools.extend([self.tool_registry.get_tool_description(sub_agent.agent_name) for sub_agent in self.sub_agents])
+        self.tools.extend([ToolRegistry.get_tool_description(sub_agent.agent_name) for sub_agent in self.sub_agents])
         self.available_tools.update({sub_agent.agent_name: sub_agent for sub_agent in self.sub_agents})
 
     def execute(self, task: str) -> str:

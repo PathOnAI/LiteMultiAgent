@@ -27,7 +27,6 @@ def retrieve_db(client, db, input_column, output_column, input_value):
     else:
         return "not defined clients"
 
-
 retrieve_db_tool = Tool(
     "retrieve_db",
     retrieve_db,

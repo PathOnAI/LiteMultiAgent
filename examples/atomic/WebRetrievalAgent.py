@@ -1,8 +1,5 @@
 from litemultiagent.core.agent_manager import AgentManager
-from litemultiagent.tools.registry import ToolRegistry, Tool
 import logging
-
-from litemultiagent.tools.web_retrieval import scrape_tool, bing_search_tool
 
 # Configure logging
 logging.basicConfig(
@@ -18,12 +15,6 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 def main():
     agent_manager = AgentManager()
-
-    ToolRegistry.register(
-        scrape_tool,
-        bing_search_tool
-    )
-
     web_retrieval_agent_config = {
         "name": "web_retrieval_agent",
         "type": "atomic",

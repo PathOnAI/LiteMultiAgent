@@ -1,8 +1,5 @@
 from litemultiagent.core.agent_manager import AgentManager
-from litemultiagent.tools.registry import ToolRegistry, Tool
 import logging
-
-from litemultiagent.tools.file_retrieval import retrieve_file_tool
 
 # Configure logging
 logging.basicConfig(
@@ -18,11 +15,6 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 def main():
     agent_manager = AgentManager()
-
-    ToolRegistry.register(
-        retrieve_file_tool
-    )
-
     file_retrieval_agent_config = {
         "name": "file_retrieval_agent",
         "type": "atomic",
