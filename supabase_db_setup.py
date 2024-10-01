@@ -53,9 +53,6 @@ class DynamicTable(Base):
 # Create the table
 Base.metadata.create_all(engine)
 
-print(f"Table '{table_name}' created successfully.")
-
-
 # Create a session to interact with the database
 Session = sessionmaker(bind=engine)
 session = Session()
