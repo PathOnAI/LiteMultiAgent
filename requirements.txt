@@ -7,6 +7,7 @@ langchain==0.2.7
 bs4==0.0.2
 chromadb==0.4.14
 tiktoken==0.7.0
+psycopg2-binary
 sqlalchemy
 pypdf==4.3.1
 litellm==1.42.1
