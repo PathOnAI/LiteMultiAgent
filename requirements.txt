@@ -1,4 +1,4 @@
-openai==1.34.0
+openai==1.42.0
 python-dotenv==1.0.1
 pydantic==2.7.4
 requests
@@ -11,3 +11,4 @@ sqlalchemy
 pypdf==4.3.1
 litellm==1.42.1
 langchain-community==0.2.7
+litewebagent==0.1.6

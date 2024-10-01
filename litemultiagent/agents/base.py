@@ -41,6 +41,11 @@ agent_to_model = {
             "model_name" : "gpt-4o-mini",
             "tool_choice" : "auto",
          },
+    "web_agent":
+        {
+            "model_name": "gpt-4o-mini",
+            "tool_choice": "auto",
+        },
     "io_agent": {
             "model_name" : "claude-3-5-sonnet-20240620",
             "tool_choice" : "auto",
@@ -65,6 +70,14 @@ agent_to_model = {
             "model_name" : "gpt-4o-mini",
             "tool_choice" : "auto",
          },
+    "web_browsing_research_agent":{
+            "model_name" : "gpt-4o-mini",
+            "tool_choice" : "auto",
+         },
+    "coding_agent":{
+            "model_name" : "gpt-4o-mini",
+            "tool_choice" : "auto",
+         }
 }
 
 # Initialize Supabase client
@@ -83,9 +96,9 @@ class BaseAgent:
         self.agent_name = agent_name
         self.tools = tools
         self.available_tools = available_tools
-        self.model_name = agent_to_model[agent_name]["model_name"]
-        self.tool_choice = agent_to_model[agent_name]["tool_choice"]
         self.messages = []
+        self.model_name = meta_data["model_name"]
+        self.tool_choice = meta_data["tool_choice"]
         self.meta_task_id = meta_data["meta_task_id"]
         self.task_id = meta_data["task_id"]
         self.save_to = meta_data["save_to"]

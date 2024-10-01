@@ -24,7 +24,9 @@ def main():
                 "meta_task_id": "db_retrieval_subtask",
                 "task_id": 2,
                 "save_to": "csv",
-                "log": "log"
+                "log": "log",
+                "model_name": "gpt-4o-mini",
+                "tool_choice": "auto"
             },
         "tools": ["retrieve_db"], # Changed from "write_file" to "write_to_file"
         "agent_description": "Use a database retrieval agent to fetch information based on a given query.",

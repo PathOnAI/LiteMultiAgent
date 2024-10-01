@@ -16,9 +16,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 def main():
     agent_manager = AgentManager()
-    meta_task_id = "coding_task"
+    meta_task_id = "web_browsing_task"
     task_id = 1
-
     io_agent_config = {
         "name": "io_agent",
         "type": "atomic",
@@ -26,7 +25,7 @@ def main():
             {
                 "meta_task_id": meta_task_id,
                 "task_id": task_id,
-                "save_to": "supabase",
+                "save_to": "csv",
                 "log": "log",
                 "model_name": "gpt-4o-mini",
                 "tool_choice": "auto"
@@ -36,27 +35,24 @@ def main():
         "parameter_description": "The task description detailing what to read, write, or generate. This can include file operations or image generation requests."
     }
 
-
-    exec_agent_config = {
-        "name": "exec_agent",
+    web_agent_config = {
+        "name": "web_agent",
         "type": "atomic",
-        "meta_data":
-            {
-                "meta_task_id": meta_task_id,
-                "task_id": task_id,
-                "save_to": "supabase",
-                "log": "log",
-                "model_name": "gpt-4o-mini",
-                "tool_choice": "auto"
-            },
-        "tools": ["execute_shell_command", "run_python_script"],  # Changed from "write_file" to "write_to_file"
-        "agent_description": "Execute some script in a subprocess, either run a bash script, or run a python script ",
-        "parameter_description": "The task description describing what to execute in the subprocess."
+        "meta_data": {
+            "meta_task_id": "webagent_task",
+            "task_id": 1,
+            "save_to": "csv",
+            "log": "log",
+            "model_name": "gpt-4o-mini",
+            "tool_choice": "auto"
+        },
+        "tools": ["call_webagent"],
+        "agent_description": "Use a web agent to perform tasks and fetch information from web pages based on a given instruction.",
+        "parameter_description": "A natural language instruction describing the task to be performed by the web agent, including the starting URL and the goal."
     }
 
-
-    coding_agent_config = {
-        "name": "coding_agent",
+    agent_config = {
+        "name": "web_browsing_research_agent",
         "type": "composite",
         "meta_data":
             {
@@ -69,19 +65,19 @@ def main():
             },
         "tools": ["scan_folder"],
         "sub_agents": [
-            exec_agent_config,
+            web_agent_config,
             io_agent_config,
         ],
         "agent_description": None,
         "parameter_description": None
     }
 
-    coding_agent = agent_manager.get_agent(coding_agent_config)
+    agent = agent_manager.get_agent(web_agent_config)
 
     # # # Example usage
-    task = "The coding problem is: the problem is Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you may not use the same element twice.You can return the answer in any order., you first write code per instruction, then write test case, and run the test, if there is bug, debug it"
-    result = coding_agent.execute(task)
-    print("IO Agent Result:", result)
+    task = "first search dining table from google home page, then summarize what you did into summary.md"
+    result = agent.execute(task)
+    print("Agent Result:", result)
 
 
 if __name__ == "__main__":

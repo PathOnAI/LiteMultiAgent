@@ -26,7 +26,9 @@ def main():
                 "meta_task_id": meta_task_id,
                 "task_id": task_id,
                 "save_to": "csv",
-                "log": "log"
+                "log": "log",
+                "model_name": "gpt-4o-mini",
+                "tool_choice": "auto"
             },
         "tools": ["read_file", "write_to_file", "generate_and_download_image"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Read or write content from/to a file, or generate and save an image using text input",
@@ -41,7 +43,9 @@ def main():
                 "meta_task_id": meta_task_id,
                 "task_id": task_id,
                 "save_to": "csv",
-                "log": "log"
+                "log": "log",
+                "model_name": "gpt-4o-mini",
+                "tool_choice": "auto"
             },
         "tools": ["retrieve_db"], # Changed from "write_file" to "write_to_file"
         "agent_description": "Use a database retrieval agent to fetch information based on a given query.",
@@ -57,7 +61,9 @@ def main():
                 "meta_task_id": meta_task_id,
                 "task_id": task_id,
                 "save_to": "csv",
-                "log": "log"
+                "log": "log",
+                "model_name": "gpt-4o-mini",
+                "tool_choice": "auto"
             },
         "tools": ["retrieve_file"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Retrieve information from local documents to answer questions or perform tasks.",
@@ -72,7 +78,9 @@ def main():
                 "meta_task_id": meta_task_id,
                 "task_id": task_id,
                 "save_to": "csv",
-                "log": "log"
+                "log": "log",
+                "model_name": "gpt-4o-mini",
+                "tool_choice": "auto"
             },
         "tools": ["bing_search", "scrape"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Perform a search using API and return the searched results.",
@@ -87,7 +95,9 @@ def main():
                 "meta_task_id": meta_task_id,
                 "task_id": task_id,
                 "save_to": "csv",
-                "log": "log"
+                "log": "log",
+                "model_name": "gpt-4o-mini",
+                "tool_choice": "auto"
             },
         "tools": ["execute_shell_command", "run_python_script"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Execute some script in a subprocess, either run a bash script, or run a python script ",
@@ -102,7 +112,9 @@ def main():
                 "meta_task_id": meta_task_id,
                 "task_id": task_id,
                 "save_to": "csv",
-                "log": "log"
+                "log": "log",
+                "model_name": "gpt-4o-mini",
+                "tool_choice": "auto"
             },
         "tools": [],
         "sub_agents": [
@@ -122,7 +134,9 @@ def main():
                 "meta_task_id": meta_task_id,
                 "task_id": task_id,
                 "save_to": "csv",
-                "log": "log"
+                "log": "log",
+                "model_name": "gpt-4o-mini",
+                "tool_choice": "auto"
             },
         "tools": ["scan_folder"],
         "sub_agents": [
