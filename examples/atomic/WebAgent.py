@@ -2,6 +2,8 @@ from litemultiagent.core.agent_manager import AgentManager
 from litemultiagent.tools.registry import ToolRegistry, Tool
 import logging
 
+from litemultiagent.tools.web_agent import call_webagent_tool
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -16,6 +18,11 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 def main():
     agent_manager = AgentManager()
+
+    ToolRegistry.register(
+        call_webagent_tool
+    )
+
     web_agent_config = {
         "name": "web_agent",
         "type": "atomic",

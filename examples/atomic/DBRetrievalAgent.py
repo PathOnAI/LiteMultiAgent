@@ -2,6 +2,8 @@ from litemultiagent.core.agent_manager import AgentManager
 from litemultiagent.tools.registry import ToolRegistry, Tool
 import logging
 
+from litemultiagent.tools.db_retrieval import retrieve_db_tool
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -16,6 +18,11 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 def main():
     agent_manager = AgentManager()
+
+    ToolRegistry.register(
+        retrieve_db_tool
+    )
+
     db_retrieval_agent_config = {
         "name": "db_retrieval_agent",
         "type": "atomic",
