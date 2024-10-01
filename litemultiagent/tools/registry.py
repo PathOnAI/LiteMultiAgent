@@ -1,5 +1,7 @@
 from typing import Dict, Any, Callable, List
 from typing import Optional
+import logging
+logger = logging.getLogger(__name__)
 
 class Tool:
     def __init__(self, name: str, func: Callable, description: str, parameters: Dict[str, Any]):
@@ -42,18 +44,18 @@ class ToolRegistry:
     @classmethod
     def register(cls, *tools: tuple[Tool]):
         for tool in tools:
-            print(f"Registering tool: {tool.name}")  # Debug statement
+            logger.info(f"Registering tool: {tool.name}")
             cls._tools[tool.name] = tool
 
     @classmethod
     def get_tool(cls, name: str) -> Tool:
         if cls.CORE_TOOLS == None:
             cls.load_core_tools()
-        #check if tool is part of core
+        # check if tool is part of core
         get_corresponding_core_tool = [core_tool for core_tool in cls.CORE_TOOLS if core_tool.name == name]
 
         is_core_tool = len(get_corresponding_core_tool) > 0
-        #if not registered, register here
+        # if not registered, register here
         if is_core_tool and cls._tools.get(name) == None:
             cls._tools[name] = get_corresponding_core_tool[0]
 
@@ -65,6 +67,7 @@ class ToolRegistry:
 
     @classmethod
     def get_tool_description(cls, name: str) -> Optional[Dict[str, Any]]:
+        logger.info(f"Tool {name} registered")
         tool = cls.get_tool(name)
         if tool is None:
             return None  # or return {} if you prefer an empty dictionary
