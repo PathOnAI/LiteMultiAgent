@@ -1,5 +1,4 @@
 from litemultiagent.core.agent_manager import AgentManager
-from litemultiagent.tools.registry import ToolRegistry, Tool
 import logging
 
 # Configure logging

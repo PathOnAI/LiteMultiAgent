@@ -1,5 +1,7 @@
 import os
+
 from litemultiagent.tools.registry import ToolRegistry, Tool
+
 
 def scan_folder(folder_path, depth=2):
     ignore_patterns = [".*", "__pycache__"]
@@ -19,16 +21,15 @@ def scan_folder(folder_path, depth=2):
     return file_paths
 
 
-def register_file_system_tools():
-    ToolRegistry.register(Tool(
-        "scan_folder",
-        scan_folder,
-        "Scan a directory recursively for files with path with depth 2. You can also use this function to understand the folder structure in a given folder path.",
-        {
-            "folder_path": {
-                "type": "string",
-                "description": "The folder path to scan.",
-                "required": True
-            }
+scan_folder_tool = Tool(
+    "scan_folder",
+    scan_folder,
+    "Scan a directory recursively for files with path with depth 2. You can also use this function to understand the folder structure in a given folder path.",
+    {
+        "folder_path": {
+            "type": "string",
+            "description": "The folder path to scan.",
+            "required": True
         }
-    ))
+    }
+)

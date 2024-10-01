@@ -11,20 +11,52 @@ class Tool:
 class ToolRegistry:
     _instance = None
     _tools: Dict[str, Tool] = {}
+    CORE_TOOLS = None
 
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super(ToolRegistry, cls).__new__(cls)
-            cls._register_all_tools()  # Register all tools when the singleton is first created
-        return cls._instance
+    
+    @classmethod
+    def load_core_tools(cls):
+        from litemultiagent.tools.db_retrieval import retrieve_db_tool
+        from litemultiagent.tools.exec import run_python_script_tool, execute_shell_command_tool
+        from litemultiagent.tools.file_retrieval import retrieve_file_tool
+        from litemultiagent.tools.file_system import scan_folder_tool
+        from litemultiagent.tools.io import read_file_tool, write_to_file_tool, generate_and_download_image_tool
+        from litemultiagent.tools.web_agent import call_webagent_tool
+        from litemultiagent.tools.web_retrieval import scrape_tool, bing_search_tool
+
+        
+        cls.CORE_TOOLS  = [
+            retrieve_db_tool,
+            run_python_script_tool,
+            execute_shell_command_tool,
+            retrieve_file_tool,
+            scan_folder_tool,
+            read_file_tool,
+            write_to_file_tool,
+            generate_and_download_image_tool,
+            call_webagent_tool,
+            scrape_tool,
+            bing_search_tool
+        ]
 
     @classmethod
-    def register(cls, tool: Tool):
-        print(f"Registering tool: {tool.name}")  # Debug statement
-        cls._tools[tool.name] = tool
+    def register(cls, *tools: tuple[Tool]):
+        for tool in tools:
+            print(f"Registering tool: {tool.name}")  # Debug statement
+            cls._tools[tool.name] = tool
 
     @classmethod
     def get_tool(cls, name: str) -> Tool:
+        if cls.CORE_TOOLS == None:
+            cls.load_core_tools()
+        #check if tool is part of core
+        get_corresponding_core_tool = [core_tool for core_tool in cls.CORE_TOOLS if core_tool.name == name]
+
+        is_core_tool = len(get_corresponding_core_tool) > 0
+        #if not registered, register here
+        if is_core_tool and cls._tools.get(name) == None:
+            cls._tools[name] = get_corresponding_core_tool[0]
+
         return cls._tools.get(name)
 
     @classmethod
@@ -59,40 +91,6 @@ class ToolRegistry:
             }
         }
 
-    @classmethod
-    def _register_all_tools(cls):
-        # Import the tool registration functions here
-        try:
-            from litemultiagent.tools.io_tool import register_io_tools
-            print("Registering IO tools...")  # Debug statement
-            register_io_tools()
-            print("Finished registering IO tools.")  # Debug statement
-            from litemultiagent.tools.db_retrieval_tool import register_db_retrieval_tools
-            print("Registering DB retrieval tools...")  # Debug statement
-            register_db_retrieval_tools()
-            print("Finished registering DB retrieval tools.")  # Debug statement
-            from litemultiagent.tools.file_retrieval_tool import register_file_retrieval_tools
-            print("Registering File retrieval tools...")  # Debug statement
-            register_file_retrieval_tools()
-            print("Finished registering file retrieval tools.")  # Debug statement
-            from litemultiagent.tools.web_retrieval_tool import register_web_retrieval_tools
-            print("Registering Web retrieval tools...")  # Debug statement
-            register_web_retrieval_tools()
-            print("Finished registering web retrieval tools.")  # Debug statement
-            from litemultiagent.tools.exec_tool import register_exec_tools
-            print("Registering Exec tools...")  # Debug statement
-            register_exec_tools()
-            print("Finished registering exec tools.")  # Debug statement
-            from litemultiagent.tools.file_system_tool import register_file_system_tools
-            print("Registering File System tools...")  # Debug statement
-            register_file_system_tools()
-            print("Finished registering file system tools.")  # Debug statement
-            from litemultiagent.tools.web_agent_tool import register_webagent_tools
-            print("Registering Web Agent tools...")  # Debug statement
-            register_webagent_tools()
-            print("Finished registering web agent tools.")  # Debug statement
-        except Exception as e:
-            print(f"Error while registering tools: {e}")  # Debug statement to catch any import or registration issues
-
+   
 
 

@@ -1,9 +1,7 @@
 from litemultiagent.agents.base import BaseAgent
-from typing import List, Optional
-from litemultiagent.tools.registry import ToolRegistry, Tool
+from litemultiagent.tools.registry import ToolRegistry
 class AtomicAgent(BaseAgent):
-    def __init__(self, agent_name: str, agent_description, parameter_description, tool_names: List[str], meta_data):
-        print(tool_names)
+    def __init__(self, agent_name: str, agent_description, parameter_description, tool_names: list[str], meta_data):
         tool_registry = ToolRegistry()
         available_tools = {}
         tools = []

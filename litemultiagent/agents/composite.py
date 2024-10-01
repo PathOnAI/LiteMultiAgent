@@ -4,14 +4,18 @@ from typing import List, Dict, Any, Optional
 
 class CompositeAgent(BaseAgent):
     def __init__(self, agent_name: str, agent_description, parameter_description, sub_agent_configs: List[Dict[str, Any]], tool_names: List[str], meta_data):
-        self.tool_registry = ToolRegistry()
         self.available_tools = {}
+
         self.tools = []
+
         for tool_name in tool_names:
-            self.available_tools[tool_name] = self.tool_registry.get_tool(tool_name).func
-            self.tools.append(self.tool_registry.get_tool_description(tool_name))
+            self.available_tools[tool_name] = ToolRegistry.get_tool(tool_name).func
+            self.tools.append(ToolRegistry.get_tool_description(tool_name))
+
         self.sub_agents = self._build_sub_agents(sub_agent_configs)
+
         self._register_sub_agents_as_tools()
+
         super().__init__(agent_name, agent_description, parameter_description, self.tools, self.available_tools, meta_data)
 
 
@@ -34,7 +38,7 @@ class CompositeAgent(BaseAgent):
                 }
             ))
         # Update the tools and available_tools after registering sub-agents
-        self.tools.extend([self.tool_registry.get_tool_description(sub_agent.agent_name) for sub_agent in self.sub_agents])
+        self.tools.extend([ToolRegistry.get_tool_description(sub_agent.agent_name) for sub_agent in self.sub_agents])
         self.available_tools.update({sub_agent.agent_name: sub_agent for sub_agent in self.sub_agents})
 
     def execute(self, task: str) -> str:

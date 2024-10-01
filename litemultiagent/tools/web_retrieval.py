@@ -1,15 +1,9 @@
-import logging
-from dotenv import load_dotenv
-from openai import OpenAI
-import subprocess
-from typing import Any, Optional
-from pydantic import BaseModel, validator
 import requests
 import os
 from bs4 import BeautifulSoup
-from litemultiagent.tools.registry import ToolRegistry, Tool
-import json
-_ = load_dotenv()
+
+from litemultiagent.tools.registry import Tool
+
 
 def bing_search(query:str):
     search_url = "https://api.bing.microsoft.com/v7.0/search"
@@ -38,11 +32,6 @@ def bing_search(query:str):
     print(formatted_string)
     return formatted_string
 
-
-import requests
-from bs4 import BeautifulSoup
-
-
 def scrape(url: str):
     # scrape website. Url is the url of the website to be scraped
     print("Scraping website...")
@@ -61,9 +50,7 @@ def scrape(url: str):
         print(f"An error occurred: {e}")
         return ""
 
-
-def register_web_retrieval_tools():
-    ToolRegistry.register(Tool(
+bing_search_tool = Tool(
         "bing_search",
         bing_search,
         "Bing search for relevant information given a query.",
@@ -74,9 +61,9 @@ def register_web_retrieval_tools():
                 "required": True
             }
         }
-    ))
+    )
 
-    ToolRegistry.register(Tool(
+scrape_tool = Tool(
         "scrape",
         scrape,
         "Scraping website content based on url from Bing search.",
@@ -87,4 +74,4 @@ def register_web_retrieval_tools():
                 "required": True
             }
         }
-    ))
+    )
