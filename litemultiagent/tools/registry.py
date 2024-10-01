@@ -54,40 +54,6 @@ class ToolRegistry:
             }
         }
 
-    @classmethod
-    def _register_all_tools(cls):
-        # Import the tool registration functions here
-        try:
-            from litemultiagent.tools.io_tool import register_io_tools
-            print("Registering IO tools...")  # Debug statement
-            register_io_tools()
-            print("Finished registering IO tools.")  # Debug statement
-            from litemultiagent.tools.db_retrieval_tool import register_db_retrieval_tools
-            print("Registering DB retrieval tools...")  # Debug statement
-            register_db_retrieval_tools()
-            print("Finished registering DB retrieval tools.")  # Debug statement
-            from litemultiagent.tools.file_retrieval_tool import register_file_retrieval_tools
-            print("Registering File retrieval tools...")  # Debug statement
-            register_file_retrieval_tools()
-            print("Finished registering file retrieval tools.")  # Debug statement
-            from litemultiagent.tools.web_retrieval_tool import register_web_retrieval_tools
-            print("Registering Web retrieval tools...")  # Debug statement
-            register_web_retrieval_tools()
-            print("Finished registering web retrieval tools.")  # Debug statement
-            from litemultiagent.tools.exec_tool import register_exec_tools
-            print("Registering Exec tools...")  # Debug statement
-            register_exec_tools()
-            print("Finished registering exec tools.")  # Debug statement
-            from litemultiagent.tools.file_system_tool import register_file_system_tools
-            print("Registering File System tools...")  # Debug statement
-            register_file_system_tools()
-            print("Finished registering file system tools.")  # Debug statement
-            from litemultiagent.tools.web_agent_tool import register_webagent_tools
-            print("Registering Web Agent tools...")  # Debug statement
-            register_webagent_tools()
-            print("Finished registering web agent tools.")  # Debug statement
-        except Exception as e:
-            print(f"Error while registering tools: {e}")  # Debug statement to catch any import or registration issues
-
+   
 
 
