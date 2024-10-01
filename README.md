@@ -12,6 +12,7 @@ In our exploration of building multi-agent systems, we have investigated AutoGen
 
 
 ## 📰 News
+* [2024-10-01] Integrate LiteWebAgent: [https://github.com/PathOnAI/LiteWebAgent](https://github.com/PathOnAI/LiteWebAgent) into LiteMultiAgent repo to enable hierarchical multi-agent framework with web browsing capacities.
 * [2024-09-28] LiteMultiAgent was refactored into a flexible hierarchical multi-agent framework, adding ToolRegistry, AgentFactory, and AgentManager, allowing users to register their own base tools and create custom agent hierarchies.
 * [2024-08-06] the initial version of LiteMultiAgent was released, showcasing a hierarchical multi-agent system capable of accomplishing a wide range of tasks.
 
