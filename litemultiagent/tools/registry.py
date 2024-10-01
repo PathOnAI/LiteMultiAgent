@@ -12,16 +12,11 @@ class ToolRegistry:
     _instance = None
     _tools: Dict[str, Tool] = {}
 
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super(ToolRegistry, cls).__new__(cls)
-            cls._register_all_tools()  # Register all tools when the singleton is first created
-        return cls._instance
-
     @classmethod
-    def register(cls, tool: Tool):
-        print(f"Registering tool: {tool.name}")  # Debug statement
-        cls._tools[tool.name] = tool
+    def register(cls, *tools: tuple[Tool]):
+        for tool in tools:
+            print(f"Registering tool: {tool.name}")  # Debug statement
+            cls._tools[tool.name] = tool
 
     @classmethod
     def get_tool(cls, name: str) -> Tool:

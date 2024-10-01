@@ -1,5 +1,8 @@
 from litemultiagent.core.agent_manager import AgentManager
 from litemultiagent.tools.registry import ToolRegistry, Tool
+
+from litemultiagent.tools.io import read_file_tool, write_to_file_tool, generate_and_download_image_tool
+
 import logging
 
 # Configure logging
@@ -16,6 +19,13 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 def main():
     agent_manager = AgentManager()
+
+    ToolRegistry.register(
+        read_file_tool,
+        write_to_file_tool,
+        generate_and_download_image_tool
+    )
+
     io_agent_config = {
         "name": "io_agent",
         "type": "atomic",
