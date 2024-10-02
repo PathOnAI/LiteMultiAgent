@@ -47,33 +47,41 @@ class HighLevelPlanningAgent(BaseAgent):
             class Plan(BaseModel):
                 goal_finished: bool
 
-            prompt = """
-            Goal: {}
-            Current plan: {}
+            prompt = f"""
+                Goal: {self.goal}
+                Current plan: {plan}
 
-            Based on the progress made so far, please provide:
+                Based on the progress made so far, you have access to the following tools: 
+                {', '.join(tool['function']['name'] for tool in self.tools if 'function' in tool)}. 
+                Please leverage these tools as needed and provide:
 
-            1. An updated complete plan
-            2. A list of tasks that have already been completed
-            3. An explanation of changes and their rationale
+                1. An updated complete plan
+                2. A list of tasks that have already been completed
+                3. An explanation of changes and their rationale
 
-            Format your response as follows:
+                Format your response as follows:
 
-            Updated Plan:
-            - [Step 1]
-            - [Step 2]
-            - ...
+                Updated Plan:
+                - [Step 1]
+                - [Step 2]
+                - ...
 
-            Completed Tasks:
-            - [Task 1]
-            - [Task 2]
-            - ...
-            """.format(self.goal, plan)
+                Completed Tasks:
+                - [Task 1]
+                - [Task 2]
+                - ...
+
+                Explanation of Changes:
+                - [Explanation 1]
+                - [Explanation 2]
+                - ...
+            """
             self.messages.append({"role": "user", "content": prompt})
             response = openai_client.chat.completions.create(
                 model="gpt-4o",
                 messages=self.messages
             )
+
             plan = response.choices[0].message.content
             new_response = openai_client.beta.chat.completions.parse(
                 model=self.model_name,
