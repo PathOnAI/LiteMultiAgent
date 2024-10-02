@@ -3,7 +3,7 @@ from litemultiagent.agents.agent_type.atomic import AtomicAgent
 from litemultiagent.agents.agent_type.composite import CompositeAgent
 from litemultiagent.agents.agent_class.base import BaseAgent
 from litemultiagent.agents.agent_class.high_level_planning import HighLevelPlanningAgent
-
+from litemultiagent.agents.agent_class.react import ReActAgent
 class AgentFactory:
     @staticmethod
     def create_agent(config: Dict[str, Any]) -> Union[AtomicAgent, CompositeAgent]:
@@ -17,7 +17,8 @@ class AgentFactory:
 
         agent_class_map = {
             "BaseAgent": BaseAgent,
-            "HighLevelPlanningAgent": HighLevelPlanningAgent
+            "HighLevelPlanningAgent": HighLevelPlanningAgent,
+            "ReActAgent": ReActAgent
         }
 
         if agent_class not in agent_class_map:
