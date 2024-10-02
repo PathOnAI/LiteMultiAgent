@@ -19,6 +19,7 @@ def main():
     io_agent_config = {
         "name": "io_agent",
         "type": "atomic",
+        "agent_class": "BaseAgent",
         "meta_data":
             {
                 "meta_task_id": "io_subtask",

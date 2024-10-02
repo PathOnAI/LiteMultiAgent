@@ -18,6 +18,7 @@ def main():
     web_agent_config = {
         "name": "web_agent",
         "type": "atomic",
+        "agent_class": "BaseAgent",
         "meta_data": {
             "meta_task_id": "webagent_task",
             "task_id": 1,

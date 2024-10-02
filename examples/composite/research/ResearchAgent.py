@@ -21,6 +21,7 @@ def main():
     io_agent_config = {
         "name": "io_agent",
         "type": "atomic",
+        "agent_class": "BaseAgent",
         "meta_data":
             {
                 "meta_task_id": meta_task_id,
@@ -38,6 +39,7 @@ def main():
     web_retrieval_agent_config = {
         "name": "web_retrieval_agent",
         "type": "atomic",
+        "agent_class": "BaseAgent",
         "meta_data":
             {
                 "meta_task_id": meta_task_id,
@@ -55,6 +57,7 @@ def main():
     exec_agent_config = {
         "name": "exec_agent",
         "type": "atomic",
+        "agent_class": "BaseAgent",
         "meta_data":
             {
                 "meta_task_id": meta_task_id,
@@ -73,6 +76,7 @@ def main():
     research_agent_config = {
         "name": "retrieval_agent",
         "type": "composite",
+        "agent_class": "BaseAgent",
         "meta_data":
             {
                 "meta_task_id": meta_task_id,

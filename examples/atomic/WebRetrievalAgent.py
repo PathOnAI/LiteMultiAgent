@@ -18,11 +18,12 @@ def main():
     web_retrieval_agent_config = {
         "name": "web_retrieval_agent",
         "type": "atomic",
+        "agent_class": "HighLevelPlanningAgent",
         "meta_data":
             {
                 "meta_task_id": "web_retrieval_subtask",
                 "task_id": 4,
-                "save_to": "supabase",
+                "save_to": "csv",
                 "log": "log",
                 "model_name": "gpt-4o-mini",
                 "tool_choice": "auto"

@@ -1,6 +1,6 @@
 from typing import Dict, Any
 from litemultiagent.core.agent_factory import AgentFactory
-from litemultiagent.agents.base import BaseAgent
+from litemultiagent.agents.agent_class.base import BaseAgent
 
 class AgentManager:
     def __init__(self):
