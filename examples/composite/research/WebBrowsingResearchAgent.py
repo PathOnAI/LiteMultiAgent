@@ -21,6 +21,7 @@ def main():
     io_agent_config = {
         "name": "io_agent",
         "type": "atomic",
+        "agent_class": "BaseAgent",
         "meta_data":
             {
                 "meta_task_id": meta_task_id,
@@ -38,6 +39,7 @@ def main():
     web_agent_config = {
         "name": "web_agent",
         "type": "atomic",
+        "agent_class": "BaseAgent",
         "meta_data": {
             "meta_task_id": "webagent_task",
             "task_id": 1,
@@ -54,6 +56,7 @@ def main():
     agent_config = {
         "name": "web_browsing_research_agent",
         "type": "composite",
+        "agent_class": "HighLevelPlanningAgent",
         "meta_data":
             {
                 "meta_task_id": meta_task_id,
@@ -72,7 +75,7 @@ def main():
         "parameter_description": None
     }
 
-    agent = agent_manager.get_agent(web_agent_config)
+    agent = agent_manager.get_agent(agent_config)
 
     # # # Example usage
     task = "first search dining table from google home page, then summarize what you did into summary.md"

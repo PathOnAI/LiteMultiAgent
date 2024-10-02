@@ -13,8 +13,13 @@ import csv
 
 _ = load_dotenv()
 
-logger = logging.getLogger(__name__)
+from openai import OpenAI
 
+_ = load_dotenv()
+
+openai_client = OpenAI()
+
+logger = logging.getLogger(__name__)
 
 MODEL_COST = {
     "gpt-4o-mini": {
@@ -35,51 +40,6 @@ MODEL_COST = {
     },
 }
 
-agent_to_model = {
-    "main_agent":
-        {
-            "model_name" : "gpt-4o-mini",
-            "tool_choice" : "auto",
-         },
-    "web_agent":
-        {
-            "model_name": "gpt-4o-mini",
-            "tool_choice": "auto",
-        },
-    "io_agent": {
-            "model_name" : "claude-3-5-sonnet-20240620",
-            "tool_choice" : "auto",
-         },
-    "retrieval_agent": {
-            "model_name" : "gpt-4o-mini",
-            "tool_choice" : "auto",
-         },
-    "web_retrieval_agent":{
-            "model_name" : "gpt-4o-mini",
-            "tool_choice" : "auto",
-         },
-    "db_retrieval_agent":{
-            "model_name" : "gpt-4o-mini",
-            "tool_choice" : "auto",
-         },
-    "exec_agent":{
-            "model_name" : "gpt-4o-mini",
-            "tool_choice" : "auto",
-         },
-    "file_retrieval_agent":{
-            "model_name" : "gpt-4o-mini",
-            "tool_choice" : "auto",
-         },
-    "web_browsing_research_agent":{
-            "model_name" : "gpt-4o-mini",
-            "tool_choice" : "auto",
-         },
-    "coding_agent":{
-            "model_name" : "gpt-4o-mini",
-            "tool_choice" : "auto",
-         }
-}
-
 # Initialize Supabase client
 url = os.getenv("SUPABASE_URL")
 key = os.getenv("SUPABASE_ANON_KEY")
@@ -90,8 +50,10 @@ if url and key:
     except Exception as e:
         logger.error(f"Failed to initialize Supabase client: {e}")
 
+
 class BaseAgent:
-    def __init__(self, agent_name: str, agent_description, parameter_description, tools: List[Dict[str, Any]], available_tools: Dict[str, callable],
+    def __init__(self, agent_name: str, agent_description, parameter_description, tools: List[Dict[str, Any]],
+                 available_tools: Dict[str, callable],
                  meta_data):
         self.agent_name = agent_name
         self.tools = tools
@@ -105,15 +67,27 @@ class BaseAgent:
         self.log = meta_data["log"]
         self.agent_description = agent_description
         self.parameter_description = parameter_description
+        self.goal = None
 
-    def send_prompt(self, content: str) -> str:
-        self.messages.append({"role": "user", "content": content})
-        return self._send_completion_request()
+    def make_plan(self):
+        messages = [{"role": "system",
+                     "content": "You are are helpful assistant to make a plan for a task or user request. Please provide a plan in the next few sentences."}]
+        messages.append({"role": "assistant", "content": "The goal is{}".format(self.goal)})
+        chat_completion = openai_client.chat.completions.create(
+            model=self.model_name, messages=messages,
+        )
+        plan = chat_completion.choices[0].message.content
+        return plan
 
-    def _send_completion_request(self, depth: int = 0) -> str:
+
+    def send_prompt(self, goal: str) -> str:
+        self.messages.append({"role": "user", "content": goal})
+        self.goal = goal
+        return self._send_completion_request(plan=goal, depth=0)
+
+    def _send_completion_request(self, plan, depth: int = 0) -> str:
         if depth >= 8:
             return None
-
 
         if self.tools is None:
             response = completion(
@@ -160,7 +134,7 @@ class BaseAgent:
         tool_responses = self._process_tool_calls(tool_calls)
         self.messages.extend(tool_responses)
 
-        return self._send_completion_request(depth + 1)
+        return self._send_completion_request(plan, depth + 1)
 
     def _process_tool_calls(self, tool_calls: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         tool_call_responses = []
@@ -199,7 +173,6 @@ class BaseAgent:
         logger.info(
             f'Agent: {self.agent_name}, prompt tokens: {response.usage.prompt_tokens}, completion tokens: {response.usage.completion_tokens}')
         logger.info(f'Agent: {self.agent_name}, depth: {depth}, response: {response}')
-
 
     def _save_to_csv(self, response, depth):
         usage_dict = self._extract_cost(response)
@@ -240,7 +213,6 @@ class BaseAgent:
             writer.writerow(data)
 
         logger.info(f"Data saved to CSV: {filename}")
-
 
     def _save_to_supabase(self, response, depth):
         if supabase is None:
@@ -289,4 +261,3 @@ class BaseAgent:
             "output_cost": output_cost,
             "total_cost": total_cost
         }
-

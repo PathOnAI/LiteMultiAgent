@@ -18,6 +18,7 @@ def main():
     file_retrieval_agent_config = {
         "name": "file_retrieval_agent",
         "type": "atomic",
+        "agent_class": "BaseAgent",
         "meta_data":
             {
                 "meta_task_id": "file_retrieval_subtask",

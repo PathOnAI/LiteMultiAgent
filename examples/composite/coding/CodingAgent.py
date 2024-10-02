@@ -22,6 +22,7 @@ def main():
     io_agent_config = {
         "name": "io_agent",
         "type": "atomic",
+        "agent_class": "BaseAgent",
         "meta_data":
             {
                 "meta_task_id": meta_task_id,
@@ -40,6 +41,7 @@ def main():
     exec_agent_config = {
         "name": "exec_agent",
         "type": "atomic",
+        "agent_class": "BaseAgent",
         "meta_data":
             {
                 "meta_task_id": meta_task_id,
@@ -58,6 +60,7 @@ def main():
     coding_agent_config = {
         "name": "coding_agent",
         "type": "composite",
+        "agent_class": "BaseAgent",
         "meta_data":
             {
                 "meta_task_id": meta_task_id,

@@ -18,6 +18,7 @@ def main():
     exec_agent_config = {
         "name": "exec_agent",
         "type": "atomic",
+        "agent_class": "BaseAgent",
         "meta_data":
             {
                 "meta_task_id": "exec_subtask",

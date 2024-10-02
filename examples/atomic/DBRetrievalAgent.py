@@ -18,6 +18,7 @@ def main():
     db_retrieval_agent_config = {
         "name": "db_retrieval_agent",
         "type": "atomic",
+        "agent_class": "BaseAgent",
         "meta_data":
             {
                 "meta_task_id": "db_retrieval_subtask",
