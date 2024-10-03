@@ -70,12 +70,26 @@ class BaseAgent:
         self.goal = None
 
     def make_plan(self):
-        messages = [{"role": "system",
-                     "content": "You are are helpful assistant to make a plan for a task or user request. Please provide a plan in the next few sentences."}]
-        messages.append({"role": "assistant", "content": "The goal is{}".format(self.goal)})
+        # Initial message to guide the assistant
+        messages = [
+            {"role": "system",
+             "content": "You are a helpful assistant tasked with making a plan for a given goal or user request. Please provide a detailed plan in the next few sentences."},
+            {"role": "assistant", "content": "The goal is: {}".format(self.goal)},
+            {
+                "role": "assistant",
+                "content": "You have access to the following tools: {}. Please leverage these tools as needed while formulating the plan.".format(
+                    ', '.join(tool['function']['name'] for tool in self.tools if 'function' in tool)
+                )
+            }
+        ]
+
+        # Generate the chat completion
         chat_completion = openai_client.chat.completions.create(
-            model=self.model_name, messages=messages,
+            model=self.model_name,
+            messages=messages,
         )
+
+        # Extract and return the plan
         plan = chat_completion.choices[0].message.content
         return plan
 
