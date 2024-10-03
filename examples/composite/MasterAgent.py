@@ -54,7 +54,6 @@ def main():
         "parameter_description": "The query to be processed by the database retrieval agent."
     }
 
-    ## (3) atomic agent: file retrieval agent
     file_retrieval_agent_config = {
         "name": "file_retrieval_agent",
         "type": "atomic",
