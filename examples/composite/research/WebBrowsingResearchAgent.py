@@ -21,7 +21,7 @@ def main():
     io_agent_config = {
         "name": "io_agent",
         "type": "atomic",
-        "agent_class": "BaseAgent",
+        "agent_class": "FunctionCallingAgent",
         "meta_data":
             {
                 "meta_task_id": meta_task_id,
@@ -39,7 +39,7 @@ def main():
     web_agent_config = {
         "name": "web_agent",
         "type": "atomic",
-        "agent_class": "BaseAgent",
+        "agent_class": "FunctionCallingAgent",
         "meta_data": {
             "meta_task_id": "webagent_task",
             "task_id": 1,
@@ -56,7 +56,7 @@ def main():
     agent_config = {
         "name": "web_browsing_research_agent",
         "type": "composite",
-        "agent_class": "HighLevelPlanningAgent",
+        "agent_class": "FunctionCallingAgent",
         "meta_data":
             {
                 "meta_task_id": meta_task_id,

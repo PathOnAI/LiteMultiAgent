@@ -1,7 +1,7 @@
 from typing import Dict, Any, Union
 from litemultiagent.agents.agent_type.atomic import AtomicAgent
 from litemultiagent.agents.agent_type.composite import CompositeAgent
-from litemultiagent.agents.agent_class.base import BaseAgent
+from litemultiagent.agents.agent_class.function_calling import FunctionCallingAgent
 from litemultiagent.agents.agent_class.high_level_planning import HighLevelPlanningAgent
 from litemultiagent.agents.agent_class.react import ReActAgent
 class AgentFactory:
@@ -16,7 +16,7 @@ class AgentFactory:
         meta_data = config.get("meta_data", {})
 
         agent_class_map = {
-            "BaseAgent": BaseAgent,
+            "FunctionCallingAgent": FunctionCallingAgent,
             "HighLevelPlanningAgent": HighLevelPlanningAgent,
             "ReActAgent": ReActAgent
         }

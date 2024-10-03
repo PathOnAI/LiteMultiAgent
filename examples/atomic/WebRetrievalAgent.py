@@ -18,7 +18,7 @@ def main():
     web_retrieval_agent_config = {
         "name": "web_retrieval_agent",
         "type": "atomic",
-        "agent_class": "ReActAgent",
+        "agent_class": "HighLevelPlanningAgent",
         "meta_data":
             {
                 "meta_task_id": "web_retrieval_subtask",

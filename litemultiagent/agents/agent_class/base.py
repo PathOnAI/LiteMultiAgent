@@ -79,62 +79,13 @@ class BaseAgent:
         plan = chat_completion.choices[0].message.content
         return plan
 
-
     def send_prompt(self, goal: str) -> str:
         self.messages.append({"role": "user", "content": goal})
         self.goal = goal
         return self._send_completion_request(plan=goal, depth=0)
 
     def _send_completion_request(self, plan, depth: int = 0) -> str:
-        if depth >= 8:
-            return None
-
-        if self.tools is None:
-            response = completion(
-                model=self.model_name,
-                messages=self.messages
-            )
-            self._log_response(response, depth)
-            if self.save_to == "supabase":
-                self._save_to_supabase(response, depth)
-            if self.save_to == "csv":
-                self._save_to_csv(response, depth)
-            message = response.choices[0].message
-            self.messages.append(message.model_dump())
-            return message.content
-
-        response = completion(
-            model=self.model_name,
-            messages=self.messages,
-            tools=self.tools,
-            tool_choice=self.tool_choice
-        )
-
-        # whether it has tool call or not
-        self._log_response(response, depth)
-        if self.save_to == "supabase":
-            self._save_to_supabase(response, depth)
-        if self.save_to == "csv":
-            self._save_to_csv(response, depth)
-
-        tool_calls = response.choices[0].message.tool_calls
-
-        if tool_calls is None or len(tool_calls) == 0:
-            message = response.choices[0].message
-            self.messages.append(message.model_dump())
-            return message.content
-
-        tool_call_message = {
-            "content": response.choices[0].message.content,
-            "role": response.choices[0].message.role,
-            "tool_calls": tool_calls
-        }
-
-        self.messages.append(tool_call_message)
-        tool_responses = self._process_tool_calls(tool_calls)
-        self.messages.extend(tool_responses)
-
-        return self._send_completion_request(plan, depth + 1)
+        pass
 
     def _process_tool_calls(self, tool_calls: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         tool_call_responses = []
