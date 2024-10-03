@@ -84,7 +84,7 @@ def main():
     # # # Example usage
     task = "The coding problem is: the problem is Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you may not use the same element twice.You can return the answer in any order., you first write code per instruction, then write test case, and run the test, if there is bug, debug it"
     result = coding_agent.execute(task)
-    print("IO Agent Result:", result)
+    print("Coding Agent Result:", result)
 
 
 if __name__ == "__main__":

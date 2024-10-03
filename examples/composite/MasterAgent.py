@@ -167,7 +167,7 @@ def main():
 
     task = "browse web to search and check the brands of dining table, and summarize the results in a table, save the table into a markdown file called summary.md"
     result = main_agent.execute(task)
-    print("IO Agent Result:", result)
+    print("Agent Result:", result)
 
 
 

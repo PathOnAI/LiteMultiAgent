@@ -101,7 +101,7 @@ def main():
     # # # Example usage
     task = "Fetch the UK's GDP over the past 5 years, then write python script to draw a line graph of it and save the image to the current folder. And then run the python script."
     result = research_agent.execute(task)
-    print("IO Agent Result:", result)
+    print("Research Agent Result:", result)
 
 
 if __name__ == "__main__":
