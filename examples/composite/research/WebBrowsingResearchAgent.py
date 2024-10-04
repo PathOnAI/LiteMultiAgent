@@ -78,7 +78,7 @@ def main():
     agent = agent_manager.get_agent(agent_config)
 
     # # # Example usage
-    task = "first search dining table from google home page, then summarize what you did into summary.md"
+    task = "first search dining table from google home page, then summarize the search result into summary.md"
     result = agent.execute(task)
     print("Agent Result:", result)
 

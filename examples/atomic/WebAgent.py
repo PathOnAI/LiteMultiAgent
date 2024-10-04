@@ -34,7 +34,7 @@ def main():
 
     web_agent = agent_manager.get_agent(web_agent_config)
 
-    task = "search dining table on google"
+    task = "search dining table, and scrape the search result page"
     result = web_agent.execute(task)
     print("Web Agent Result:", result)
 
