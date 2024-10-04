@@ -5,7 +5,7 @@ from litemultiagent.tools.registry import Tool
 
 def call_webagent(starting_url, goal):
     agent_type = "FunctionCallingAgent"
-    plan = ''
+    plan = None
     log_folder = "log"
     model = "gpt-4o-mini"
     features = "axtree"
