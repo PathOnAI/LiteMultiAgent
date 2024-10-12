@@ -71,9 +71,9 @@ For how to contribute, see [CONTRIBUTE](https://github.com/PathOnAI/LiteMultiAge
 ## 📄 3. Citing LiteMultiAgent
 ```
 @misc{zhang2024litemultiagent,
-  title={LiteMultiAgent},
+  title={LiteMultiAgent: The Library for LLM-based multi-agent applications},
   author={Zhang, Danqing and Rama, Balaji and He, Shiying and Ni, Jingyi},
-  journal={https://danqingz.github.io/blog/2024/07/27/LiteMultiAgent.html},
+  journal={https://github.com/PathOnAI/LiteMultiAgent},
   year={2024}
 }
 ```
