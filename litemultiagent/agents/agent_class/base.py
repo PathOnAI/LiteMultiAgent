@@ -63,7 +63,7 @@ class BaseAgent:
         self.tool_choice = meta_data["tool_choice"]
         self.meta_task_id = meta_data["meta_task_id"]
         self.task_id = meta_data["task_id"]
-        self.save_to = meta_data["save_to"]
+        self.save_to = meta_data.get("save_to", "csv")
         self.log = meta_data["log"]
         self.agent_description = agent_description
         self.parameter_description = parameter_description

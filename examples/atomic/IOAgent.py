@@ -29,7 +29,7 @@ def main():
                 "model_name": "gpt-4o-mini",
                 "tool_choice": "auto"
             },
-        "tools": ["read_file", "write_to_file", "generate_and_download_image"],  # Changed from "write_file" to "write_to_file"
+        "tools": ["read_file", "write_to_file", "generate_and_download_image"],  
         "agent_description": "Read or write content from/to a file, or generate and save an image using text input",
         "parameter_description": "The task description detailing what to read, write, or generate. This can include file operations or image generation requests."
     }
