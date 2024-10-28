@@ -27,7 +27,7 @@ def main():
             "model_name": "gpt-4o-mini",
             "tool_choice": "auto"
         },
-        "tools": ["call_webagent"],
+        "tool_names": ["call_webagent"],
         "agent_description": "Use a web agent to perform tasks and fetch information from web pages based on a given instruction.",
         "parameter_description": "A natural language instruction describing the task to be performed by the web agent, including the starting URL and the goal."
     }

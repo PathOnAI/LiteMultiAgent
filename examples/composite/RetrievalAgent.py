@@ -31,7 +31,7 @@ def main():
                 "model_name": "gpt-4o-mini",
                 "tool_choice": "auto"
             },
-        "tools": ["retrieve_db"], # Changed from "write_file" to "write_to_file"
+        "tool_names": ["retrieve_db"], # Changed from "write_file" to "write_to_file"
         "agent_description": "Use a database retrieval agent to fetch information based on a given query.",
         "parameter_description": "The query to be processed by the database retrieval agent."
     }
@@ -49,7 +49,7 @@ def main():
                 "model_name": "gpt-4o-mini",
                 "tool_choice": "auto"
             },
-        "tools": ["retrieve_file"],  # Changed from "write_file" to "write_to_file"
+        "tool_names": ["retrieve_file"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Retrieve information from local documents to answer questions or perform tasks.",
         "parameter_description": "The task description specifying the local file and the question to be answered. specify this in natural language"
     }
@@ -67,7 +67,7 @@ def main():
                 "model_name": "gpt-4o-mini",
                 "tool_choice": "auto"
             },
-        "tools": ["bing_search", "scrape"],  # Changed from "write_file" to "write_to_file"
+        "tool_names": ["bing_search", "scrape"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Perform a search using API and return the searched results.",
         "parameter_description": "The task description describing what to read or write."
     }
@@ -85,7 +85,7 @@ def main():
                 "model_name": "gpt-4o-mini",
                 "tool_choice": "auto"
             },
-        "tools": [],
+        "tool_names": [],
         "sub_agents": [
             web_retrieval_agent_config,
             file_retrieval_agent_config,

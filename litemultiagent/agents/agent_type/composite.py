@@ -4,10 +4,14 @@ from litemultiagent.tools.registry import ToolRegistry, Tool
 
 class CompositeAgent:
     def __init__(self, agent_name: str, agent_description: str, parameter_description: str,
-                 sub_agent_configs: List[Dict[str, Any]], tool_names: List[str], meta_data: Dict[str, Any],
+                 sub_agent_configs: List[Dict[str, Any]], tool_names: List[str], self_defined_tools, meta_data: Dict[str, Any],
                  agent_class: Type[BaseAgent]):
         self.available_tools = {}
         self.tools = []
+
+        for self_defined_tool in self_defined_tools:
+            tool_registry.register(self_defined_tool)
+            tool_names.append(self_defined_tool.name)
 
         for tool_name in tool_names:
             self.available_tools[tool_name] = ToolRegistry.get_tool(tool_name).func

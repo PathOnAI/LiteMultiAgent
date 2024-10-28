@@ -32,7 +32,7 @@ def main():
                 "model_name": "gpt-4o-mini",
                 "tool_choice": "auto"
             },
-        "tools": ["read_file", "write_to_file", "generate_and_download_image"],  # Changed from "write_file" to "write_to_file"
+        "tool_names": ["read_file", "write_to_file", "generate_and_download_image"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Read or write content from/to a file, or generate and save an image using text input",
         "parameter_description": "The task description detailing what to read, write, or generate. This can include file operations or image generation requests."
     }
@@ -51,7 +51,7 @@ def main():
                 "model_name": "gpt-4o-mini",
                 "tool_choice": "auto"
             },
-        "tools": ["execute_shell_command", "run_python_script"],  # Changed from "write_file" to "write_to_file"
+        "tool_names": ["execute_shell_command", "run_python_script"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Execute some script in a subprocess, either run a bash script, or run a python script ",
         "parameter_description": "The task description describing what to execute in the subprocess."
     }
@@ -70,7 +70,7 @@ def main():
                 "model_name": "gpt-4o-mini",
                 "tool_choice": "auto"
             },
-        "tools": ["scan_folder"],
+        "tool_names": ["scan_folder"],
         "sub_agents": [
             exec_agent_config,
             io_agent_config,

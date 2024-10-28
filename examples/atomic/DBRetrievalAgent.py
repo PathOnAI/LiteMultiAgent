@@ -28,7 +28,7 @@ def main():
                 "model_name": "gpt-4o-mini",
                 "tool_choice": "auto"
             },
-        "tools": ["retrieve_db"], # Changed from "write_file" to "write_to_file"
+        "tool_names": ["retrieve_db"], # Changed from "write_file" to "write_to_file"
         "agent_description": "Use a database retrieval agent to fetch information based on a given query.",
         "parameter_description": "The query to be processed by the database retrieval agent."
     }

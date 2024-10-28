@@ -5,11 +5,14 @@ from litemultiagent.tools.registry import ToolRegistry
 
 class AtomicAgent:
     def __init__(self, agent_name: str, agent_description: str, parameter_description: str,
-                 tool_names: List[str], meta_data: Dict[str, Any],
+                 tool_names: List[str], self_defined_tools, meta_data: Dict[str, Any],
                  agent_class: Type[BaseAgent]):
         tool_registry = ToolRegistry()
         available_tools = {}
         tools = []
+        for self_defined_tool in self_defined_tools:
+            tool_registry.register(self_defined_tool)
+            tool_names.append(self_defined_tool.name)
         for tool_name in tool_names:
             available_tools[tool_name] = tool_registry.get_tool(tool_name).func
             tools.append(tool_registry.get_tool_description(tool_name))
