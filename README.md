@@ -3,13 +3,13 @@ Please note that the LiteMultiAgent repository is in development mode. We have o
 
 repo owner: Danni (Danqing) Zhang (danqing.zhang.personal@gmail.com)
 
-<a href='https://danqingz.github.io/blog/2024/07/27/LiteMultiAgent.html'><img src='https://img.shields.io/badge/BLOG-181717?logo=github&logoColor=white'></a>
 <a href='https://litemultiagent.readthedocs.io/en/latest/'><img src='https://img.shields.io/badge/Documentation-green'></a>
 
 In our exploration of building multi-agent systems, we have investigated AutoGen, CrewAI, LangGraph, and MetaGPT, but failed to find a multi-agent system that intuitively makes multi-agent systems more efficient. We have found that most examples provided by these frameworks could be accomplished with just one agent. We reimplemented the multi-agent examples using only one agent with a set of self-defined tools. However, we then realized that this system is not scalable when we have more and more tools. But if we can categorize the agents with different sets of tools into categories, then we are building a hierarchy of agents, where we could accomplish more types of tasks. At the same time, because of this design, the execution of sub-agents is naturally parallelized by parallel function calling, since agents use sub-agents as tools.
 
 
 ## 📰 News
+* [2024-10-29] Generate and register tools for function calling at runtime: [example](https://github.com/PathOnAI/LiteMultiAgent/blob/main/examples/new_tool/add_llm_generated_function_example.py) 
 * [2024-10-02] Major framework refactoring introduces new agent classes: Function Calling, React, and High-Level Planning. It also defines Atomic agents using functions as tools and Composite agents employing both functions and sub-agents as tools, enhancing overall system flexibility.
 * [2024-10-01] Integrate [LiteWebAgent](https://github.com/PathOnAI/LiteWebAgent) into LiteMultiAgent repo to enable hierarchical multi-agent framework with web browsing capacities.
 * [2024-09-28] LiteMultiAgent was refactored into a flexible hierarchical multi-agent framework, adding ToolRegistry, AgentFactory, and AgentManager, allowing users to register their own base tools and create custom agent hierarchies.
