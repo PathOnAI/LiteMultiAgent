@@ -62,6 +62,10 @@ python examples/atomic/IOAgent.py
 python examples/composite/MasterAgent.py
 ```
 
+### (3) Generate and register tools at runtime
+```bash
+python examples/new_tool/add_llm_generated_function_example.py
+```
 
 ## 🚀 2. Contributions
 For how to contribute, see [CONTRIBUTE](https://github.com/PathOnAI/LiteMultiAgent/blob/main/CONTRIBUTE.md). If you would like to contribute to the codebase, [issues](https://github.com/PathOnAI/LiteMultiAgent/issues) or [pull requests](https://github.com/PathOnAI/LiteMultiAgent/pulls) are always welcome!
