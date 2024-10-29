@@ -82,3 +82,7 @@ For how to contribute, see [CONTRIBUTE](https://github.com/PathOnAI/LiteMultiAge
   year={2024}
 }
 ```
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=PathOnAI/LiteMultiAgent&type=Date)](https://star-history.com/#PathOnAI/LiteMultiAgent&Date)
