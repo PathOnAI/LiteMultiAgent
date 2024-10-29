@@ -3,8 +3,6 @@ Please note that the LiteMultiAgent repository is in development mode. We have o
 
 repo owner: Danni (Danqing) Zhang (danqing.zhang.personal@gmail.com)
 
-main contributors: Balaji Rama (balajirw10@gmail.com), Shiying He (sy.he0303@gmail.com) and Jingyi Ni (jingyi.ni.personal@gmail.com)
-
 <a href='https://danqingz.github.io/blog/2024/07/27/LiteMultiAgent.html'><img src='https://img.shields.io/badge/BLOG-181717?logo=github&logoColor=white'></a>
 <a href='https://litemultiagent.readthedocs.io/en/latest/'><img src='https://img.shields.io/badge/Documentation-green'></a>
 
@@ -67,6 +65,9 @@ python examples/composite/MasterAgent.py
 
 ## 🚀 2. Contributions
 For how to contribute, see [CONTRIBUTE](https://github.com/PathOnAI/LiteMultiAgent/blob/main/CONTRIBUTE.md). If you would like to contribute to the codebase, [issues](https://github.com/PathOnAI/LiteMultiAgent/issues) or [pull requests](https://github.com/PathOnAI/LiteMultiAgent/pulls) are always welcome!
+
+[![LiteMultiAgent contributors](https://contrib.rocks/image?repo=PathOnAI/LiteMultiAgent)](https://github.com/PathOnAI/LiteMultiAgent/graphs/contributors)
+
 
 ## 📄 3. Citing LiteMultiAgent
 ```
