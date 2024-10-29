@@ -12,7 +12,8 @@ class AgentFactory:
         agent_class = config["agent_class"]
         agent_description = config["agent_description"]
         parameter_description = config["parameter_description"]
-        tools = config.get("tools", [])
+        tool_names = config.get("tool_names", [])
+        self_defined_tools = config.get("self_defined_tools", [])
         meta_data = config.get("meta_data", {})
 
         agent_class_map = {
@@ -28,10 +29,10 @@ class AgentFactory:
 
         if agent_type == "atomic":
             return AtomicAgent(agent_name, agent_description, parameter_description,
-                               tools, meta_data, selected_agent_class)
+                               tool_names, self_defined_tools, meta_data, selected_agent_class)
         elif agent_type == "composite":
             sub_agent_configs = config.get("sub_agents", [])
             return CompositeAgent(agent_name, agent_description, parameter_description,
-                                  sub_agent_configs, tools, meta_data, selected_agent_class)
+                                  sub_agent_configs, tool_names, self_defined_tools, meta_data, selected_agent_class)
         else:
             raise ValueError(f"Unknown agent type: {agent_type}")

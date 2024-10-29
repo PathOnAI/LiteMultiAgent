@@ -28,7 +28,7 @@ def main():
                 "model_name": "gpt-4o-mini",
                 "tool_choice": "auto"
             },
-        "tools": ["execute_shell_command", "run_python_script"],  # Changed from "write_file" to "write_to_file"
+        "tool_names": ["execute_shell_command", "run_python_script"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Execute some script in a subprocess, either run a bash script, or run a python script ",
         "parameter_description": "The task description describing what to execute in the subprocess."
     }

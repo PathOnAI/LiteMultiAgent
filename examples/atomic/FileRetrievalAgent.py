@@ -28,7 +28,7 @@ def main():
                 "model_name": "gpt-4o-mini",
                 "tool_choice": "auto"
             },
-        "tools": ["retrieve_file"],
+        "tool_names": ["retrieve_file"],
         "agent_description": "Retrieve information from local documents to answer questions or perform tasks.",
         "parameter_description": "The task description specifying the local file and the question to be answered. specify this in natural language"
     }

@@ -28,7 +28,7 @@ def main():
                 "model_name": "gpt-4o-mini",
                 "tool_choice": "auto"
             },
-        "tools": ["bing_search", "scrape"],  # Changed from "write_file" to "write_to_file"
+        "tool_names": ["bing_search", "scrape"],  # Changed from "write_file" to "write_to_file"
         "agent_description": "Perform a search using API and return the searched results.",
         "parameter_description": "The task description describing what to read or write."
     }
