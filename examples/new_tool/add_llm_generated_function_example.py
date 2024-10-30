@@ -3,6 +3,9 @@ import json
 import traceback
 from dotenv import load_dotenv
 from litemultiagent.tools.tool_creation_agent import ToolCreationAgent
+from litemultiagent.core.agent_system import AgentSystem
+from litemultiagent.tools.registry import Tool
+import uuid
 
 # Configure logging
 logging.basicConfig(
@@ -48,38 +51,35 @@ def main():
     # Cleanup resources
     tool_creation_agent.cleanup_cache()
 
-    # Set up agent manager and tools
-    from litemultiagent.core.agent_manager import AgentManager
-    from litemultiagent.tools.registry import Tool
 
-    agent_manager = AgentManager()
     new_tools = [
         Tool(name, func, description, parameters)
         for spec in mapping
         for name, func, description, parameters in [mapping[spec]]
     ]
 
-    # Configure test agent
+
     test_agent_config = {
         "name": "test_agent",
         "type": "atomic",
         "agent_class": "FunctionCallingAgent",
-        "meta_data": {
-            "meta_task_id": "io_subtask",
-            "task_id": 1,
-            "save_to": "supabase",
-            "log": "log",
-            "model_name": "gpt-4o-mini",
-            "tool_choice": "auto"
-        },
+        "meta_data": {},
         "tool_names": ["read_file", "write_to_file", "generate_and_download_image"],
         "self_defined_tools": new_tools,
         "agent_description": "test ai agent",
         "parameter_description": "test ai agent"
     }
 
-    # Initialize and test the agent
-    test_agent = agent_manager.get_agent(test_agent_config)
+    system_config = {
+        "system_name": "test_agent_system",
+        "system_runtime_id": str(uuid.uuid4()),
+        "save_to": "csv",
+        "log_dir": "log",
+        "model_name": "gpt-4o-mini",
+        "tool_choice": "auto"
+    }
+    agent_system = AgentSystem(test_agent_config, system_config)
+
 
     # Test calculator functionality
     test_cases = [
@@ -88,7 +88,7 @@ def main():
     ]
 
     for task, description in test_cases:
-        result = test_agent.execute(task)
+        result = agent_system.execute(task)
         print(f"{description} - Task: {task}")
         print(f"Result: {result}")
 

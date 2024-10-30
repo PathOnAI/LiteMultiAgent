@@ -5,6 +5,7 @@ import csv
 from typing import List, Dict, Any, Optional
 from supabase import create_client, Client
 from dotenv import load_dotenv
+from litemultiagent.core.agent_manager import AgentManager
 
 _ = load_dotenv()
 logger = logging.getLogger(__name__)
@@ -21,51 +22,26 @@ if url and key:
 
 class AgentSystem:
     def __init__(self, main_agent_config, system_config: Dict[str, Any]) -> None:
-        self.task_id = 0
-        self.log_dir = system_config["log_dir"]
-        self.save_to = system_config["save_to"]
-        self.meta_task_id = system_config["meta_task_id"]
-        self.model_name = system_config["model_name"]
-        self.tool_choice = system_config["tool_choice"]
 
-        # Move import here to avoid cirecular import
-        from litemultiagent.core.agent_manager import AgentManager
+        # TODO: add shared_memory
+        # TODO: add shared_context
+
+        # create shared_config for agents to share
+        self.shared_config = {
+            "task_id": 0,
+            "system_name": system_config["system_name"],
+            "log_dir": system_config["log_dir"],
+            "save_to": system_config["save_to"],
+            "system_runtime_id": system_config["system_runtime_id"],
+            "model_name": system_config["model_name"],
+            "tool_choice": system_config["tool_choice"]
+        }
+
+
         agent_manager = AgentManager()
         self.main_agent = agent_manager.get_agent(main_agent_config)
-        self.main_agent.set_system(self)
+        self.main_agent.set_shared_config(self.shared_config)
 
     def execute(self, task: str):
-        self.task_id += 1
-        self.main_agent.execute(task)
-
-    def save_to_csv(self, data):
-        filename = os.path.join(self.log_dir, f"multiagent_data_{datetime.now().strftime('%Y%m%d')}.csv")
-        file_exists = os.path.isfile(filename)
-
-        # Ensure the directory exists
-        os.makedirs(os.path.dirname(filename), exist_ok=True)
-
-        # If file doesn't exist, create it with header
-        if not file_exists:
-            with open(filename, 'w', newline='') as csvfile:
-                fieldnames = list(data.keys())
-                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                writer.writeheader()
-            logger.info(f"Created new CSV file with header: {filename}")
-
-        # Append data to the file
-        with open(filename, 'a', newline='') as csvfile:
-            fieldnames = list(data.keys())
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writerow(data)
-
-        logger.info(f"Data saved to CSV: {filename}")
-
-    def save_to_supabase(self, data):
-        if supabase is None:
-            logger.warning("Supabase client is not initialized. Skipping database save.")
-            return
-        try:
-            supabase.table("multiagent").insert(data).execute()
-        except Exception as e:
-            logger.error(f"Failed to save data to Supabase: {e}")
+        self.shared_config["task_id"] += 1
+        return self.main_agent.execute(task)

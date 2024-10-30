@@ -1,4 +1,5 @@
-from litemultiagent.core.agent_manager import AgentManager
+from litemultiagent.core.agent_system import AgentSystem
+import uuid
 
 import logging
 
@@ -15,7 +16,6 @@ logging.basicConfig(
 # Create a logger
 logger = logging.getLogger(__name__)
 def main():
-    agent_manager = AgentManager()
     from litemultiagent.tools.registry import Tool
     from dotenv import load_dotenv
     _ = load_dotenv()
@@ -48,29 +48,30 @@ def main():
         "name": "test_agent",
         "type": "atomic",
         "agent_class": "FunctionCallingAgent",
-        "meta_data":
-            {
-                "meta_task_id": "io_subtask",
-                "task_id": 1,
-                "save_to": "supabase",
-                "log": "log",
-                "model_name": "gpt-4o-mini",
-                "tool_choice": "auto"
-            },
+        "meta_data": {},
         "tool_names": ["read_file", "write_to_file", "generate_and_download_image"],
         "self_defined_tools": [new_tool],
         "agent_description": "test ai agent",
         "parameter_description": "test ai agent"
     }
-    test_agent = agent_manager.get_agent(test_agent_config)
+
+    system_config = {
+        "system_name": "test_agent_system",
+        "system_runtime_id": str(uuid.uuid4()),
+        "save_to": "csv",
+        "log_dir": "log",
+        "model_name": "gpt-4o-mini",
+        "tool_choice": "auto"
+    }
+    agent_system = AgentSystem(test_agent_config, system_config)
 
     # Example usage
     task = "calculate 3+4"
-    result = test_agent.execute(task)
+    result = agent_system.execute(task)
     print("Test Agent Result:", result)
 
     task = "calculate 3 times 4"
-    result = test_agent.execute(task)
+    result = agent_system.execute(task)
     print("Test Agent Result:", result)
 
 

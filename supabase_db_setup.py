@@ -47,7 +47,8 @@ class DynamicTable(Base):
     output_cost = Column(Float)
     total_cost = Column(Float)
     model_name = Column(Text)
-    meta_task_id = Column(Text)
+    system_name = Column(Text)
+    system_runtime_id = Column(Text)
     task_id = Column(BigInteger)
 
 # Create the table
@@ -69,7 +70,8 @@ new_entry = DynamicTable(
     output_cost=0.3,
     total_cost=0.8,
     model_name="Test Model",
-    meta_task_id="12345",
+    system_name="ai system",
+    system_runtime_id="12345",
     task_id=1
 )
 

@@ -1,8 +1,6 @@
-from litemultiagent.core.agent_manager import AgentManager
-
 import logging
-
 from litemultiagent.core.agent_system import AgentSystem
+import uuid
 
 # Configure logging
 logging.basicConfig(
@@ -26,8 +24,10 @@ def main():
         "agent_description": "Read or write content from/to a file, or generate and save an image using text input",
         "parameter_description": "The task description detailing what to read, write, or generate. This can include file operations or image generation requests."
     }
+
     system_config = {
-        "meta_task_id": "io_subtask",
+        "system_name": "io_agent_system",
+        "system_runtime_id": str(uuid.uuid4()),
         "save_to": "csv",
         "log_dir": "log",
         "model_name": "gpt-4o-mini",
