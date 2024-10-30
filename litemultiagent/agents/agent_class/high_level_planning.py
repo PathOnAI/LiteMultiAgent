@@ -1,13 +1,10 @@
 from .base import BaseAgent
 from typing import List, Dict
-import os
 from dotenv import load_dotenv
 from litellm import completion
 from datetime import datetime
-import csv
 import logging
 from openai import OpenAI
-import json
 
 _ = load_dotenv()
 
@@ -32,10 +29,8 @@ class HighLevelPlanningAgent(BaseAgent):
                 messages=self.messages
             )
             self._log_response(response, depth)
-            if self.save_to == "supabase":
-                self._save_to_supabase(response, depth)
-            if self.save_to == "csv":
-                self._save_to_csv(response, depth)
+            self._save_response(response, depth)
+
             message = response.choices[0].message
             self.messages.append(message.model_dump())
             return message.content
@@ -107,10 +102,7 @@ class HighLevelPlanningAgent(BaseAgent):
 
         # whether it has tool call or not
         self._log_response(response, depth)
-        if self.save_to == "supabase":
-            self._save_to_supabase(response, depth)
-        if self.save_to == "csv":
-            self._save_to_csv(response, depth)
+        self._save_response(response, depth)
 
         tool_calls = response.choices[0].message.tool_calls
 

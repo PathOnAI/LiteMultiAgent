@@ -1,7 +1,6 @@
 from typing import List, Dict, Any, Tuple
 from .base import BaseAgent
 from litellm import completion
-import json
 
 
 class ReActAgent(BaseAgent):
@@ -88,10 +87,7 @@ class ReActAgent(BaseAgent):
         )
 
         self._log_response(response, depth)
-        if self.save_to == "supabase":
-            self._save_to_supabase(response, depth)
-        elif self.save_to == "csv":
-            self._save_to_csv(response, depth)
+        self._save_response(response, depth)
 
         message = response.choices[0].message
         tool_calls = message.tool_calls
