@@ -1,6 +1,7 @@
 from litemultiagent.core.agent_manager import AgentManager
 from litemultiagent.core.agent_system import AgentSystem
 from litemultiagent.tools.registry import ToolRegistry, Tool
+import uuid
 import logging
 
 # Configure logging
@@ -101,7 +102,8 @@ def main():
     }
 
     system_config = {
-        "meta_task_id": "master_agent_task",
+        "system_name": "master_agent_system",
+        "system_runtime_id": str(uuid.uuid4()),
         "save_to": "csv",
         "log_dir": "log",
         "model_name": "gpt-4o-mini",

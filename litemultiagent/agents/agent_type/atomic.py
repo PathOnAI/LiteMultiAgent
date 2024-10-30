@@ -1,6 +1,5 @@
 from typing import List, Dict, Any, Type
 from litemultiagent.agents.agent_class.base import BaseAgent
-from litemultiagent.core.agent_system import AgentSystem
 from litemultiagent.tools.registry import ToolRegistry
 
 
@@ -24,8 +23,8 @@ class AtomicAgent:
     def execute(self, task: str) -> str:
         return self.agent.send_prompt(task)
 
-    def set_system(self, system: AgentSystem):
-        self.agent.set_system(system)
+    def set_shared_config(self, shared_config):
+        self.agent.set_shared_config(shared_config)
 
     def __getattr__(self, name):
         return getattr(self.agent, name)

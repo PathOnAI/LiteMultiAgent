@@ -7,8 +7,9 @@ from litellm import completion
 from dotenv import load_dotenv
 from litellm import completion
 from datetime import datetime
-
-from litemultiagent.core.agent_system import AgentSystem
+from supabase import create_client, Client
+import os
+import csv
 
 _ = load_dotenv()
 
@@ -38,6 +39,16 @@ MODEL_COST = {
         "output_price_per_1m": 0.08,
     },
 }
+
+# Initialize Supabase client
+url = os.getenv("SUPABASE_URL")
+key = os.getenv("SUPABASE_ANON_KEY")
+supabase: Optional[Client] = None
+if url and key:
+    try:
+        supabase = create_client(url, key)
+    except Exception as e:
+        logger.error(f"Failed to initialize Supabase client: {e}")
 
 class BaseAgent:
     def __init__(self, agent_name: str, agent_description, parameter_description, tools: List[Dict[str, Any]],
@@ -82,10 +93,10 @@ class BaseAgent:
         self.goal = goal
         return self._send_completion_request(plan=goal, depth=0)
 
-    def set_system(self, system: AgentSystem):
-        self.system = system
-        self.model_name = self.model_name or self.system.model_name
-        self.tool_choice = self.tool_choice or self.system.tool_choice
+    def set_shared_config(self, shared_config):
+        self.shared_config = shared_config
+        self.model_name = self.model_name or self.shared_config["model_name"]
+        self.tool_choice = self.tool_choice or self.shared_config["tool_choice"]
 
     def _send_completion_request(self, plan, depth: int = 0) -> str:
         pass
@@ -129,16 +140,17 @@ class BaseAgent:
         logger.info(f'Agent: {self.agent_name}, depth: {depth}, response: {response}')
 
     def _save_response(self, response, depth):
-        if self.system.save_to == "supabase":
+        if self.shared_config["save_to"] == "supabase":
             self._save_to_supabase(response, depth)
-        if self.system.save_to == "csv":
+        if self.shared_config["save_to"] == "csv":
             self._save_to_csv(response, depth)
 
     def _save_to_csv(self, response, depth):
         usage_dict = self._extract_cost(response)
         data = {
-            "meta_task_id": self.system.meta_task_id,
-            "task_id": self.system.task_id,
+            "system_name": self.shared_config["system_name"],
+            "system_runtime_id": self.shared_config["system_runtime_id"],
+            "task_id": self.shared_config["task_id"],
             "agent": self.agent_name,
             "depth": depth,
             "role": "assistant",
@@ -151,13 +163,34 @@ class BaseAgent:
             "model_name": self.model_name,
             "timestamp": datetime.now().isoformat()
         }
-        self.system.save_to_csv(data)
+        filename = os.path.join(self.shared_config["log_dir"], f"multiagent_data_{datetime.now().strftime('%Y%m%d')}.csv")
+        file_exists = os.path.isfile(filename)
+
+        # Ensure the directory exists
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
+
+        # If file doesn't exist, create it with header
+        if not file_exists:
+            with open(filename, 'w', newline='') as csvfile:
+                fieldnames = list(data.keys())
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                writer.writeheader()
+            logger.info(f"Created new CSV file with header: {filename}")
+
+        # Append data to the file
+        with open(filename, 'a', newline='') as csvfile:
+            fieldnames = list(data.keys())
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writerow(data)
+
+        logger.info(f"Data saved to CSV: {filename}")
 
     def _save_to_supabase(self, response, depth):
         usage_dict = self._extract_cost(response)
         data = {
-            "meta_task_id": self.system.meta_task_id,
-            "task_id": self.system.task_id,
+            "system_name": self.shared_config["system_name"],
+            "system_runtime_id": self.shared_config["system_runtime_id"],
+            "task_id": self.shared_config["task_id"],
             "agent": self.agent_name,
             "depth": depth,
             "role": "assistant",
@@ -169,7 +202,13 @@ class BaseAgent:
             "total_cost": usage_dict["total_cost"],
             "model_name": self.model_name,
         }
-        self.system.save_to_csv(data)
+        if supabase is None:
+            logger.warning("Supabase client is not initialized. Skipping database save.")
+            return
+        try:
+            supabase.table("multiagent").insert(data).execute()
+        except Exception as e:
+            logger.error(f"Failed to save data to Supabase: {e}")
 
     def _extract_cost(self, response):
         prompt_tokens = response.usage.prompt_tokens
