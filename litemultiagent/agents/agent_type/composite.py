@@ -1,5 +1,6 @@
 from typing import List, Dict, Any, Type
 from litemultiagent.agents.agent_class.base import BaseAgent
+from litemultiagent.core.agent_system import AgentSystem
 from litemultiagent.tools.registry import ToolRegistry, Tool
 
 class CompositeAgent:
@@ -22,6 +23,11 @@ class CompositeAgent:
 
         self.agent = agent_class(agent_name, agent_description, parameter_description,
                                  self.tools, self.available_tools, meta_data)
+
+    def set_system(self, system: AgentSystem):
+        self.agent.set_system(system)
+        for sub_agent in self.sub_agents:
+            sub_agent.set_system(system)
 
     def _build_sub_agents(self, sub_agent_configs: List[Dict[str, Any]]) -> List[BaseAgent]:
         from litemultiagent.core.agent_factory import AgentFactory

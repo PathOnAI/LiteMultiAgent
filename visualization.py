@@ -5,12 +5,14 @@ from anytree.exporter import DotExporter
 import json
 
 # Load the data
-file_path_latest = 'log/multiagent_data_20240925.csv'
+file_path_latest = 'log/multiagent_data_20241030.csv'
+task_id = 1
+meta_task_id = 'master_agent_task'
 data_latest = pd.read_csv(file_path_latest)
 
 # Filter data for task_id = 1 and a specific meta_task_id
-task_1_data = data_latest[(data_latest['task_id'] == 0) &
-                          (data_latest['meta_task_id'] == 'c682b989-b005-4ce9-b563-bcc887fc4608')]
+task_1_data = data_latest[(data_latest['task_id'] == task_id) &
+                          (data_latest['meta_task_id'] == meta_task_id)]
 
 
 # Clear previous nodes and dictionary
@@ -91,8 +93,30 @@ print(G.edges)
 import networkx as nx
 import matplotlib.pyplot as plt
 
+layout_configs = {
+    1: {
+        0: [('user_request', 0.5)],
+        1: [('main_agent', 0.5)],
+        2: [('io_agent', 0.5)],
+        3: [('generate_and_download_image', 0.5)],
+    },
+    2: {
+        0: [('user_request', 0.5)],
+        1: [('main_agent', 0.5)],
+        2: [('exec_agent', 0.5)],
+        3: [('run_python_script', 0.3), ('execute_shell_command', 0.7)],
+    },
+    3: {
+        0: [('user_request', 0.5)],
+        1: [('main_agent', 0.5)],
+        2: [('retrieval_agent', 0.4), ('io_agent', 0.6)],
+        3: [('web_retrieval_agent', 0.4), ('write_to_file', 0.6)],
+        4: [('bing_search', 0.3), ('scrape', 0.5)]
+    },
+}
 
-def plot_hierarchical_multi_edge_graph(G, output_file='log/agent_interaction_graph.png'):
+
+def plot_hierarchical_multi_edge_graph(G, output_file=f'log/agent_interaction_graph{task_id}.png'):
     plt.figure(figsize=(12, 8))
 
     # Define levels with adjusted positions for a more compact layout
@@ -108,13 +132,22 @@ def plot_hierarchical_multi_edge_graph(G, output_file='log/agent_interaction_gra
     #     4: [('bing_search', 0.55), ('scrape', 0.65)]
     # }
     # Define levels with adjusted positions for a more compact layout
-    levels = {
-        0: [('user_request', 0.5)],
-        1: [('main_agent', 0.5)],
-        2: [('use_retrieval_agent', 0.3), ('use_io_agent', 0.7)],
-        3: [('use_web_retrieval_agent', 0.3), ('write_to_file', 0.7)],
-        4: [('bing_search', 0.2), ('scrape', 0.4)]
-    }
+    # levels = {
+    #     0: [('user_request', 0.5)],
+    #     1: [('main_agent', 0.5)],
+    #     2: [('exec_agent', 0.5)],
+    #     3: [('run_python_script', 0.3), ('execute_shell_command', 0.7)],
+    # }
+
+    # Define levels with adjusted positions for a more compact layout
+    # levels = {
+    #     0: [('user_request', 0.5)],
+    #     1: [('main_agent', 0.5)],
+    #     2: [('io_agent', 0.5)],
+    #     3: [('generate_and_download_image', 0.5)],
+    # }
+
+    levels = layout_configs[task_id]
 
     # Calculate positions
     pos = {}
