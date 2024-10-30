@@ -25,7 +25,11 @@ class AgentSystem:
 
         # TODO: add shared_memory
         # TODO: add shared_context
+        # set up agent hierarchy
+        agent_manager = AgentManager()
+        self.main_agent = agent_manager.get_agent(main_agent_config)
 
+        # set up agent system shared config
         # create shared_config for agents to share
         self.shared_config = {
             "task_id": 0,
@@ -36,10 +40,6 @@ class AgentSystem:
             "model_name": system_config["model_name"],
             "tool_choice": system_config["tool_choice"]
         }
-
-
-        agent_manager = AgentManager()
-        self.main_agent = agent_manager.get_agent(main_agent_config)
         self.main_agent.set_shared_config(self.shared_config)
 
     def execute(self, task: str):
