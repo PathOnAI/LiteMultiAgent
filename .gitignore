@@ -20,6 +20,8 @@ venv.bak/
 .DS_Store
 .idea/*
 
+.vscode/
+
 # Keys
 OAI_CONFIG_LIST
 
