@@ -66,8 +66,9 @@ def main():
         "meta_data": {},
         "tool_names": ["read_file", "write_to_file", "generate_and_download_image"],
         "self_defined_tools": new_tools,
-        "agent_description": "test ai agent",
-        "parameter_description": "test ai agent"
+        "system_prompt": "You are an ai agent, we want to test using some tools",
+        "agent_description": None,
+        "parameter_description": None
     }
 
     system_config = {
