@@ -21,8 +21,9 @@ def main():
         "agent_class": "FunctionCallingAgent",
         "meta_data":{},
         "tool_names": ["read_file", "write_to_file", "generate_and_download_image"],
-        "agent_description": "Read or write content from/to a file, or generate and save an image using text input",
-        "parameter_description": "The task description detailing what to read, write, or generate. This can include file operations or image generation requests."
+        "system_prompt": "You are an ai agent, Read or write content from/to a file, or generate and save an image using text input",
+        "agent_description": None,
+        "parameter_description": None,
     }
 
     system_config = {

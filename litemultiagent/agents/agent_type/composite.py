@@ -3,7 +3,7 @@ from litemultiagent.agents.agent_class.base import BaseAgent
 from litemultiagent.tools.registry import ToolRegistry, Tool
 
 class CompositeAgent:
-    def __init__(self, agent_name: str, agent_description: str, parameter_description: str,
+    def __init__(self, agent_name: str, system_prompt: str, agent_description: str, parameter_description: str,
                  sub_agent_configs: List[Dict[str, Any]], tool_names: List[str], self_defined_tools, meta_data: Dict[str, Any],
                  agent_class: Type[BaseAgent]):
         self.available_tools = {}
@@ -20,7 +20,7 @@ class CompositeAgent:
         self.sub_agents = self._build_sub_agents(sub_agent_configs)
         self._register_sub_agents_as_tools()
 
-        self.agent = agent_class(agent_name, agent_description, parameter_description,
+        self.agent = agent_class(agent_name, system_prompt, agent_description, parameter_description,
                                  self.tools, self.available_tools, meta_data)
 
     def set_shared_config(self, shared_config):

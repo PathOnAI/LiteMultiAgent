@@ -51,13 +51,13 @@ if url and key:
         logger.error(f"Failed to initialize Supabase client: {e}")
 
 class BaseAgent:
-    def __init__(self, agent_name: str, agent_description, parameter_description, tools: List[Dict[str, Any]],
+    def __init__(self, agent_name: str, system_prompt, agent_description, parameter_description, tools: List[Dict[str, Any]],
                  available_tools: Dict[str, callable],
                  meta_data):
         self.agent_name = agent_name
         self.tools = tools
         self.available_tools = available_tools
-        self.messages = []
+        self.messages = [{"role": "system", "content": system_prompt}]
         self.model_name = meta_data.get("model_name", None)
         self.tool_choice = meta_data.get("tool_choice", None)
         self.agent_description = agent_description
