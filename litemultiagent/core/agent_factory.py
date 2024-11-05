@@ -4,6 +4,7 @@ from litemultiagent.agents.agent_type.composite import CompositeAgent
 from litemultiagent.agents.agent_class.function_calling import FunctionCallingAgent
 from litemultiagent.agents.agent_class.high_level_planning import HighLevelPlanningAgent
 from litemultiagent.agents.agent_class.react import ReActAgent
+from litemultiagent.agents.agent_class.dspy_agent import DSPyAgent
 class AgentFactory:
     @staticmethod
     def create_agent(config: Dict[str, Any]) -> Union[AtomicAgent, CompositeAgent]:
@@ -20,7 +21,8 @@ class AgentFactory:
         agent_class_map = {
             "FunctionCallingAgent": FunctionCallingAgent,
             "HighLevelPlanningAgent": HighLevelPlanningAgent,
-            "ReActAgent": ReActAgent
+            "ReActAgent": ReActAgent,
+            "DSPyAgent": DSPyAgent,
         }
 
         if agent_class not in agent_class_map:
