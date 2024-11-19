@@ -33,7 +33,7 @@ First set up virtual environment, and allow your code to be able to see 'litemul
 ```bash
 python3 -m venv venv
 . venv/bin/activate
-pip install -e .
+pip3 install -e .
 ```
 Then please create a .env file, and update your API keys:
 
