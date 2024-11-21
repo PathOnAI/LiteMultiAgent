@@ -1,0 +1,79 @@
+2024-11-21 01:15:50,764 - __main__ - INFO - Processing instruction: Write "Hello, this is a test file!" to file "test_files/input.txt"
+2024-11-21 01:15:52,124 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:15:52,140 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:15:52,141 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:15:53,863 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:15:53,866 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:15:53,867 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:15:53,868 - __main__ - INFO - Write tool received input: {"file_path": "test_files/input.txt", "text": "Hello, this is a test file!", "encoding": "utf-8"}
+2024-11-21 01:15:53,869 - __main__ - INFO - Writing to file: test_files/input.txt
+2024-11-21 01:15:53,869 - __main__ - INFO - Content: Hello, this is a test file!
+2024-11-21 01:15:55,296 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:15:55,300 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:15:55,300 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:15:56,835 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:15:56,839 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:15:56,840 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:15:56,840 - __main__ - INFO - Result: {"status": "success", "content": "Successfully wrote to test_files/input.txt"}
+2024-11-21 01:15:56,840 - __main__ - INFO - Processing instruction: Read the content of file "test_files/input.txt"
+2024-11-21 01:15:58,060 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:15:58,063 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:15:58,063 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:15:59,804 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:15:59,807 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:15:59,808 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:15:59,809 - __main__ - INFO - Reading file: test_files/input.txt with encoding: utf-8
+2024-11-21 01:16:01,236 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:16:01,237 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:16:01,238 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:16:02,181 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:16:02,184 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:16:02,185 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:16:02,185 - __main__ - INFO - Result: Hello, this is a test file!
+2024-11-21 01:16:02,185 - __main__ - INFO - Processing instruction: Write the following JSON content to "test_files/config.json": {"name": "test", "version": "1.0"}
+2024-11-21 01:16:04,104 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:16:04,107 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:16:04,108 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:16:04,109 - __main__ - INFO - Write tool received input: {"file_path": "test_files/config.json", "text": "{\"name\": \"test\", \"version\": \"1.0\"}", "encoding": "utf-8"}
+2024-11-21 01:16:04,110 - __main__ - INFO - Writing to file: test_files/config.json
+2024-11-21 01:16:04,110 - __main__ - INFO - Content: {"name": "test", "version": "1.0"}
+2024-11-21 01:16:05,537 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:16:05,540 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:16:05,541 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:16:07,175 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:16:07,178 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:16:07,178 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:16:07,179 - __main__ - INFO - Result: {"status": "success", "content": "Successfully wrote to test_files/config.json"}
+2024-11-21 01:16:07,179 - __main__ - INFO - Processing instruction: Read "test_files/config.json" and write its content to "test_files/config_backup.json"
+2024-11-21 01:16:08,506 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:16:08,509 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:16:08,509 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:16:08,511 - __main__ - INFO - Reading file: test_files/config.json with encoding: utf-8
+2024-11-21 01:16:10,200 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:16:10,204 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:16:10,204 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:16:10,206 - __main__ - INFO - Write tool received input: {"file_path": "test_files/config_backup.json", "text": "{\"name\": \"test\", \"version\": \"1.0\"}", "encoding": "utf-8"}
+2024-11-21 01:16:10,206 - __main__ - INFO - Writing to file: test_files/config_backup.json
+2024-11-21 01:16:10,206 - __main__ - INFO - Content: {"name": "test", "version": "1.0"}
+2024-11-21 01:16:11,287 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:16:11,290 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:16:11,291 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:16:12,386 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:16:12,389 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:16:12,390 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:16:12,390 - __main__ - INFO - Result: Successfully wrote to test_files/config_backup.json
+2024-11-21 01:16:12,390 - __main__ - INFO - Processing instruction: Read a non-existent file "test_files/missing.txt"
+2024-11-21 01:16:13,833 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:16:13,835 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:16:13,836 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:16:15,881 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:16:15,883 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:16:15,884 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:16:15,886 - __main__ - INFO - Reading file: test_files/missing.txt with encoding: utf-8
+2024-11-21 01:16:17,015 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:16:17,018 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:16:17,019 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:16:18,467 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-21 01:16:18,470 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2024-11-21 01:16:18,471 - LiteLLM Router - INFO - litellm.completion(model=openai/gpt-4o-mini)[32m 200 OK[0m
+2024-11-21 01:16:18,471 - __main__ - INFO - Result: {"status": "error", "error": "File not found: test_files/missing.txt"}
