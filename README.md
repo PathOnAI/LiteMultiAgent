@@ -3,13 +3,6 @@ Please note that the LiteMultiAgent repository is in development mode. We have o
 
 repo owner: Danni (Danqing) Zhang (danqing.zhang.personal@gmail.com)
 
-<p align="left">
-    <a href='https://litemultiagent.readthedocs.io/en/latest/'>
-        <img src='https://img.shields.io/badge/Documentation-green?style=for-the-badge' height="28"></a>
-    <a href="https://discord.gg/XwvEyVhdw3">
-        <img src="https://img.shields.io/badge/Community-Discord-8A2BE2" height="28"></a>
-</p>
-
 In our exploration of building multi-agent systems, we have investigated AutoGen, CrewAI, LangGraph, and MetaGPT, but failed to find a multi-agent system that intuitively makes multi-agent systems more efficient. We have found that most examples provided by these frameworks could be accomplished with just one agent. We reimplemented the multi-agent examples using only one agent with a set of self-defined tools. However, we then realized that this system is not scalable when we have more and more tools. But if we can categorize the agents with different sets of tools into categories, then we are building a hierarchy of agents, where we could accomplish more types of tasks. At the same time, because of this design, the execution of sub-agents is naturally parallelized by parallel function calling, since agents use sub-agents as tools.
 
 
