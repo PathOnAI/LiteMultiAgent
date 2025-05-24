@@ -1,4 +1,6 @@
 # LiteMultiAgent
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15500241.svg)](https://doi.org/10.5281/zenodo.15500241)
+
 Please note that the LiteMultiAgent repository is in development mode. We have open-sourced the repository to foster collaboration between contributors.
 
 repo owner: Danni (Danqing) Zhang (danqing.zhang.personal@gmail.com)
@@ -76,8 +78,10 @@ For how to contribute, see [CONTRIBUTE](https://github.com/PathOnAI/LiteMultiAge
 @misc{zhang2024litemultiagent,
   title={LiteMultiAgent: The Library for LLM-based multi-agent applications},
   author={Zhang, Danqing and Rama, Balaji and He, Shiying and Ni, Jingyi},
-  journal={https://github.com/PathOnAI/LiteMultiAgent},
-  year={2024}
+  year         = 2024,
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.15500241},
+  url          = {https://doi.org/10.5281/zenodo.15500241}
 }
 ```
 
