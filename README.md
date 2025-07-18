@@ -1,11 +1,9 @@
 # LiteMultiAgent
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15500241.svg)](https://doi.org/10.5281/zenodo.15500241)
 
-Please note that the LiteMultiAgent repository is in development mode. We have open-sourced the repository to foster collaboration between contributors.
-
-repo owner: Danni (Danqing) Zhang (danqing.zhang.personal@gmail.com)
-
 In our exploration of building multi-agent systems, we have investigated AutoGen, CrewAI, LangGraph, and MetaGPT, but failed to find a multi-agent system that intuitively makes multi-agent systems more efficient. We have found that most examples provided by these frameworks could be accomplished with just one agent. We reimplemented the multi-agent examples using only one agent with a set of self-defined tools. However, we then realized that this system is not scalable when we have more and more tools. But if we can categorize the agents with different sets of tools into categories, then we are building a hierarchy of agents, where we could accomplish more types of tasks. At the same time, because of this design, the execution of sub-agents is naturally parallelized by parallel function calling, since agents use sub-agents as tools.
+
+**Disclaimer: Please note that LiteMultiAgent is not affiliated with any for-profit company. This is a collaborative project from PathOnAI.org, an open-source AI research community, where Danqing Zhang (danqing.zhang.personal@gmail.com) is the main contributor. If anyone claims LiteMultiAgent is affiliated with any for-profit company, please contact Danqing Zhang (danqing.zhang.personal@gmail.com) for verification.**
 
 
 ## 📰 News
